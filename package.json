@@ -10,6 +10,8 @@
         "core-js": "^3.23.0",
         "file-loader": "^6.2.0",
         "regenerator-runtime": "^0.13.9",
+        "sass": "^1.61.0",
+        "sess": "^0.1.4",
         "webpack": "^5.74.0",
         "webpack-cli": "^4.10.0",
         "webpack-notifier": "^1.15.0"
