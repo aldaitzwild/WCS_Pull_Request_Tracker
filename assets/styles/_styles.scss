@@ -1,0 +1,106 @@
+/* ---------- VARIABLES ---------- */
+:root {
+  --box-shadow: 0px 6px 9px 0px rgb(0 0 0 / 15%);
+  --box-shadow-nav: rgb(0 0 0 / 22%) 0px 2 18px 0px;
+  --text-color-black: black;
+  --text-color-white: white;
+  --background: #F1FAEE;
+  --background-blue: #1D3557;
+}
+
+/* ---------- FONTS ---------- */
+@font-face {
+  font-family: 'Happy Monkey';
+  src: url("../fonts/HappyMonkey-Regular.ttf");
+}
+
+/* ---------- GLOBAL POLICIES ---------- */
+
+* {
+  box-sizing: border-box;
+  font-family: 'Happy Monkey', serif;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 10px;
+  color: var(--text-color-black);
+  background-color: var(--background);
+  text-align: justify;
+}
+
+ul, li, a {
+  list-style: none;
+  text-decoration: none;
+  padding-left: 0;
+  margin: 0;
+  cursor: pointer;
+  line-height: 1.5;
+}
+
+.row {
+  margin: 0;
+  padding: 0;
+}
+
+
+/* ---------- SIDE NAV ---------- */
+
+.sidebar {
+  margin: 0;
+  padding: 0;
+  width: 25rem;
+  background-color: var(--background-blue);
+  position: fixed;
+  height: 100%;
+  overflow: auto;
+}
+
+.sidebar-title {
+  color: var(--text-color-white);
+}
+
+.sidebar h1 {
+  font-size: 2.6em;
+}
+
+.sidebar-logo {
+  width: auto;
+  max-height: 5.5em;
+}
+
+.sidebar a {
+  display: block;
+  color: var(--text-color-white);
+  padding: 16px;
+  text-decoration: none;
+  font-size: 2em;
+  transition-duration: 0.3s;
+}
+
+.sidebar a:hover {
+  background-color: var(--background);
+  color: var(--text-color-black);
+}
+
+@media screen and (max-width: 991px) {
+  .sidebar {
+    width: 100%;
+    height: auto;
+    position: relative;
+  }
+  .sidebar a {
+    text-align: center;
+    float: none;
+  }
+}
+
+@media screen and (max-width: 420px) {
+
+  .sidebar a {
+    font-size: 1.5em;
+  }
+}
+
