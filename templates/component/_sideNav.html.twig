@@ -1,18 +1,18 @@
-<nav class="sidebar container-fluid container-lg">
-    <div class="row">
-        <img class="sidebar-logo col-4 img-fluid" src="{{ asset('build/images/logo/logo.svg') }}"
+<nav class="navbar col-12 pt-2 row-cols-1">
+    <div class="d-flex flex-row justify-content-around">
+        <img class="navbar-logo col-4 ps-2 img-fluid" src="{{ asset('build/images/logo/logo.svg') }}"
              alt="Is git logo with eye patch">
         <div class="col">
-            <div class="row">
-                <h1 class="sidebar-title col-12">PR Tracker</h1>
-                <p class="sidebar-title col-12">Sorry, you've got some dead code !</p>
+            <div class="row row-cols-1 row-cols-md-2 justify-content-md-between">
+                <h1 class="navbar-title col m-0">PR Tracker</h1>
+                <p class="navbar-quote col m-0 mb-md-1 text-md-end">Sorry, you've got some dead code !</p>
             </div>
         </div>
-        <div class="row flex-lg-column text-center mt-lg-5">
-            <a class="sidebar-link link-opacity-75 col">Home</a>
-            <a class="sidebar-link link-opacity-75 col">Contributors</a>
-            <a class="sidebar-link link-opacity-75 col">Projects</a>
-        </div>
+    </div>
 
+    <div class="row text-center justify-content-around mb-0">
+        <a class="nav-link navbar-link link-opacity-75 col">Projects</a>
+        <a class="nav-link navbar-link link-opacity-75 col">Contributors</a>
+        <a class="nav-link navbar-link link-opacity-75 col">PR</a>
     </div>
 </nav>
