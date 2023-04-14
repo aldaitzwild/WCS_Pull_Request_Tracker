@@ -48,59 +48,37 @@ ul, li, a {
 
 /* ---------- SIDE NAV ---------- */
 
-.sidebar {
-  margin: 0;
-  padding: 0;
-  width: 25rem;
+.navbar {
   background-color: var(--background-blue);
-  position: fixed;
-  height: 100%;
-  overflow: auto;
+  box-shadow: var(--box-shadow-nav);
 }
 
-.sidebar-title {
+.navbar-title, .navbar-quote {
   color: var(--text-color-white);
 }
 
-.sidebar h1 {
-  font-size: 2.6em;
+.navbar-quote {
+  font-size: calc(0.7em + 1vw);
+
 }
 
-.sidebar-logo {
+.navbar h1 {
+  font-size: calc(1.7em + 1vw);
+}
+
+.navbar-logo {
   width: auto;
   max-height: 5.5em;
 }
 
-.sidebar a {
-  display: block;
+.navbar a {
   color: var(--text-color-white);
-  padding: 16px;
   text-decoration: none;
-  font-size: 2em;
-  transition-duration: 0.3s;
+  font-size: calc(1em + 1vw);
 }
 
-.sidebar a:hover {
+.navbar a:hover {
   background-color: var(--background);
   color: var(--text-color-black);
+  transition-duration: 0.3s;
 }
-
-@media screen and (max-width: 991px) {
-  .sidebar {
-    width: 100%;
-    height: auto;
-    position: relative;
-  }
-  .sidebar a {
-    text-align: center;
-    float: none;
-  }
-}
-
-@media screen and (max-width: 420px) {
-
-  .sidebar a {
-    font-size: 1.5em;
-  }
-}
-
