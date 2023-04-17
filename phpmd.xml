@@ -35,7 +35,6 @@
             <property name="exceptions" value="id,qb"/>
         </properties>
     </rule>
-
     <rule ref="rulesets/unusedcode.xml" >
         <exclude name="UnusedFormalParameter" />
     </rule>
