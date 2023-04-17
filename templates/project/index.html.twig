@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello ProjectController!{% endblock %}
+
+{% block body %}
+    <div class="row">
+        <div class="container">
+            <div class="row">
+                {% for project in projects %}
+                    <div class="bg-white border border-dark d-flex flex-row align-items-center justify-content-between align-content-center p-1 p-md-2 p-lg-4 my-2">
+                        <div class="d-flex flex-column">
+                            <h1 class="project-title align-self-center m-0">Project : </h1>
+                            <p class="align-self-center">{{ project.name }}</p>
+                        </div>
+                        <div class="d-flex flex-column">
+                            <h1 class="project-title align-self-center m-0">Project Github : </h1>
+                            <a class="align-self-center" href="{{ project.githubLink }}">Github</a>
+                        </div>
+                        <div class="d-flex flex-column">
+                            <h1 class="project-title align-self-center m-0">Last PR : </h1>
+                            <p class="align-self-center">TODO: PR</p>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

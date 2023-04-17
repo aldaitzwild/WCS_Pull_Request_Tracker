@@ -82,3 +82,9 @@ ul, li, a {
   color: var(--text-color-black);
   transition-duration: 0.3s;
 }
+
+/* ---------- PROJECT PAGE ---------- */
+
+.project-title {
+  font-size: calc(1em + 1vw);
+}
