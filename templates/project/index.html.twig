@@ -5,9 +5,13 @@
 {% block body %}
     <div class="row">
         <div class="container">
-            <div class="row">
+            <div class="row row-cols-1">
+                <div class="col my-3 text-end">
+                    <a class="add-link link-dark text-end" href="{{ path('project_add') }}">+ADD</a>
+                </div>
+                {% include "component/_toast.html.twig" %}
                 {% for project in projects %}
-                    <div class="bg-white border border-dark d-flex flex-row align-items-center justify-content-between align-content-center p-1 p-md-2 p-lg-4 my-2">
+                    <div class=" col bg-white border border-dark d-flex flex-row align-items-center justify-content-between align-content-center p-1 p-md-2 p-lg-4 my-2">
                         <div class="d-flex flex-column">
                             <h1 class="project-title align-self-center m-0">Project : </h1>
                             <p class="align-self-center">{{ project.name }}</p>

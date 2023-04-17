@@ -29,14 +29,13 @@
             <property name="maximum" value="20" />
         </properties>
     </rule>
-    <rule ref="rulesets/naming.xml" >
-        <exclude name="ShortVariable" />
-    </rule>
     <rule ref="rulesets/naming.xml/ShortVariable">
         <properties>
-            <property name="exceptions" value="id,qb" />
+            <property name="minimum" value="3"/>
+            <property name="exceptions" value="id,qb"/>
         </properties>
     </rule>
+
     <rule ref="rulesets/unusedcode.xml" >
         <exclude name="UnusedFormalParameter" />
     </rule>
