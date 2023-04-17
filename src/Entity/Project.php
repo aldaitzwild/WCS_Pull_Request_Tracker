@@ -17,7 +17,7 @@ class Project
     private ?string $name = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $github_link = null;
+    private ?string $githubLink = null;
 
     public function getId(): ?int
     {
@@ -38,12 +38,12 @@ class Project
 
     public function getGithubLink(): ?string
     {
-        return $this->github_link;
+        return $this->githubLink;
     }
 
-    public function setGithubLink(string $github_link): self
+    public function setGithubLink(string $githubLink): self
     {
-        $this->github_link = $github_link;
+        $this->$githubLink = $githubLink;
 
         return $this;
     }
