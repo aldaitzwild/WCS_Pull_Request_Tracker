@@ -41,8 +41,8 @@ class ProjectController extends AbstractController
             return $this->redirectToRoute('project_index');
         }
 
-        return $this->renderForm('project/new.html.twig', [
-            'projectForm' => $form,
+        return $this->render('project/new.html.twig', [
+            'projectForm' => $form->createView(),
             'project' => $project,
         ]);
     }
