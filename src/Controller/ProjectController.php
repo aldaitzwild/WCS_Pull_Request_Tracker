@@ -75,4 +75,18 @@ class ProjectController extends AbstractController
             'project' => $project,
         ]);
     }
+
+    #[Route('/delete/{id}', name: 'delete', methods: ['POST'])]
+    public function deleteProject(Request $request, Project $project, ProjectRepository $projectRepository): Response
+    {
+        if (is_string($request->request->get('_token')) || is_null($request->request->get('_token'))) {
+            if ($this->isCsrfTokenValid('_delete' . $project->getId(), $request->request->get('_token'))) {
+                $projectRepository->remove($project, true);
+            }
+        }
+
+        $this->addFlash('success', 'Project deleted with success.');
+
+        return $this->redirectToRoute('project_index', [], Response::HTTP_SEE_OTHER);
+    }
 }
