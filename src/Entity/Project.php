@@ -45,7 +45,7 @@ class Project
 
     public function setGithubLink(string $githubLink): self
     {
-        $this->$githubLink = $githubLink;
+        $this->githubLink = $githubLink;
 
         return $this;
     }
