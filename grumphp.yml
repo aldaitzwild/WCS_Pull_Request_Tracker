@@ -2,4 +2,10 @@ grumphp:
     tasks:
         phpcs: null
         phpstan: null
-        phpmd: null
+        phpmd:
+            whitelist_patterns:
+                - 'src'
+            exclude:
+                - '\src\Kernel.php'
+            ruleset:
+                - 'phpmd.xml'
