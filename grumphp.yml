@@ -1,6 +1,7 @@
 grumphp:
     tasks:
-        phpcs: null
+        phpcs:
+            standard: ~
         phpstan: null
         phpmd:
             whitelist_patterns:
