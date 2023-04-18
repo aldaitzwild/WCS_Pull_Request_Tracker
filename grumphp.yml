@@ -2,7 +2,6 @@ grumphp:
     tasks:
         phpcs:
             standard: ~
-        phpstan: null
         phpmd:
             whitelist_patterns:
                 - 'src'
