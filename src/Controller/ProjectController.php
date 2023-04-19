@@ -3,7 +3,6 @@
 namespace App\Controller;
 
 use App\Entity\Project;
-use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -41,7 +40,16 @@ class ProjectController extends AbstractController
         }
 
         return $this->render('project/new.html.twig', [
-            'projectForm' => $form->createView(),
+            'projectForm' => $form,
+            'project' => $project,
+        ]);
+    }
+
+    #[Route('/{id}', name: 'show')]
+    public function showProject(Project $project): Response
+    {
+
+        return $this->render('project/show.html.twig', [
             'project' => $project,
         ]);
     }
