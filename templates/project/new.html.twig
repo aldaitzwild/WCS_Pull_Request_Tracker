@@ -3,15 +3,5 @@
 {% block title %}Add new project{% endblock %}
 
 {% block body %}
-    <div class="container">
-        <div class="row row-cols-1">
-            <h1>
-                Add a project
-            </h1>
-            {{ form_start(projectForm) }}
-            {{ form_widget(projectForm) }}
-            <button type="submit" class="btn btn-add">Add</button>
-            {{ form_end(projectForm) }}
-        </div>
-    </div>
+    {% include 'project/_form.html.twig' with { 'title' : 'Add'} %}
 {% endblock %}

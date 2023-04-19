@@ -1,0 +1,7 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit {{ project.name }}{% endblock %}
+
+{% block body %}
+    {% include 'project/_form.html.twig' with {'title' : 'Edit' } %}
+{% endblock %}
