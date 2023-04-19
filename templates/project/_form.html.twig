@@ -1,7 +1,7 @@
 <div class="container">
     <div class="row row-cols-1">
         <h1>
-            {{ app.request.attributes.get('_route') == 'project_edit' ? 'Edit a ' : 'New ' }}project
+            {{ title }} project
         </h1>
         {{ form_start(projectForm) }}
         {{ form_widget(projectForm) }}
