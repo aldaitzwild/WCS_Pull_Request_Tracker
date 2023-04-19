@@ -25,7 +25,7 @@ class ProjectController extends AbstractController
     }
 
     #[Route('/addProject', name: 'add')]
-    public function addProject(EntityManagerInterface $entityManager, Request $request): Response
+    public function addProject(ProjectRepository $projectRepository, Request $request): Response
     {
         $project = new Project();
 
@@ -33,16 +33,15 @@ class ProjectController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->persist($project);
-            $entityManager->flush();
+            $projectRepository->save($project, true);
 
             $this->addFlash('success', 'Project was created you rock !');
 
             return $this->redirectToRoute('project_index');
         }
 
-        return $this->renderForm('project/new.html.twig', [
-            'projectForm' => $form,
+        return $this->render('project/new.html.twig', [
+            'projectForm' => $form->createView(),
             'project' => $project,
         ]);
     }
