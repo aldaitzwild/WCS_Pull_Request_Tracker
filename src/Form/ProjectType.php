@@ -25,7 +25,7 @@ class ProjectType extends AbstractType
                     'placeholder' => 'Project name',
                 ],
             ])
-            ->add('github_link', UrlType::class, [
+            ->add('githubLink', UrlType::class, [
                 'label' => 'URL project',
                 'required' => 'URL is required',
                 'constraints' => [
