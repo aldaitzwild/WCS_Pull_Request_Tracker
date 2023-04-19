@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\ProjectRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -20,6 +22,14 @@ class Project
 
     #[ORM\Column(length: 255)]
     private ?string $githubLink = null;
+
+    #[ORM\OneToMany(mappedBy: 'project', targetEntity: Contributor::class)]
+    private Collection $contributors;
+
+    public function __construct()
+    {
+        $this->contributors = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -46,6 +56,36 @@ class Project
     public function setGithubLink(string $githubLink): self
     {
         $this->githubLink = $githubLink;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Contributor>
+     */
+    public function getContributors(): Collection
+    {
+        return $this->contributors;
+    }
+
+    public function addContributor(Contributor $contributor): self
+    {
+        if (!$this->contributors->contains($contributor)) {
+            $this->contributors->add($contributor);
+            $contributor->setProject($this);
+        }
+
+        return $this;
+    }
+
+    public function removeContributor(Contributor $contributor): self
+    {
+        if ($this->contributors->removeElement($contributor)) {
+            // set the owning side to null (unless already changed)
+            if ($contributor->getProject() === $this) {
+                $contributor->setProject(null);
+            }
+        }
 
         return $this;
     }
