@@ -45,6 +45,24 @@ ul, li, a {
   padding: 0;
 }
 
+label {
+  font-size: calc(0.7rem + 1vw);
+}
+
+/* ----------  ---------- */
+
+@keyframes fade-out {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+.toast-fade-out {
+  animation: fade-out 1s forwards;
+}
 
 /* ---------- SIDE NAV ---------- */
 
@@ -87,4 +105,10 @@ ul, li, a {
 
 .project-title {
   font-size: calc(1em + 1vw);
+}
+
+/* ---------- PROJECT ADD PAGE ---------- */
+
+.add-link, .btn-add {
+  font-size: calc(1.4rem + 1vw);
 }
