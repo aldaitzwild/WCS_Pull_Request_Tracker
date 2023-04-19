@@ -3,7 +3,6 @@
 namespace App\Controller;
 
 use App\Entity\Project;
-use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -25,7 +24,7 @@ class ProjectController extends AbstractController
     }
 
     #[Route('/addProject', name: 'add')]
-    public function addProject(EntityManagerInterface $entityManager, Request $request): Response
+    public function addProject(ProjectRepository $projectRepository, Request $request): Response
     {
         $project = new Project();
 
@@ -33,15 +32,14 @@ class ProjectController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->persist($project);
-            $entityManager->flush();
+            $projectRepository->save($project, true);
 
             $this->addFlash('success', 'Project was created you rock !');
 
             return $this->redirectToRoute('project_index');
         }
 
-        return $this->renderForm('project/new.html.twig', [
+        return $this->render('project/new.html.twig', [
             'projectForm' => $form,
             'project' => $project,
         ]);
@@ -70,7 +68,7 @@ class ProjectController extends AbstractController
             return $this->redirectToRoute('project_show', ['id' => $project->getId()], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('project/edit.html.twig', [
+        return $this->render('project/edit.html.twig', [
             'projectForm' => $form,
             'project' => $project,
         ]);
