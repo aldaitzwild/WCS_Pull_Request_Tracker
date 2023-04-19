@@ -68,7 +68,7 @@ class ProjectController extends AbstractController
             return $this->redirectToRoute('project_show', ['id' => $project->getId()], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('project/edit.html.twig', [
+        return $this->render('project/edit.html.twig', [
             'projectForm' => $form,
             'project' => $project,
         ]);
