@@ -12,44 +12,45 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
-class ProjectType extends AbstractType
+class ContributorType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
             ->add('name', TextType::class, [
-                'label' => 'Project name',
+                'label' => 'Contributor name',
                 'required' => 'Name is required',
                 'constraints' => [
-                    new NotBlank(['message' => 'The project name can be empty']),
+                    new NotBlank(['message' => "Contributor name can't be empty"]),
                 ],
                 'attr' => [
-                    'placeholder' => 'Project name',
+                    'placeholder' => 'Contributor name',
                 ],
             ])
-            ->add('githubLink', UrlType::class, [
-                'label' => 'URL project',
+            ->add('githubAccount', UrlType::class, [
+                'label' => 'Github student',
                 'required' => 'URL is required',
                 'constraints' => [
-                    new NotBlank(['message' => 'The project URL can be empty']),
+                    new NotBlank(['message' => "The github URL can't be empty"]),
                 ],
                 'attr' => [
-                    'placeholder' => 'Github link',
+                    'placeholder' => 'Github account link',
                 ],
             ])
-            ->add('contributors', EntityType::class, [
-                'label' => 'Contributors',
-                'class' => Contributor::class,
+            ->add('project', EntityType::class, [
+                'class' => Project::class,
                 'choice_label' => 'name',
-                'multiple' => true,
+                'label' => 'Project',
                 'required' => false,
-            ]);
+                'placeholder' => 'Choose a project',
+            ])
+        ;
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => Project::class,
+            'data_class' => Contributor::class,
         ]);
     }
 }

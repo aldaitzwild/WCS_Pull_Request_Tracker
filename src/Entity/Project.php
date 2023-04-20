@@ -23,7 +23,7 @@ class Project
     #[ORM\Column(length: 255)]
     private ?string $githubLink = null;
 
-    #[ORM\OneToMany(mappedBy: 'project', targetEntity: Contributor::class)]
+    #[ORM\OneToMany(mappedBy: 'project', targetEntity: Contributor::class, cascade: ['remove'])]
     private Collection $contributors;
 
     public function __construct()
