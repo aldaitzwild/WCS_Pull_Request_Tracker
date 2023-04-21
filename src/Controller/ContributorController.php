@@ -16,9 +16,9 @@ use App\Form\ContributorType;
 class ContributorController extends AbstractController
 {
     #[Route('/', name: 'index')]
-    public function index(ContributorRepository $contributorRepo): Response
+    public function index(ContributorRepository $contributorRepository): Response
     {
-        $contributors = $contributorRepo->findAll();
+        $contributors = $contributorRepository->findAll();
 
         return $this->render('contributor/index.html.twig', [
             'contributors' => $contributors,
@@ -26,7 +26,7 @@ class ContributorController extends AbstractController
     }
 
     #[Route('/addContributor', name: 'add')]
-    public function addContributor(ContributorRepository $contributorRepo, Request $request): Response
+    public function addContributor(ContributorRepository $contributorRepository, Request $request): Response
     {
         $contributor = new Contributor();
 
@@ -34,7 +34,7 @@ class ContributorController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $contributorRepo->save($contributor, true);
+            $contributorRepository->save($contributor, true);
 
             $this->addFlash('success', 'Contributor was created you rock !');
 
@@ -59,14 +59,14 @@ class ContributorController extends AbstractController
     #[Route('/contributor/edit/{id}', name: 'edit')]
     public function editContributor(
         Request $request,
-        ContributorRepository $contributorRepo,
+        ContributorRepository $contributorRepository,
         Contributor $contributor
     ): Response {
         $form = $this->createForm(ContributorType::class, $contributor);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $contributorRepo->save($contributor, true);
+            $contributorRepository->save($contributor, true);
 
             $this->addFlash('success', 'Modification successful.');
 
@@ -84,11 +84,11 @@ class ContributorController extends AbstractController
     public function deleteContributor(
         Request $request,
         Contributor $contributor,
-        ProjectRepository $projectRepository
+        ContributorRepository $contributorRepository
     ): Response {
         if (is_string($request->request->get('_token')) || is_null($request->request->get('_token'))) {
             if ($this->isCsrfTokenValid('_delete' . $contributor->getId(), $request->request->get('_token'))) {
-                $projectRepository->remove($contributor, true);
+                $contributorRepository->remove($contributor, true);
             }
         }
 
