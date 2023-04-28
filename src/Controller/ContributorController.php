@@ -74,8 +74,8 @@ class ContributorController extends AbstractController
                 'id' => $contributor->getId()], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->render('project/edit.html.twig', [
-            'projectForm' => $form,
+        return $this->render('contributor/edit.html.twig', [
+            'contributorForm' => $form,
             'contributor' => $contributor,
         ]);
     }

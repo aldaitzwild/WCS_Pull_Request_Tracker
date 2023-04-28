@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\Contributor;
 use App\Entity\Project;
+use App\Repository\ProjectRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -38,12 +39,17 @@ class ContributorType extends AbstractType
                 ],
             ])
             ->add('project', EntityType::class, [
-                'class' => Project::class,
-                'choice_label' => 'name',
                 'label' => 'Project',
+                'class' => Project::class,
+                'query_builder' => function (ProjectRepository $projectRepository) {
+                    return $projectRepository->createQueryBuilder('p')
+                        ->orderBy('p.name', 'ASC');
+                },
+                'choice_label' => 'name',
+                'multiple' => false,
+                'expanded' => true,
                 'required' => false,
-                'placeholder' => 'Choose a project',
-            ])
+            ]);
         ;
     }
 

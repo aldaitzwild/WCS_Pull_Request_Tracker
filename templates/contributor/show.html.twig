@@ -12,15 +12,22 @@
                     <form method="POST" action="{{ path('contributor_delete', {'id': contributor.id}) }}"
                           onsubmit="return confirm('Are you sure ?');">
                         <input type="hidden" name="_token"
-                               value="{{ csrf_token('_delete' ~ project.id) }}">
+                               value="{{ csrf_token('_delete' ~ contributor.id) }}">
                         <button class="delete-project-button btn btn-outline-danger text-dark">Delete</button>
                     </form>
                 </div>
+
                 <div class=" col bg-white border border-dark d-flex flex-row align-items-center justify-content-between align-content-center p-1 p-md-2 p-lg-4 my-2">
                     <div class="d-flex flex-column">
+                        <h1 class="project-title align-self-center m-0">Name : </h1>
+                        <p class="project-name align-self-center">{{ contributor.name }}</p>
+                    </div>
+                    {% if contributor.project.name is defined and contributor.project.name is not null %}
+                        <div class="d-flex flex-column">
                         <h1 class="project-title align-self-center m-0">Project : </h1>
                         <p class="project-name align-self-center">{{ contributor.project.name }}</p>
                     </div>
+                    {% endif %}
                     <div class="d-flex flex-column">
                         <h1 class="project-title align-self-center m-0">Contributor Github : </h1>
                         <a class="align-self-center" href="{{ contributor.githubAccount }}">Github</a>
