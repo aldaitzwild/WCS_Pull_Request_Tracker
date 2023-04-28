@@ -38,7 +38,7 @@ class ProjectType extends AbstractType
                     'placeholder' => 'Github link',
                 ],
             ])
-            ->add('contributor', EntityType::class, [
+            ->add('contributors', EntityType::class, [
                 'label' => 'Contributors',
                 'class' => Contributor::class,
                 'query_builder' => function (ContributorRepository $contributorRepository) {
@@ -49,6 +49,9 @@ class ProjectType extends AbstractType
                 'multiple' => true,
                 'expanded' => true,
                 'required' => false,
+                'attr' => [
+                    'class' => 'd-flex flex-column'
+                ],
             ]);
     }
 
