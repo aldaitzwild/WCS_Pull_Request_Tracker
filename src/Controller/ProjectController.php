@@ -54,7 +54,7 @@ class ProjectController extends AbstractController
         ]);
     }
 
-    #[Route('/project/edit/{id}', name: 'edit')]
+    #[Route('/edit/{id}', name: 'edit')]
     public function editProject(Request $request, ProjectRepository $projectRepository, Project $project): Response
     {
         $form = $this->createForm(ProjectType::class, $project);

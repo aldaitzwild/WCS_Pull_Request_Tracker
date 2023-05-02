@@ -38,6 +38,17 @@ class ContributorType extends AbstractType
                     'placeholder' => 'Github account link',
                 ],
             ])
+            ->add('githubName', TextType::class, [
+                'label' => 'Github name',
+                'required' => 'Github name is required',
+                'constraints' => [
+                    new NotBlank(['message' => "The github name can't be empty"]),
+                ],
+                'attr' => [
+                    'placeholder' => 'Github account name',
+                ],
+            ])
+            /*
             ->add('project', EntityType::class, [
                 'label' => 'Project',
                 'class' => Project::class,
@@ -49,8 +60,9 @@ class ContributorType extends AbstractType
                 'multiple' => false,
                 'expanded' => true,
                 'required' => false,
-            ]);
-        ;
+            ])
+            */
+            ;
     }
 
     public function configureOptions(OptionsResolver $resolver): void

@@ -38,6 +38,7 @@ class ProjectType extends AbstractType
                     'placeholder' => 'Github link',
                 ],
             ])
+            /*
             ->add('contributors', EntityType::class, [
                 'label' => 'Contributors',
                 'class' => Contributor::class,
@@ -52,7 +53,7 @@ class ProjectType extends AbstractType
                 'attr' => [
                     'class' => 'd-flex flex-column'
                 ],
-            ]);
+            ])*/;
     }
 
     public function configureOptions(OptionsResolver $resolver): void

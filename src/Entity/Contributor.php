@@ -22,6 +22,9 @@ class Contributor
     #[ORM\ManyToOne(inversedBy: 'contributors')]
     private ?Project $project = null;
 
+    #[ORM\Column(length: 255)]
+    private ?string $githubName = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -59,6 +62,18 @@ class Contributor
     public function setProject(?Project $project): self
     {
         $this->project = $project;
+
+        return $this;
+    }
+
+    public function getGithubName(): ?string
+    {
+        return $this->githubName;
+    }
+
+    public function setGithubName(string $githubName): self
+    {
+        $this->githubName = $githubName;
 
         return $this;
     }
