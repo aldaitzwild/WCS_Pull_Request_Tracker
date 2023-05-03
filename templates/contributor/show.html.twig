@@ -22,11 +22,13 @@
                         <h1 class="project-title align-self-center m-0">Name : </h1>
                         <p class="project-name align-self-center">{{ contributor.name }}</p>
                     </div>
-                    {% if contributor.project.name is defined and contributor.project.name is not null %}
+                    {% if contributor.projects is defined and contributor.projects is not null %}
                         <div class="d-flex flex-column">
-                        <h1 class="project-title align-self-center m-0">Project : </h1>
-                        <p class="project-name align-self-center">{{ contributor.project.name }}</p>
-                    </div>
+                            <h1 class="project-title align-self-center m-0">Project : </h1>
+                            {% for project in contributor.projects %}
+                            <p class="project-name align-self-center">{{ project.name }}</p>
+                            {% endfor %}
+                        </div>
                     {% endif %}
                     <div class="d-flex flex-column">
                         <h1 class="project-title align-self-center m-0">Contributor Github : </h1>

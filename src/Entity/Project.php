@@ -23,7 +23,7 @@ class Project
     #[ORM\Column(length: 255)]
     private ?string $githubLink = null;
 
-    #[ORM\OneToMany(mappedBy: 'project', targetEntity: Contributor::class, cascade: ['remove'])]
+    #[ORM\ManyToMany(targetEntity: Contributor::class, inversedBy: 'projects', orphanRemoval: false)]
     private Collection $contributors;
 
     public function __construct()
@@ -72,7 +72,6 @@ class Project
     {
         if (!$this->contributors->contains($contributor)) {
             $this->contributors->add($contributor);
-            $contributor->setProject($this);
         }
 
         return $this;
@@ -80,12 +79,7 @@ class Project
 
     public function removeContributor(Contributor $contributor): self
     {
-        if ($this->contributors->removeElement($contributor)) {
-            // set the owning side to null (unless already changed)
-            if ($contributor->getProject() === $this) {
-                $contributor->setProject(null);
-            }
-        }
+        $this->contributors->removeElement($contributor);
 
         return $this;
     }

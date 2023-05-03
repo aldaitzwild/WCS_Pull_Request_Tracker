@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\ContributorRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: ContributorRepository::class)]
@@ -19,11 +21,16 @@ class Contributor
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $githubAccount = null;
 
-    #[ORM\ManyToOne(inversedBy: 'contributors')]
-    private ?Project $project = null;
-
     #[ORM\Column(length: 255)]
     private ?string $githubName = null;
+
+    #[ORM\ManyToMany(targetEntity: Project::class, mappedBy: 'contributors', orphanRemoval: false)]
+    private Collection $projects;
+
+    public function __construct()
+    {
+        $this->projects = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -54,18 +61,6 @@ class Contributor
         return $this;
     }
 
-    public function getProject(): ?Project
-    {
-        return $this->project;
-    }
-
-    public function setProject(?Project $project): self
-    {
-        $this->project = $project;
-
-        return $this;
-    }
-
     public function getGithubName(): ?string
     {
         return $this->githubName;
@@ -74,6 +69,33 @@ class Contributor
     public function setGithubName(string $githubName): self
     {
         $this->githubName = $githubName;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Project>
+     */
+    public function getProjects(): Collection
+    {
+        return $this->projects;
+    }
+
+    public function addProject(Project $project): self
+    {
+        if (!$this->projects->contains($project)) {
+            $this->projects->add($project);
+            $project->addContributor($this);
+        }
+
+        return $this;
+    }
+
+    public function removeProject(Project $project): self
+    {
+        if ($this->projects->removeElement($project)) {
+            $project->removeContributor($this);
+        }
 
         return $this;
     }
