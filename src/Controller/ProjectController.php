@@ -56,26 +56,6 @@ class ProjectController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}/searchContributor', name: 'search_contributor')]
-    public function searchContributor(Request $request, ContributorRepository $contributorRepository, int $id): Response
-    {
-        $form = $this->createForm(SearchContributorType::class);
-        $form->handleRequest($request);
-
-        $result = null;
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $query = $form->get('contributorSearch')->getData();
-            $result = $contributorRepository->findOneBy(['githubName' => $query]);
-        }
-
-        return $this->render('search/index.html.twig', [
-            'searchForm' => $form->createView(),
-            'result' => $result,
-            'projectId' => $id,
-        ]);
-    }
-
     #[Route('/{projectId}/addContributor/{contributorId}', name: 'addContributor')]
     public function addContributorToProject(
         int $projectId,
@@ -83,13 +63,13 @@ class ProjectController extends AbstractController
         ProjectRepository $projectRepository,
         ContributorRepository $contributorRepository
     ): Response {
+
         $project = $projectRepository->findOneBy(['id' => $projectId]);
         $contributor = $contributorRepository->findOneBy(['id' => $contributorId]);
 
         $project->addContributor($contributor);
 
         $projectRepository->save($project, true);
-
 
         return $this->redirectToRoute('project_show', ['id' => $projectId]);
     }
