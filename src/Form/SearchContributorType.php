@@ -14,7 +14,10 @@ class SearchContributorType extends AbstractType
         $builder
             ->add('contributorSearch', SearchInputType::class, [
                 'label' => false,
-                'attr' => ['placeholder' => 'Search a contributor by github name']
+                'attr' => [
+                    'placeholder' => 'Search a contributor by github name',
+                    'class' => 'w-50 '
+                    ],
             ]);
     }
 

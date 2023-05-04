@@ -2,7 +2,6 @@
 
 namespace App\Controller;
 
-use App\Entity\Contributor;
 use App\Entity\Project;
 use App\Form\ProjectType;
 use App\Form\SearchContributorType;
@@ -63,7 +62,7 @@ class ProjectController extends AbstractController
         $form = $this->createForm(SearchContributorType::class);
         $form->handleRequest($request);
 
-        $result = "";
+        $result = null;
 
         if ($form->isSubmitted() && $form->isValid()) {
             $query = $form->get('contributorSearch')->getData();
