@@ -10,7 +10,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class AjaxController extends AbstractController
 {
-    #[Route("/ajax/search_contributor", name: "ajax_search_contributor")]
+    #[Route("/ajax/search_contributor", name: "ajax_search_contributor", methods: ['POST'])]
     public function searchContributor(Request $request, ContributorRepository $contributorRepository): JsonResponse
     {
         $query = $request->request->get('contributorSearch');
@@ -27,7 +27,7 @@ class AjaxController extends AbstractController
         } else {
             $responseData = [
                 'success' => false,
-                'message' => 'Aucun contributeur trouvé',
+                'message' => 'Contributor not found',
             ];
         }
 

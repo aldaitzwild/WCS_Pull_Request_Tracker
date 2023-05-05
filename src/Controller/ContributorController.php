@@ -60,6 +60,7 @@ class ContributorController extends AbstractController
         ContributorRepository $contributorRepository,
         Contributor $contributor
     ): Response {
+
         $form = $this->createForm(ContributorType::class, $contributor);
         $form->handleRequest($request);
 
@@ -84,6 +85,7 @@ class ContributorController extends AbstractController
         Contributor $contributor,
         ContributorRepository $contributorRepository
     ): Response {
+
         if (is_string($request->request->get('_token')) || is_null($request->request->get('_token'))) {
             if ($this->isCsrfTokenValid('_delete' . $contributor->getId(), $request->request->get('_token'))) {
                 $contributorRepository->remove($contributor, true);
