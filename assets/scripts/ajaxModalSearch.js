@@ -9,7 +9,7 @@ searchForm?.addEventListener('submit', async (event) => {
     const formData = new FormData(searchForm);
     const response = await fetch(url, {
         method: 'POST',
-        body: formData, projectId
+        body: formData,
     });
 
     if (response.ok) {

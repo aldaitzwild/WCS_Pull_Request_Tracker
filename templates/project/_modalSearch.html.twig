@@ -19,7 +19,7 @@
                         <input type="search" id="contributorSearch" name="contributorSearch" required
                                class="form-control">
                     </div>
-                    <input type="hidden" name="_token" value="{{ csrf_token('_searchContributor' ~ project.id) }}">
+                    <input type="hidden" name="_token" value="{{ csrf_token('_searchContributor') }}">
                     <button type="submit" class="btn btn-primary">Search</button>
                 </form>
                 <hr>

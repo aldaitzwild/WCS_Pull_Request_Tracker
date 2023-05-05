@@ -9,6 +9,8 @@ use App\Repository\ContributorRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Repository\ProjectRepository;
 
@@ -67,11 +69,22 @@ class ProjectController extends AbstractController
         $project = $projectRepository->findOneBy(['id' => $projectId]);
         $contributor = $contributorRepository->findOneBy(['id' => $contributorId]);
 
-        $project->addContributor($contributor);
+        if (!$project) {
+            throw new NotFoundHttpException("Project not found.");
+        }
 
+        if (!$contributor) {
+            throw new NotFoundHttpException("Contributor not found.");
+        }
+
+        if ($project->getContributors()->contains($contributor)) {
+            throw new BadRequestHttpException("This contributor is already on the projecty.");
+        }
+
+        $project->addContributor($contributor);
         $projectRepository->save($project, true);
 
-        return $this->redirectToRoute('project_show', ['id' => $projectId]);
+        return $this->redirectToRoute('project_show', ['id' => $projectId], Response::HTTP_SEE_OTHER);
     }
 
     #[Route('/edit/{id}', name: 'edit')]

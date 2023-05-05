@@ -11,7 +11,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class AjaxController extends AbstractController
 {
-    #[Route("/ajax/search_contributor", name: "ajax_search_contributor", methods: ['POST'])]
+    #[Route("/search_contributor", name: "ajax_search_contributor", methods: ['POST'])]
     public function searchContributor(Request $request, ContributorRepository $contributorRepository): JsonResponse
     {
         $token = $request->request->get('_token');
