@@ -1,7 +1,7 @@
 const searchForm = document.getElementById('search-form');
 const searchResult = document.getElementById('search-result');
-const url = searchForm?.getAttribute('data-ajax-url');
-const projectId = window.location.pathname.split('/')[2];
+const url = searchForm.dataset.searchcontributorurl;
+const projectId = parseInt(searchForm.dataset.projectid);
 
 searchForm?.addEventListener('submit', async (event) => {
     event.preventDefault();
