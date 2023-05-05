@@ -70,20 +70,24 @@ class ProjectController extends AbstractController
         $contributor = $contributorRepository->findOneBy(['id' => $contributorId]);
 
         if (!$project) {
-            throw new NotFoundHttpException("Project not found.");
+            $this->addFlash('danger', 'Project not found.');
+            return $this->redirectToRoute('project_index');
         }
 
         if (!$contributor) {
-            throw new NotFoundHttpException("Contributor not found.");
+            $this->addFlash('danger', 'Contributor not found.');
+            return $this->redirectToRoute('project_show', ['id' => $projectId]);
         }
 
         if ($project->getContributors()->contains($contributor)) {
-            throw new BadRequestHttpException("This contributor is already on the projecty.");
+            $this->addFlash('warning', 'This contributor is already on the project.');
+            return $this->redirectToRoute('project_show', ['id' => $projectId]);
         }
 
         $project->addContributor($contributor);
         $projectRepository->save($project, true);
 
+        $this->addFlash('success', 'Contributor added successfully to the project.');
         return $this->redirectToRoute('project_show', ['id' => $projectId], Response::HTTP_SEE_OTHER);
     }
 
