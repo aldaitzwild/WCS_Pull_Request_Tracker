@@ -34,23 +34,7 @@ class ProjectType extends AbstractType
                 'attr' => [
                     'placeholder' => 'Github link',
                 ],
-            ])
-            /*
-            ->add('contributors', EntityType::class, [
-                'label' => 'Contributors',
-                'class' => Contributor::class,
-                'query_builder' => function (ContributorRepository $contributorRepository) {
-                    return $contributorRepository->createQueryBuilder('c')
-                        ->orderBy('c.name', 'ASC');
-                },
-                'choice_label' => 'name',
-                'multiple' => true,
-                'expanded' => true,
-                'required' => false,
-                'attr' => [
-                    'class' => 'd-flex flex-column'
-                ],
-            ])*/;
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

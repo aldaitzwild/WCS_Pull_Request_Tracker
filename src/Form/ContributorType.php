@@ -3,9 +3,6 @@
 namespace App\Form;
 
 use App\Entity\Contributor;
-use App\Entity\Project;
-use App\Repository\ProjectRepository;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\UrlType;
@@ -47,22 +44,7 @@ class ContributorType extends AbstractType
                 'attr' => [
                     'placeholder' => 'Github account name',
                 ],
-            ])
-            /*
-            ->add('project', EntityType::class, [
-                'label' => 'Project',
-                'class' => Project::class,
-                'query_builder' => function (ProjectRepository $projectRepository) {
-                    return $projectRepository->createQueryBuilder('p')
-                        ->orderBy('p.name', 'ASC');
-                },
-                'choice_label' => 'name',
-                'multiple' => false,
-                'expanded' => true,
-                'required' => false,
-            ])
-            */
-            ;
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void
