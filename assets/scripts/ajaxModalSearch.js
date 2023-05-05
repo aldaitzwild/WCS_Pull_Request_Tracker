@@ -1,7 +1,7 @@
 const searchForm = document.getElementById('search-form');
 const searchResult = document.getElementById('search-result');
-const url = searchForm.dataset.searchcontributorurl;
-const projectId = parseInt(searchForm.dataset.projectid);
+const url = searchForm.dataset.searchContributorUrl;
+const projectId = parseInt(searchForm.dataset.projectId);
 
 searchForm?.addEventListener('submit', async (event) => {
     event.preventDefault();
