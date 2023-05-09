@@ -22,7 +22,7 @@
                         <h1 class="project-title align-self-center m-0">Name : </h1>
                         <p class="project-name align-self-center">{{ contributor.name }}</p>
                     </div>
-                    {% if contributor.projects is defined and contributor.projects is not null %}
+                    {% if  contributor.projects|length > 0 %}
                         <div class="d-flex flex-column">
                             <h1 class="project-title align-self-center m-0">Project : </h1>
                             {% for project in contributor.projects %}
