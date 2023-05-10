@@ -94,6 +94,8 @@
         }
     },
     "require-dev": {
+        "doctrine/doctrine-fixtures-bundle": "^3.4",
+        "fzaninotto/faker": "^1.5",
         "phpmd/phpmd": "^2.13",
         "phpro/grumphp": "^1.15",
         "phpstan/phpstan": "^1.10",
