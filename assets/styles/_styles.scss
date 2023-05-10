@@ -49,7 +49,7 @@ label {
   font-size: calc(0.7rem + 1vw);
 }
 
-/* ----------  ---------- */
+/* ---------- TOASTER ---------- */
 
 @keyframes fade-out {
   0% {
@@ -117,4 +117,10 @@ label {
 
 .project-name {
   font-size: calc(1rem + 1vw);
+}
+
+/* ---------- SEARCH MODAL ---------- */
+
+.found-text {
+  font-size: calc(1.2em + 1vw);
 }

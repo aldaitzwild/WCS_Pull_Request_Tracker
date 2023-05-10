@@ -1,0 +1,31 @@
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#searchContributorModal">
+    Search a contributor
+</button>
+
+<div class="modal fade" id="searchContributorModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Search a contributor</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="search-form" name="search-contributor"
+                      data-search-contributor-url="{{ path('ajax_search_contributor') }}" data-project-id="{{ project.id }}">
+                    <div class="mb-3">
+                        <label for="contributorSearch" class="form-label">Search by GitHub name:</label>
+                        <input type="search" id="contributorSearch" name="contributorSearch" required
+                               class="form-control">
+                    </div>
+                    <input type="hidden" name="_token" value="{{ csrf_token('_searchContributor') }}">
+                    <button type="submit" class="btn btn-primary">Search</button>
+                </form>
+                <div id="search-result"></div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+

@@ -3,12 +3,13 @@
 namespace App\Controller;
 
 use App\Entity\Project;
+use App\Form\ProjectType;
+use App\Repository\ContributorRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Repository\ProjectRepository;
-use App\Form\ProjectType;
 
 #[Route('/project', name: 'project_')]
 class ProjectController extends AbstractController
@@ -54,7 +55,40 @@ class ProjectController extends AbstractController
         ]);
     }
 
-    #[Route('/project/edit/{id}', name: 'edit')]
+    #[Route('/{projectId}/addContributor/{contributorId}', name: 'addContributor')]
+    public function addContributorToProject(
+        int $projectId,
+        int $contributorId,
+        ProjectRepository $projectRepository,
+        ContributorRepository $contributorRepository
+    ): Response {
+
+        $project = $projectRepository->findOneBy(['id' => $projectId]);
+        $contributor = $contributorRepository->findOneBy(['id' => $contributorId]);
+
+        if (!$project) {
+            $this->addFlash('danger', 'Project not found.');
+            return $this->redirectToRoute('project_index');
+        }
+
+        if (!$contributor) {
+            $this->addFlash('danger', 'Contributor not found.');
+            return $this->redirectToRoute('project_show', ['id' => $projectId]);
+        }
+
+        if ($project->getContributors()->contains($contributor)) {
+            $this->addFlash('warning', 'This contributor is already on the project.');
+            return $this->redirectToRoute('project_show', ['id' => $projectId]);
+        }
+
+        $project->addContributor($contributor);
+        $projectRepository->save($project, true);
+
+        $this->addFlash('success', 'Contributor added successfully to the project.');
+        return $this->redirectToRoute('project_show', ['id' => $projectId], Response::HTTP_SEE_OTHER);
+    }
+
+    #[Route('/edit/{id}', name: 'edit')]
     public function editProject(Request $request, ProjectRepository $projectRepository, Project $project): Response
     {
         $form = $this->createForm(ProjectType::class, $project);

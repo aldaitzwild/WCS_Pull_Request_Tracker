@@ -19,10 +19,8 @@
         ShortVariable: This rule concerns variable names that are too short. Here, it is modified to allow the variable
         names "id" and "qb" as exceptions.
         UnusedFormalParameter: This rule is excluded. It checks if a method has formal parameters not used in its body.
-
         Lastly, there are exclusion patterns that prevent these rules from being applied to certain specific files or
         folders:
-
         src/Migrations
         src/Kernel.php
         src/Security
@@ -47,10 +45,16 @@
     </rule>
     <rule ref="rulesets/naming.xml">
         <exclude name="ShortVariable"/>
+        <exclude name="LongVariable"/>
     </rule>
     <rule ref="rulesets/naming.xml/ShortVariable">
         <properties>
             <property name="exceptions" value="id,qb"/>
+        </properties>
+    </rule>
+    <rule ref="rulesets/naming.xml/LongVariable">
+        <properties>
+            <property name="maximum" value="30"/>
         </properties>
     </rule>
     <rule ref="rulesets/unusedcode.xml">
