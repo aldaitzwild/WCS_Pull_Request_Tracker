@@ -3,7 +3,6 @@
 namespace App\DataFixtures;
 
 use App\Entity\Contributor;
-use App\Entity\Project;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
@@ -15,19 +14,20 @@ class ContributorFixtures extends Fixture implements DependentFixtureInterface
     {
         $faker = Factory::create();
 
-        for ($i = 0; $i < 11; $i++) {
+        for ($i = 0; $i < 23; $i++) {
             $contributor = new Contributor();
             $contributor->setName($faker->name);
             $contributor->setGithubAccount('https://github.com');
             $contributor->setGithubName($faker->userName);
 
-            if ($i < 3) {
-                $contributor->addProject($this->getReference('project_0'));
-            } elseif ($i < 6) {
-                $contributor->addProject($this->getReference('project_1'));
-            } else {
-                $contributor->addProject($this->getReference('project_2'));
+            $projectCount = random_int(0, 3);
+            for ($j = 0; $j < $projectCount; $j++) {
+                $randomProjectIndex = random_int(0, 7);
+                $project = $this->getReference('project' . $randomProjectIndex);
+                $contributor->addProject($project);
             }
+
+            $this->addReference('contributor_' . $i, $contributor);
 
             $manager->persist($contributor);
         }
