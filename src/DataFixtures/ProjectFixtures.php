@@ -18,7 +18,7 @@ class ProjectFixtures extends Fixture
             $project = new Project();
             $project->setName($faker->words(3, true));
             $project->setGithubLink('https://github.com');
-            $this->addReference('project' . $i, $project);
+            $this->addReference('project_' . $i, $project);
 
             $manager->persist($project);
         }

@@ -23,7 +23,7 @@ class ContributorFixtures extends Fixture implements DependentFixtureInterface
             $projectCount = random_int(0, 3);
             for ($j = 0; $j < $projectCount; $j++) {
                 $randomProjectIndex = random_int(0, 7);
-                $project = $this->getReference('project' . $randomProjectIndex);
+                $project = $this->getReference('project_' . $randomProjectIndex);
                 $contributor->addProject($project);
             }
 
