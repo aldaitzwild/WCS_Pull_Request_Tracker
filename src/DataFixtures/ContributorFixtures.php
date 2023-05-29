@@ -20,14 +20,14 @@ class ContributorFixtures extends Fixture implements DependentFixtureInterface
             $contributor->setGithubAccount('https://github.com');
             $contributor->setGithubName($faker->userName);
 
-            $projectCount = random_int(0, 3);
-            for ($j = 0; $j < $projectCount; $j++) {
-                $randomProjectIndex = random_int(0, 7);
-                $project = $this->getReference('project_' . $randomProjectIndex);
+            $projects = ProjectFixtures::$projects;
+            shuffle($projects);
+            $projectCount = random_int(0, min(3, count($projects)));
+            $selectedProjects = array_slice($projects, 0, $projectCount);
+            foreach ($selectedProjects as $projectName) {
+                $project = $this->getReference('project_' . $projectName);
                 $contributor->addProject($project);
             }
-
-            $this->addReference('contributor_' . $i, $contributor);
 
             $manager->persist($contributor);
         }
