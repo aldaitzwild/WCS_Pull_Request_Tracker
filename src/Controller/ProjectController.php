@@ -49,9 +49,10 @@ class ProjectController extends AbstractController
     #[Route('/{id}', name: 'show')]
     public function showProject(Project $project): Response
     {
-
+        $contributors = $project->getContributors();
         return $this->render('project/show.html.twig', [
             'project' => $project,
+            'contributors' => $contributors,
         ]);
     }
 
