@@ -8,7 +8,7 @@
             <div class="row row-cols-1">
                 <div class="col my-3 d-flex justify-content-between">
                     {% include "component/_toast.html.twig" %}
-                    <a class="add-link link-dark" href="{{ path('project_edit', {id: project.id}) }}">Modify</a>
+                    <a class="btn btn-outline-warning add-link link-dark" href="{{ path('project_edit', {id: project.id}) }}">Modify</a>
                     <form method="POST" action="{{ path('project_delete', {'id': project.id}) }}"
                           onsubmit="return confirm('Are you sure ?');">
                         <input type="hidden" name="_token"
@@ -23,11 +23,11 @@
                     </div>
                     <div class="d-flex flex-column">
                         <h1 class="project-title align-self-center m-0">Project Github : </h1>
-                        <a class="align-self-center" href="{{ project.githubLink }}">Github</a>
+                        <a class="project-link align-self-center" href="{{ project.githubLink }}">Github</a>
                     </div>
                     <div class="d-flex flex-column">
                         <h1 class="project-title align-self-center m-0">List of PR : </h1>
-                        <p class="align-self-center">TODO: PR</p>
+                        <p class="pr-project align-self-center">TODO: PR</p>
                     </div>
                     {% include 'project/_modalSearch.html.twig' %}
                 </div>

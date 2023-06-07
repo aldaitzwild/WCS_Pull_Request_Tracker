@@ -7,7 +7,7 @@
         <div class="container">
             <div class="row row-cols-1">
                 <div class="col my-3 text-end">
-                    <a class="add-link link-dark text-end" href="{{ path('contributor_add') }}">+ADD</a>
+                    <a class="btn btn-outline-success add-link link-dark text-end" href="{{ path('contributor_add') }}">+ADD</a>
                 </div>
                 {% include "component/_toast.html.twig" %}
                 {% for contributor in contributors %}
@@ -18,11 +18,11 @@
                         </div>
                         <div class="d-flex flex-column">
                             <h1 class="project-title align-self-center m-0">Contributor Github : </h1>
-                            <a class="align-self-center" href="{{ contributor.githubAccount }}">Github</a>
+                            <a class="contributor-link align-self-center" href="{{ contributor.githubAccount }}">Github</a>
                         </div>
                         <div class="d-flex flex-column">
                             <h1 class="project-title align-self-center m-0">Last PR : </h1>
-                            <p class="align-self-center">TODO: PR</p>
+                            <p class="pr-contributor align-self-center">TODO: PR</p>
                         </div>
                         {% if contributor.project.name is defined and contributor.project.name is not null %}
                             <div class="d-flex flex-column">
