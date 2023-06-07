@@ -5,13 +5,14 @@
         <div class="col">
             <div class="row row-cols-1 row-cols-md-2 justify-content-md-between">
                 <h1 class="navbar-title col m-0">PR Tracker</h1>
-                <p class="navbar-quote col m-0 mb-md-1 text-md-end">Sorry, you've got some dead code !</p>
+                {% if app.user %}
+                <a class="nav-link" href="{{ path('logout') }}">Déconnexion</a>
             </div>
         </div>
     </div>
 
     <div class="row text-center justify-content-around mb-0">
-        <a class="nav-link navbar-link link-opacity-75 col" href="{{ path('project_index') }}" >Projects</a>
+        <a class="nav-link navbar-link link-opacity-75 col" href="{{ path('project_index') }}">Projects</a>
         <a class="nav-link navbar-link link-opacity-75 col" href="{{ path('contributor_index') }}">Contributors</a>
         <a class="nav-link navbar-link link-opacity-75 col">PR</a>
     </div>
