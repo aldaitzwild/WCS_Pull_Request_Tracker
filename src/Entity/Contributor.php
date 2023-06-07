@@ -27,9 +27,13 @@ class Contributor
     #[ORM\ManyToMany(targetEntity: Project::class, mappedBy: 'contributors', orphanRemoval: false)]
     private Collection $projects;
 
+    #[ORM\OneToMany(mappedBy: 'contributor', targetEntity: PullRequest::class)]
+    private Collection $pullRequests;
+
     public function __construct()
     {
         $this->projects = new ArrayCollection();
+        $this->pullRequests = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -95,6 +99,36 @@ class Contributor
     {
         if ($this->projects->removeElement($project)) {
             $project->removeContributor($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, PullRequest>
+     */
+    public function getPullRequests(): Collection
+    {
+        return $this->pullRequests;
+    }
+
+    public function addPullRequest(PullRequest $pullRequest): self
+    {
+        if (!$this->pullRequests->contains($pullRequest)) {
+            $this->pullRequests->add($pullRequest);
+            $pullRequest->setContributor($this);
+        }
+
+        return $this;
+    }
+
+    public function removePullRequest(PullRequest $pullRequest): self
+    {
+        if ($this->pullRequests->removeElement($pullRequest)) {
+            // set the owning side to null (unless already changed)
+            if ($pullRequest->getContributor() === $this) {
+                $pullRequest->setContributor(null);
+            }
         }
 
         return $this;
