@@ -33,7 +33,7 @@
 							<div class="col d-flex flex-column mb-4">
 								<h1 class="project-title align-self-start m-0">Contributors:</h1>
 								<ul class="contributors-list align-self-start">
-									{% for contributor in contributors %}
+									{% for contributor in project.contributors %}
 										<li>{{ contributor.getName() }}</li>
 									{% endfor %}
 								</ul>
