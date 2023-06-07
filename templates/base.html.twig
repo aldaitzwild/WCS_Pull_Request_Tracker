@@ -16,7 +16,9 @@
     {% endblock %}
 </head>
 <body>
-{% include 'component/_sideNav.html.twig' %}
+{% if hideSideNav is not defined or hideSideNav == false %}
+    {% include 'component/_sideNav.html.twig' %}
+{% endif %}
 {% block body %}{% endblock %}
 </body>
 </html>
