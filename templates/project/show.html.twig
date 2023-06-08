@@ -45,19 +45,11 @@
 								<h1 class="project-title align-self-end m-0">List of PR:</h1>
 								<ul
 									class="pr-list text-end">
-									<!-- Example pull requests -->
-									<li>Fix issue #123</li>
-									<li>Add new feature</li>
-									<li>Refactor code for better performance</li>
-									<li>Fix issue #123</li>
-									<li>Add new feature</li>
-									<li>Refactor code for better performance</li>
-									<li>Fix issue #123</li>
-									<li>Add new feature</li>
-									<li>Refactor code for better performance</li>
-									<li>Fix issue #123</li>
-									<li>Add new feature</li>
-									<li>Refactor code for better performance</li>
+									
+									{% for pullRequest in project.pullRequests %}
+										<li>{{ pullRequest.getName() }}</li>
+									{% endfor %}
+
 								</ul>
 							</div>
 						</div>

@@ -19,6 +19,7 @@ class ContributorFixtures extends Fixture implements DependentFixtureInterface
             $contributor->setName($faker->name);
             $contributor->setGithubAccount('https://github.com');
             $contributor->setGithubName($faker->userName);
+            $this->addReference('contributor_' . $i, $contributor);
 
             $projects = ProjectFixtures::$projects;
             shuffle($projects);
@@ -28,7 +29,6 @@ class ContributorFixtures extends Fixture implements DependentFixtureInterface
                 $project = $this->getReference('project_' . $projectName);
                 $contributor->addProject($project);
             }
-
             $manager->persist($contributor);
         }
 
