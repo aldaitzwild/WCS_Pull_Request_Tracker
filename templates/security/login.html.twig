@@ -11,7 +11,7 @@
                 <p class="text-white logo-text">Please sign in</p>
             </div>
             <div class="col d-flex justify-content-center align-items-center vh-100">
-                <form method="post" class="d-flex flex-column align-items-center">
+                <form action="{{ path('login') }}" method="post" class="d-flex flex-column align-items-center">
                     {% if error %}
                         <div class="alert alert-danger w-75">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
                     {% endif %}
@@ -23,19 +23,18 @@
                     </div>
                     <div class="w-100">
                         <label class="my-2" for="inputPassword">Password</label>
-                        <input type="password" name="password" id="inputPassword" class="form-control connect-input-form"
+                        <input type="password" name="password" id="inputPassword"
+                               class="form-control connect-input-form"
                                autocomplete="current-password" required>
                     </div>
                     <input type="hidden" name="_csrf_token"
                            value="{{ csrf_token('authenticate') }}"
                     >
-
                     <button class="btn btn-lg btn-outline-primary mt-2 w-100" type="submit">
                         Sign in
                     </button>
                 </form>
             </div>
-
         </div>
     </div>
 {% endblock %}
