@@ -12,19 +12,20 @@ searchForm?.addEventListener('submit', async (event) => {
         body: formData,
     });
 
+    searchResult.innerHTML = '';
+
     if (response.ok) {
         const result = await response.json();
         updateResult(result);
     } else {
-        console.error('Erreur lors de la requête AJAX');
+        const message = `<p class="found-text">Contributor not found</p>`;
+        searchResult.insertAdjacentHTML('beforeend', message);
     }
 });
 
 function updateResult(result) {
-    searchResult.innerHTML = '';
-
     if (result.success) {
-        const { githubName, id: contributorId } = result.result;
+        const {githubName, id: contributorId} = result.result;
         const message = `<p class="found-text">${githubName} found!</p>`;
         searchResult.insertAdjacentHTML('beforeend', message);
 
@@ -38,8 +39,5 @@ function updateResult(result) {
         });
 
         searchResult.appendChild(addContributorBtn);
-    } else {
-        const message = `<p>${result.message}</p>`;
-        searchResult.insertAdjacentHTML('beforeend', message);
     }
 }
