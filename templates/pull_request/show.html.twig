@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Détails de la Pull Request{% endblock %}
+
+{% block body %}
+    <h1>Détails de la Pull Request</h1>
+    <table class="table">
+        <tr>
+            <th>ID</th>
+            <td>{{ pullRequest.id }}</td>
+        </tr>
+        <tr>
+            <th>Nom</th>
+            <td>{{ pullRequest.name }}</td>
+        </tr>
+        <tr>
+            <th>URL</th>
+            <td>{{ pullRequest.url }}</td>
+        </tr>
+        <tr>
+            <th>Date de création</th>
+            <td>{{ pullRequest.created_at|date('Y-m-d H:i:s') }}</td>
+        </tr>
+        <tr>
+            <th>Statut</th>
+            <td>{{ pullRequest.status }}</td>
+        </tr>
+        <tr>
+            <th>Projet</th>
+            <td>{{ pullRequest.project.name }}</td>
+        </tr>
+        <tr>
+            <th>Contributeur</th>
+            <td>{{ pullRequest.contributor.name }}</td>
+        </tr>
+        <tr>
+            <th>Fusionnée</th>
+            <td>{{ pullRequest.is_merged ? 'Oui' : 'Non' }}</td>
+        </tr>
+    </table>
+{% endblock %}

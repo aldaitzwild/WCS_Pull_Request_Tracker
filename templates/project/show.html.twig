@@ -1,37 +1,68 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello ProjectController!{% endblock %}
+{% block title %}Hello ProjectController!
+{% endblock %}
 
 {% block body %}
-    <div class="row">
-        <div class="container">
-            <div class="row row-cols-1">
-                <div class="col my-3 d-flex justify-content-between">
-                    {% include "component/_toast.html.twig" %}
-                    <a class="btn btn-outline-warning add-link link-dark" href="{{ path('project_edit', {id: project.id}) }}">Modify</a>
-                    <form method="POST" action="{{ path('project_delete', {'id': project.id}) }}"
-                          onsubmit="return confirm('Are you sure ?');">
-                        <input type="hidden" name="_token"
-                               value="{{ csrf_token('_delete' ~ project.id) }}">
-                        <button class="delete-project-button btn btn-outline-danger text-dark">Delete</button>
-                    </form>
-                </div>
-                <div class=" col bg-white border border-dark d-flex flex-row align-items-center justify-content-between align-content-center p-1 p-md-2 p-lg-4 my-2">
-                    <div class="d-flex flex-column">
-                        <h1 class="project-title align-self-center m-0">Project : </h1>
-                        <p class="project-name align-self-center">{{ project.name }}</p>
-                    </div>
-                    <div class="d-flex flex-column">
-                        <h1 class="project-title align-self-center m-0">Project Github : </h1>
-                        <a class="project-link align-self-center" href="{{ project.githubLink }}">Github</a>
-                    </div>
-                    <div class="d-flex flex-column">
-                        <h1 class="project-title align-self-center m-0">List of PR : </h1>
-                        <p class="pr-project align-self-center">TODO: PR</p>
-                    </div>
-                    {% include 'project/_modalSearch.html.twig' %}
-                </div>
-            </div>
-        </div>
-    </div>
-{% endblock %}
+	<div class="container">
+		<div class="row">
+			<div class="row row-cols-1">
+				<div class="col my-3 d-flex justify-content-between">
+					{% include "component/_toast.html.twig" %}
+					<a class="btn btn-outline-warning add-link link-dark" href="{{ path('project_edit', {id: project.id}) }}">Modify</a>
+					<form method="POST" action="{{ path('project_delete', {'id': project.id}) }}" onsubmit="return confirm('Are you sure ?');">
+						<input type="hidden" name="_token" value="{{ csrf_token('_delete' ~ project.id) }}">
+						<button class="delete-project-button btn btn-outline-danger text-dark">Delete</button>
+					</form>
+				</div>
+				<div class="col bg-white border border-dark d-flex flex-row align-items-center justify-content-between align-content-center p-1 p-md-2 p-lg-4 my-2">
+					<div class="container-fluid">
+						<div class="row row-cols-3 d-flex justify-content-between">
+							<div class="col d-flex flex-column text-start mb-4">
+								<h1 class="project-title m-0">Project:</h1>
+								<p class="project-name">{{ project.name }}</p>
+							</div>
+							<div class="col d-flex flex-column mb-4 ">
+								<h1 class="project-title align-self-center m-0">Project Github:</h1>
+								<a class="project-link align-self-center" href="{{ project.githubLink }}">Github</a>
+							</div>
+							<div class="col d-flex flex-column mb-4">
+								<h1 class="project-title align-self-end m-0">Last PR:</h1>
+								<p class="pr-project align-self-end">TODO: PR</p>
+							</div>
+							<div class="col d-flex flex-column mb-4">
+								<h1 class="project-title align-self-start m-0">Contributors:</h1>
+								<ul class="contributors-list align-self-start">
+									{% for contributor in project.contributors %}
+										<li>{{ contributor.getName() }}</li>
+									{% endfor %}
+								</ul>
+							</div>
+							<div class="col d-flex flex-column mb-4">
+								{% include 'project/_modalSearch.html.twig' %}
+							</div>
+							<div class="col d-flex flex-column mb-4">
+								<h1 class="project-title align-self-end m-0">List of PR:</h1>
+								<ul
+									class="pr-list text-end">
+									<!-- Example pull requests -->
+									<li>Fix issue #123</li>
+									<li>Add new feature</li>
+									<li>Refactor code for better performance</li>
+									<li>Fix issue #123</li>
+									<li>Add new feature</li>
+									<li>Refactor code for better performance</li>
+									<li>Fix issue #123</li>
+									<li>Add new feature</li>
+									<li>Refactor code for better performance</li>
+									<li>Fix issue #123</li>
+									<li>Add new feature</li>
+									<li>Refactor code for better performance</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	{% endblock %}
