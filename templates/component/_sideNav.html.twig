@@ -3,10 +3,11 @@
         <img class="navbar-logo col-4 ps-2 img-fluid" src="{{ asset('build/images/logo/logo.svg') }}"
              alt="Is git logo with eye patch">
         <div class="col">
-            <div class="row row-cols-1 row-cols-md-2 justify-content-md-between">
-                <h1 class="navbar-title col m-0">PR Tracker</h1>
+            <div class="row  justify-content-around">
+                <h1 class="navbar-title col-10 m-0">PR Tracker</h1>
                 {% if app.user %}
-                <a class="nav-link" href="{{ path('logout') }}">Déconnexion</a>
+                    <a class="nav-link col-2 text-end pe-4 align-items-center text-end" href="{{ path('logout') }}">Déconnexion</a>
+                {% endif %}
             </div>
         </div>
     </div>

@@ -16,7 +16,7 @@
     {% endblock %}
 </head>
 <body>
-{% if hideSideNav is not defined or hideSideNav == false %}
+{% if is_granted('IS_AUTHENTICATED_FULLY') %}
     {% include 'component/_sideNav.html.twig' %}
 {% endif %}
 {% block body %}{% endblock %}
