@@ -19,7 +19,7 @@
         </tr>
         <tr>
             <th>Date de création</th>
-            <td>{{ pullRequest.created_at|date('Y-m-d H:i:s') }}</td>
+            <td>{{ pullRequest.createdAt|date('Y-m-d H:i:s') }}</td>
         </tr>
         <tr>
             <th>Statut</th>
@@ -35,7 +35,7 @@
         </tr>
         <tr>
             <th>Fusionnée</th>
-            <td>{{ pullRequest.is_merged ? 'Oui' : 'Non' }}</td>
+            <td>{{ pullRequest.isMerged ? 'Oui' : 'Non' }}</td>
         </tr>
     </table>
 {% endblock %}

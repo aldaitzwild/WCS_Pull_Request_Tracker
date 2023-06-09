@@ -25,7 +25,7 @@ class PullRequestFixtures extends Fixture implements DependentFixtureInterface
 
             $pullRequest->setIsMerged($faker->boolean);
 
-            // On suppose qu'il y a au moins un projet et un contributeur
+            // Assumes at least one project and one contributor
             $project = $this->getReference('project_' . $faker->randomElement(ProjectFixtures::$projects));
             $pullRequest->setProject($project);
 
