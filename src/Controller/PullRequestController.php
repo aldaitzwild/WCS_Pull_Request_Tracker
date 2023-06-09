@@ -2,22 +2,25 @@
 
 namespace App\Controller;
 
+use App\Repository\PullRequestRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use App\Repository\PullRequestRepository;
 
+#[Route('/pullrequest', name: 'pull_request_')]
 class PullRequestController extends AbstractController
 {
-    #[Route('/pull/request', name: 'app_pull_request')]
-    public function index(): Response
+    #[Route('/', name: 'index')]
+    public function index(PullRequestRepository $pullRequestRepository): Response
     {
+        $pullRequests = $pullRequestRepository->findAll() ;
         return $this->render('pull_request/index.html.twig', [
-            'controller_name' => 'PullRequestController',
+            'pullRequests' => $pullRequests,
+
         ]);
     }
 
-    #[Route('/pullRequest/{id<^[0-9]+$>}', methods: ['GET'], name: 'pullRequest_show')]
+    #[Route('/{id<^[0-9]+$>}', methods: ['GET'], name: 'show')]
     public function show(int $id, PullRequestRepository $pullRequestRepository): Response
     {
         $pullRequest = $pullRequestRepository->findOneBy(['id' => $id]);

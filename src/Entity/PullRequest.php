@@ -24,7 +24,7 @@ class PullRequest
 
     #[ORM\ManyToOne(inversedBy: 'pullRequests')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?project $project = null;
+    private ?Project $project = null;
 
     #[ORM\ManyToOne(inversedBy: 'pullRequests')]
     #[ORM\JoinColumn(nullable: false)]
@@ -77,12 +77,12 @@ class PullRequest
         return $this;
     }
 
-    public function getProject(): ?project
+    public function getProject(): ?Project
     {
         return $this->project;
     }
 
-    public function setProject(?project $project): self
+    public function setProject(?Project $project): self
     {
         $this->project = $project;
 

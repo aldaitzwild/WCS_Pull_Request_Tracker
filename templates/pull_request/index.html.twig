@@ -1,20 +1,39 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello PullRequestController!{% endblock %}
+{% block title %}Hello ProjectController!
+{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
-
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
-
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ 'C:/Users/axel_/Formation Dev Web/PR-tracker/WCS_Pull_Request_Tracker/src/Controller/PullRequestController.php'|file_link(0) }}">src/Controller/PullRequestController.php</a></code></li>
-        <li>Your template at <code><a href="{{ 'C:/Users/axel_/Formation Dev Web/PR-tracker/WCS_Pull_Request_Tracker/templates/pull_request/index.html.twig'|file_link(0) }}">templates/pull_request/index.html.twig</a></code></li>
-    </ul>
-</div>
+		<div class="container-fluid">
+			<div class="row row-cols-1">
+				{% for pr in pullRequests %}
+					<div class=" col bg-white border border-dark d-flex flex-row align-items-center justify-content-between align-content-center p-1 p-md-2 p-lg-4 my-2">
+						<div class="container-fluid">
+							<div class="row row-cols-4">
+								<div class="d-flex flex-column">
+									<h1 class="project-title align-self-center m-0">PR :
+									</h1>
+									<a class="project-name align-self-start link-dark" href="{{ path('pull_request_show', {id:pr.id}) }}">{{ pr.name }}</a>
+								</div>
+								<div class="d-flex flex-column">
+									<h1 class="project-title align-self-center m-0">Project :
+									</h1>
+									<a class="align-self-center">{{pr.project.name}}</a>
+								</div>
+								<div class="d-flex flex-column">
+									<h1 class="project-title align-self-center m-0">contributor:
+									</h1>
+									<p class="align-self-center">{{pr.contributor.name}}</p>
+								</div>
+								<div class="d-flex flex-column">
+									<h1 class="project-title align-self-end m-0">status:
+									</h1>
+									<p class="align-self-end">{{pr.status}}</p>
+								</div>
+							</div>
+						</div>
+					</div>
+				{% endfor %}
+			</div>
+		</div>
 {% endblock %}
