@@ -137,6 +137,24 @@ label {
   font-size: calc(1.2em + 1vw);
 }
 
+/* ---------- LOGIN PAGE ---------- */
+
+.login-left-container {
+  background-color: var(--background-blue);
+}
+
+.logo-connection {
+  width: 15rem;
+  height: auto;
+}
+
+.logo-text {
+  font-size: calc(1em + 1vw);
+}
+
+.connect-input-form {
+  width: calc(15em + 15vw);
+
 /* ---------- CONTRIBUTOR LINK ---------- */
 
 .contributor-link {

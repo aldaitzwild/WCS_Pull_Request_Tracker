@@ -16,7 +16,9 @@
     {% endblock %}
 </head>
 <body>
-{% include 'component/_sideNav.html.twig' %}
+{% if is_granted('IS_AUTHENTICATED_FULLY') %}
+    {% include 'component/_sideNav.html.twig' %}
+{% endif %}
 {% block body %}{% endblock %}
 </body>
 </html>

@@ -24,7 +24,7 @@ function updateResult(result) {
     searchResult.innerHTML = '';
 
     if (result.success) {
-        const { githubName, id: contributorId } = result.result;
+        const {githubName, id: contributorId} = result.result;
         const message = `<p class="found-text">${githubName} found!</p>`;
         searchResult.insertAdjacentHTML('beforeend', message);
 
