@@ -4,8 +4,7 @@
 {% endblock %}
 
 {% block body %}
-	<div class="row">
-		<div class="container">
+		<div class="container-fluid">
 			<div class="row row-cols-1">
 				{% for pr in pullRequests %}
 					<div class=" col bg-white border border-dark d-flex flex-row align-items-center justify-content-between align-content-center p-1 p-md-2 p-lg-4 my-2">
@@ -37,6 +36,4 @@
 				{% endfor %}
 			</div>
 		</div>
-	</div>
-
 {% endblock %}

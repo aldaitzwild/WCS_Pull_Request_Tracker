@@ -4,8 +4,7 @@
 {% endblock %}
 
 {% block body %}
-	<div class="row">
-		<div class="container">
+	<div class="container-fluid">
 			<div class="row row-cols-1">
 				<div class="col my-3 d-flex justify-content-between">
 					{% include "component/_toast.html.twig" %}
@@ -43,13 +42,11 @@
 							</div>
 							<div class="col d-flex flex-column mb-4">
 								<h1 class="project-title align-self-end m-0">List of PR:</h1>
-								<ul
-									class="pr-list text-end">
-									
+								<ul class="pr-list text-end">
+
 									{% for pullRequest in project.pullRequests %}
 										<li>{{ pullRequest.getName() }}</li>
 									{% endfor %}
-
 								</ul>
 							</div>
 						</div>
@@ -57,4 +54,4 @@
 				</div>
 			</div>
 		</div>
-	{% endblock %}
+{% endblock %}
