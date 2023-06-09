@@ -3,12 +3,11 @@
 {% block title %}{{ contributor.name }} Profil{% endblock %}
 
 {% block body %}
-    <div class="row">
         <div class="container">
             <div class="row row-cols-1">
                 <div class="col my-3 d-flex justify-content-between">
                     {% include "component/_toast.html.twig" %}
-                    <a class="add-link link-dark" href="{{ path('contributor_edit', {id: contributor.id}) }}">Modify</a>
+                    <a class="btn btn-outline-warning add-link link-dark" href="{{ path('contributor_edit', {id: contributor.id}) }}">Modify</a>
                     <form method="POST" action="{{ path('contributor_delete', {'id': contributor.id}) }}"
                           onsubmit="return confirm('Are you sure ?');">
                         <input type="hidden" name="_token"
@@ -32,11 +31,11 @@
                     {% endif %}
                     <div class="d-flex flex-column">
                         <h1 class="project-title align-self-center m-0">Contributor Github : </h1>
-                        <a class="align-self-center" href="{{ contributor.githubAccount }}">Github</a>
+                        <a class="contributor-link align-self-center" href="{{ contributor.githubAccount }}">Github</a>
                     </div>
                     <div class="d-flex flex-column">
                         <h1 class="project-title align-self-center m-0">List of PR : </h1>
-                        <p class="align-self-center">TODO: PR</p>
+                        <p class="pr-contributor align-self-center">TODO: PR</p>
                     </div>
                 </div>
             </div>

@@ -107,6 +107,18 @@ label {
   font-size: calc(1em + 1vw);
 }
 
+/* ---------- PROJECT LINK ---------- */
+
+.project-link {
+  font-size: calc(1em + 1vw);
+}
+
+/* ---------- PROJECT PR ---------- */
+
+.pr-project {
+  font-size: calc(1em + 1vw);
+}
+
 /* ---------- PROJECT ADD PAGE + DELETE BUTTON---------- */
 
 .add-link, .btn-add, .delete-project-button {
@@ -142,4 +154,15 @@ label {
 
 .connect-input-form {
   width: calc(15em + 15vw);
+
+/* ---------- CONTRIBUTOR LINK ---------- */
+
+.contributor-link {
+  font-size: calc(1em + 1vw);
+}
+
+/* ---------- CONTRIBUTOR PR ---------- */
+
+.pr-contributor {
+  font-size: calc(1em + 1vw);
 }
