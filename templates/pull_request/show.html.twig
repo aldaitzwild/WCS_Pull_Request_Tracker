@@ -1,41 +1,50 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Détails de la Pull Request{% endblock %}
+{% block title %}Détails de la Pull Request
+{% endblock %}
 
 {% block body %}
-    <h1>Détails de la Pull Request</h1>
-    <table class="table">
-        <tr>
-            <th>ID</th>
-            <td>{{ pullRequest.id }}</td>
-        </tr>
-        <tr>
-            <th>Nom</th>
-            <td>{{ pullRequest.name }}</td>
-        </tr>
-        <tr>
-            <th>URL</th>
-            <td>{{ pullRequest.url }}</td>
-        </tr>
-        <tr>
-            <th>Date de création</th>
-            <td>{{ pullRequest.created_at|date('Y-m-d H:i:s') }}</td>
-        </tr>
-        <tr>
-            <th>Statut</th>
-            <td>{{ pullRequest.status }}</td>
-        </tr>
-        <tr>
-            <th>Projet</th>
-            <td>{{ pullRequest.project.name }}</td>
-        </tr>
-        <tr>
-            <th>Contributeur</th>
-            <td>{{ pullRequest.contributor.name }}</td>
-        </tr>
-        <tr>
-            <th>Fusionnée</th>
-            <td>{{ pullRequest.is_merged ? 'Oui' : 'Non' }}</td>
-        </tr>
-    </table>
+	<div class="col bg-white border border-dark d-flex flex-row align-items-center justify-content-between align-content-center p-1 p-md-2 p-lg-4 my-2">
+		<div class="container-fluid">
+			<div class="row row-cols-3 d-flex justify-content-between">
+				<div class="col d-flex flex-column text-start mb-4">
+					<h1 class="project-title m-0">Pull Request:</h1>
+					<p class="project-name">{{ pullRequest.name }}</p>
+				</div>
+				<div class="col d-flex flex-column mb-4 ">
+					<h1 class="project-title align-self-center m-0">Lien Github:</h1>
+					<a class="project-link align-self-center" href="{{ pullRequest.url }}">Github</a>
+				</div>
+				<div class="col d-flex flex-column mb-4">
+					<h1 class="project-title align-self-end m-0">Crée à:</h1>
+					<p class="pr-project align-self-end">{{ pullRequest.createdAt|date('Y-m-d H:i:s') }}</p>
+				</div>
+				<div class="col d-flex flex-column mb-4">
+					<h1 class="project-title align-self-start m-0">Statut:</h1>
+					<p class="contributors-list align-self-start">
+						{{ pullRequest.status }}</p>
+				</div>
+				<div class="col d-flex flex-column mb-4">
+					<h1 class="project-title align-self-end m-0">Project:</h1>
+					<p class="contributors-list align-self-start">
+						{{ pullRequest.project.name }}</p>
+				</div>
+
+				<div class="col d-flex flex-column mb-4">
+					<h1 class="project-title align-self-end m-0">Contributeur:</h1>
+					<p class="contributors-list align-self-start">
+						{{ pullRequest.contributor.name }}</p>
+
+
+				</div>
+				<div class="col d-flex flex-column mb-4">
+					<h1 class="project-title align-self-end m-0">Mergée:</h1>
+					<p class="contributors-list align-self-start">
+						{{ pullRequest.isMerged ? 'Oui' : 'Non' }}</p>
+
+
+				</div>
+			</div>
+		</div>
+	</div>
 {% endblock %}
