@@ -4,7 +4,6 @@ namespace App\Service;
 
 use App\Repository\ProjectRepository;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 
 class FetchGithubService
@@ -16,8 +15,8 @@ class FetchGithubService
     public function __construct(
         HttpClientInterface $httpClient,
         ProjectRepository $projectRepository,
-        RequestStack $requestStack)
-    {
+        RequestStack $requestStack
+    ) {
         $this->httpClient = $httpClient;
         $this->projectRepository = $projectRepository;
         $this->requestStack = $requestStack;
@@ -52,5 +51,4 @@ class FetchGithubService
 
         return false;
     }
-    
 }
