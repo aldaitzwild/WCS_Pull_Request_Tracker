@@ -2,7 +2,6 @@
 
 namespace App\Service;
 
-use Symfony\Contracts\HttpClient\HttpClientInterface;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use League\OAuth2\Client\Provider\Github;
 use League\OAuth2\Client\Provider\Exception\IdentityProviderException;
@@ -47,20 +46,5 @@ class GithubOauth2
         } catch (IdentityProviderException $e) {
             throw $e;
         }
-    }
-
-    public function getUser(SessionInterface $session): ?array
-    {
-        return $session->get('user');
-    }
-
-    public function isAuthenticated(SessionInterface $session): bool
-    {
-        return $session->has('user');
-    }
-
-    public function logout(SessionInterface $session): void
-    {
-        $session->remove('user');
     }
 }
