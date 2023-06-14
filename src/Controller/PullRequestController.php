@@ -15,10 +15,9 @@ class PullRequestController extends AbstractController
     #[Route('/', name: 'index')]
     public function index(PullRequestRepository $pullRequestRepository): Response
     {
-        $pullRequests = $pullRequestRepository->findAll() ;
+        $pullRequests = $pullRequestRepository->findAll();
         return $this->render('pull_request/index.html.twig', [
             'pullRequests' => $pullRequests,
-
         ]);
     }
 
