@@ -4,9 +4,11 @@ namespace App\Controller;
 
 use App\Repository\PullRequestRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
+#[Security("is_granted('ROLE_USER')")]
 #[Route('/pullrequest', name: 'pull_request_')]
 class PullRequestController extends AbstractController
 {
