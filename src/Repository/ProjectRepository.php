@@ -50,4 +50,18 @@ class ProjectRepository extends ServiceEntityRepository
             }
         }
     }
+
+
+    public function checkAndDeleteNonExistentNames(array $projects): void
+    {
+        $projectNames = array_column($projects, 'name');
+        $existentProjects = $this->findAll();
+
+        foreach ($existentProjects as $existentProject) {
+            if (in_array($existentProject->getName(), $projectNames, true)) {
+                continue;
+            }
+            $this->remove($existentProject, true);
+        }
+    }
 }
