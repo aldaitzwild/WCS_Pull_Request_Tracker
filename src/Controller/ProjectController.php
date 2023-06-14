@@ -9,17 +9,16 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Repository\ProjectRepository;
-use App\Service\GithubOauth2;
 use Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\DecodingExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
+use App\Service\ProjectService;
 
 #[Security("is_granted('ROLE_USER')")]
 #[Route('/project', name: 'project_')]
@@ -33,8 +32,11 @@ class ProjectController extends AbstractController
      * @throws ClientExceptionInterface
      */
     #[Route('/projectOnGithub', name: 'projectOnGithub')]
-    public function fetchGitHubInformation(SessionInterface $session, HttpClientInterface $httpClient, ProjectRepository $projectRepository): Response
-    {
+    public function fetchGitHubInformation(
+        SessionInterface $session,
+        HttpClientInterface $httpClient,
+        ProjectRepository $projectRepository,
+    ): Response {
         $token = $session->get('user')['access_token'];
 
         $headers = [
@@ -52,13 +54,10 @@ class ProjectController extends AbstractController
         $statusCode = $response->getStatusCode();
 
         if ($statusCode === 200) {
-            $repos =  $response->toArray();
-                foreach ($repos as $repo) {
-                    $project = new Project();
-                    $project->setName($repo['name']);
-                    $project->setGithubLink($repo['html_url']);
-                    $projectRepository->save($project, true);
-                }
+            $projects = $response->toArray();
+
+            $projectRepository->checkIfExistAndSave($projects);
+
         } else {
             throw new \Exception('Error: ' . $statusCode);
         }
@@ -107,12 +106,11 @@ class ProjectController extends AbstractController
 
     #[Route('/{projectId}/addContributor/{contributorId}', name: 'addContributor')]
     public function addContributorToProject(
-        int                   $projectId,
-        int                   $contributorId,
-        ProjectRepository     $projectRepository,
+        int $projectId,
+        int $contributorId,
+        ProjectRepository $projectRepository,
         ContributorRepository $contributorRepository
-    ): Response
-    {
+    ): Response {
 
         $project = $projectRepository->findOneBy(['id' => $projectId]);
         $contributor = $contributorRepository->findOneBy(['id' => $contributorId]);

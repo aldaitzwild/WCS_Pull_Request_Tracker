@@ -2,6 +2,8 @@
 
 namespace App\Repository;
 
+use App\Entity\Contributor;
+use App\Entity\Project;
 use App\Entity\PullRequest;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -39,28 +41,24 @@ class PullRequestRepository extends ServiceEntityRepository
         }
     }
 
-//    /**
-//     * @return PullRequest[] Returns an array of PullRequest objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('p')
-//            ->andWhere('p.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('p.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+    public function checkIfExistAndSave(array $pullRequests, Project $project, Contributor $contributor): void
+    {
+        foreach ($pullRequests as $singlePullRequest) {
+            if (!$this->findOneBy(['name' => $singlePullRequest['name']])) {
+                $pullRequest = new PullRequest();
+                $pullRequest->setName($singlePullRequest['name']);
+                $pullRequest->setStatus($singlePullRequest['state']);
+                $pullRequest->setCreatedAt($singlePullRequest['created_at']);
+                if (!empty($singlePullRequest['merged_at'])) {
+                    $pullRequest->setIsMerged(true);
+                }
+                $pullRequest->setUrl($singlePullRequest['html_url']);
 
-//    public function findOneBySomeField($value): ?PullRequest
-//    {
-//        return $this->createQueryBuilder('p')
-//            ->andWhere('p.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+                $pullRequest->setProject($project);
+                $pullRequest->setContributor($contributor);
+
+                $this->save($pullRequest, true);
+            }
+        }
+    }
 }

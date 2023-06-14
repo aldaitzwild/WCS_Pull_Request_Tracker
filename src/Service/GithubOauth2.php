@@ -9,17 +9,15 @@ use League\OAuth2\Client\Provider\Exception\IdentityProviderException;
 
 class GithubOauth2
 {
-    private Github $github_provider;
-    private httpClientInterface $httpClient;
+    private Github $githubProvider;
 
     public function __construct(string $githubId, string $githubSecret)
     {
-        $this->github_provider = new Github([
+        $this->githubProvider = new Github([
             'clientId' => $githubId,
             'clientSecret' => $githubSecret,
             'redirectUri' => $_ENV['GITHUB_CALLBACK'],
         ]);
-
     }
 
     public function getGithubLoginUrl(): string
@@ -28,17 +26,17 @@ class GithubOauth2
             'scope' => ['user', 'repo'],
         ];
 
-        return $this->github_provider->getAuthorizationUrl($options);
+        return $this->githubProvider->getAuthorizationUrl($options);
     }
 
     public function handleGithubCallback(string $code, SessionInterface $session): array
     {
         try {
-            $token = $this->github_provider->getAccessToken('authorization_code', [
+            $token = $this->githubProvider->getAccessToken('authorization_code', [
                 'code' => $code
             ]);
 
-            $user = $this->github_provider->getResourceOwner($token);
+            $user = $this->githubProvider->getResourceOwner($token);
 
             $userArray = $user->toArray();
             $userArray['access_token'] = $token->getToken();
@@ -65,6 +63,4 @@ class GithubOauth2
     {
         $session->remove('user');
     }
-
-
 }

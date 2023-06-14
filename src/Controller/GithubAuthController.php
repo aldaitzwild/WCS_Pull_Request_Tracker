@@ -15,7 +15,6 @@ use App\Service\GithubOauth2;
 #[Security("is_granted('ROLE_USER')")]
 class GithubAuthController extends AbstractController
 {
-
     #[Route('/afterLogin', name: 'afterLogin')]
     public function connectToGithub(SessionInterface $session): Response
     {
