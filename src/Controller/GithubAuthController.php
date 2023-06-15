@@ -4,7 +4,7 @@ namespace App\Controller;
 
 use App\Entity\User;
 use League\OAuth2\Client\Provider\Exception\IdentityProviderException;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -12,7 +12,7 @@ use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Service\GithubOauth2;
 
-#[Security("is_granted('ROLE_USER')")]
+#[IsGranted('ROLE_USER')]
 class GithubAuthController extends AbstractController
 {
     #[Route('/afterLogin', name: 'afterLogin')]

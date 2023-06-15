@@ -44,7 +44,6 @@ class GithubOauth2
 
             return $userArray;
         } catch (\Exception $e) {
-
             return $e;
         }
     }
