@@ -5,25 +5,29 @@ namespace App\Controller;
 use App\Entity\Project;
 use App\Form\ProjectType;
 use App\Repository\ContributorRepository;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Repository\ProjectRepository;
+use App\Service\FetchGithubService;
 
-#[Security("is_granted('ROLE_USER')")]
+#[IsGranted('ROLE_USER')]
 #[Route('/project', name: 'project_')]
 class ProjectController extends AbstractController
 {
     #[Route('/', name: 'index')]
-    public function index(ProjectRepository $projectRepository): Response
+    public function index(FetchGithubService $fetchGithubService, ProjectRepository $projectRepository): Response
     {
-        $projects = $projectRepository->findAll();
+        if ($fetchGithubService->fetchProject() === true) {
+            $projects = $projectRepository->findAll();
+            return $this->render('project/index.html.twig', [
+                'projects' => $projects,
+            ]);
+        }
 
-        return $this->render('project/index.html.twig', [
-            'projects' => $projects,
-        ]);
+        throw $this->createNotFoundException("Can't fetch some project on github");
     }
 
     #[Route('/addProject', name: 'add')]
@@ -64,7 +68,6 @@ class ProjectController extends AbstractController
         ProjectRepository $projectRepository,
         ContributorRepository $contributorRepository
     ): Response {
-
         $project = $projectRepository->findOneBy(['id' => $projectId]);
         $contributor = $contributorRepository->findOneBy(['id' => $contributorId]);
 

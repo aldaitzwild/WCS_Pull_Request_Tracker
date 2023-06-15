@@ -38,4 +38,30 @@ class ProjectRepository extends ServiceEntityRepository
             $this->getEntityManager()->flush();
         }
     }
+
+    public function checkIfExistAndSave(array $projects): void
+    {
+        foreach ($projects as $singleProject) {
+            if (!$this->findOneBy(['name' => $singleProject['name']])) {
+                $project = new Project();
+                $project->setName($singleProject['name']);
+                $project->setGithubLink($singleProject['html_url']);
+                $this->save($project, true);
+            }
+        }
+    }
+
+
+    public function checkAndDeleteNonExistentNames(array $projects): void
+    {
+        $projectNames = array_column($projects, 'name');
+        $existentProjects = $this->findAll();
+
+        foreach ($existentProjects as $existentProject) {
+            if (in_array($existentProject->getName(), $projectNames, true)) {
+                continue;
+            }
+            $this->remove($existentProject, true);
+        }
+    }
 }

@@ -3,14 +3,14 @@
 namespace App\Controller;
 
 use App\Repository\ContributorRepository;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-#[Security("is_granted('ROLE_USER')")]
+#[IsGranted('ROLE_USER')]
 class AjaxController extends AbstractController
 {
     #[Route("/search_contributor", name: "ajax_search_contributor", methods: ['POST'])]
