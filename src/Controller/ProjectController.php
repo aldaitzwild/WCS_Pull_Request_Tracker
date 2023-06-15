@@ -11,8 +11,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Repository\ProjectRepository;
+use App\Service\PullRequestService;
 
-#[Security("is_granted('ROLE_USER')")]
 #[Route('/project', name: 'project_')]
 class ProjectController extends AbstractController
 {
@@ -49,13 +49,19 @@ class ProjectController extends AbstractController
     }
 
     #[Route('/{id}', name: 'show')]
-    public function showProject(Project $project): Response
+    public function showProject(Project $project, PullRequestService $pullRequestService): Response
     {
+        $contributors = $project->getContributors();
+        $nbPullRequests = [];
+        foreach ($contributors as $contributor) {
+            $nbPullRequest = $pullRequestService->getNbOfPrForContributorInOneProject($contributor, $project);
+            $nbPullRequests[$contributor->getId()] = $nbPullRequest;
+        }
         return $this->render('project/show.html.twig', [
-            'project' => $project
+            'project' => $project,
+            'nbPullRequests' => $nbPullRequests,
         ]);
     }
-
 
     #[Route('/{projectId}/addContributor/{contributorId}', name: 'addContributor')]
     public function addContributorToProject(
