@@ -2,7 +2,6 @@
 
 namespace App\Service;
 
-use mysql_xdevapi\Exception;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use League\OAuth2\Client\Provider\Github;
 
