@@ -51,4 +51,40 @@ class FetchGithubService
 
         return false;
     }
+
+    public function fetchPullRequest(): bool
+    {
+        $session = $this->requestStack->getSession();
+        $token = $session->get('user')['access_token'];
+
+        $headers = [
+            'Authorization' => 'Bearer ' . $token,
+            'Accept' => 'application/vnd.github.v3+json',
+            'X-GitHub-Api-Version' => '2022-11-28'
+        ];
+
+        $urls = $this->projectRepository->findAllGithubLink();
+
+        dd($urls);
+
+        $url = str_replace("github.com", "api.github.com/repos", $githubUrl);
+        $url .= "/pulls?state=all";
+
+        dd($url);
+
+        $response = $this->httpClient->request('GET', $url, [
+            'headers' => $headers
+        ]);
+        $statusCode = $response->getStatusCode();
+
+        if ($statusCode === 200) {
+            $pullRequests = $response->toArray();
+            $this->projectRepository->checkAndDeleteNonExistentNames($projects);
+            $this->projectRepository->checkIfExistAndSave($projects);
+
+            return true;
+        }
+
+        return false;
+    }
 }

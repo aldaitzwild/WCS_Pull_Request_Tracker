@@ -2,20 +2,25 @@
 
 namespace App\Controller;
 
+use App\Repository\ProjectRepository;
 use App\Repository\PullRequestRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use App\Service\FetchGithubService;
 
 #[Security("is_granted('ROLE_USER')")]
 #[Route('/pullrequest', name: 'pull_request_')]
 class PullRequestController extends AbstractController
 {
     #[Route('/', name: 'index')]
-    public function index(PullRequestRepository $pullRequestRepository): Response
+    public function index(ProjectRepository $projectRepository): Response
     {
-        $pullRequests = $pullRequestRepository->findAll();
+    $urls = $projectRepository->findAllGithubLink();
+    dd($urls);
+
+
         return $this->render('pull_request/index.html.twig', [
             'pullRequests' => $pullRequests,
         ]);

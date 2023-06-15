@@ -39,6 +39,16 @@ class ProjectRepository extends ServiceEntityRepository
         }
     }
 
+    public function findAllGithubLink(): array
+    {
+        $result = $this->createQueryBuilder('p')
+            ->select('p.githubLink')
+            ->getQuery()
+            ->getResult();
+
+        return array_column($result, 'githubLinkx');
+    }
+
     public function checkIfExistAndSave(array $projects): void
     {
         foreach ($projects as $singleProject) {
