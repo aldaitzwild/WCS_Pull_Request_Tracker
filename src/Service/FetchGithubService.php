@@ -14,10 +14,9 @@ class FetchGithubService
 
     public function __construct(
         HttpClientInterface $httpClient,
-        ProjectRepository   $projectRepository,
-        RequestStack        $requestStack
-    )
-    {
+        ProjectRepository $projectRepository,
+        RequestStack $requestStack
+    ) {
         $this->httpClient = $httpClient;
         $this->projectRepository = $projectRepository;
         $this->requestStack = $requestStack;
