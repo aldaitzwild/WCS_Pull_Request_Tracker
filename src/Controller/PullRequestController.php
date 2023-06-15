@@ -17,12 +17,8 @@ class PullRequestController extends AbstractController
     #[Route('/', name: 'index')]
     public function index(ProjectRepository $projectRepository): Response
     {
-    $urls = $projectRepository->findAllGithubLink();
-    dd($urls);
-
 
         return $this->render('pull_request/index.html.twig', [
-            'pullRequests' => $pullRequests,
         ]);
     }
 

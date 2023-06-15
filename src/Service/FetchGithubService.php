@@ -52,7 +52,7 @@ class FetchGithubService
         return false;
     }
 
-    public function fetchPullRequest(): bool
+    public function fetchPullRequest(int $projectId): bool
     {
         $session = $this->requestStack->getSession();
         $token = $session->get('user')['access_token'];
@@ -63,14 +63,12 @@ class FetchGithubService
             'X-GitHub-Api-Version' => '2022-11-28'
         ];
 
-        $urls = $this->projectRepository->findAllGithubLink();
+        $project = $this->projectRepository->findOneBy(['id' => $projectId]);
 
-        dd($urls);
+        $githubUrl = $project->getGithubLink();
 
         $url = str_replace("github.com", "api.github.com/repos", $githubUrl);
         $url .= "/pulls?state=all";
-
-        dd($url);
 
         $response = $this->httpClient->request('GET', $url, [
             'headers' => $headers
@@ -78,7 +76,6 @@ class FetchGithubService
         $statusCode = $response->getStatusCode();
 
         if ($statusCode === 200) {
-            $pullRequests = $response->toArray();
             $this->projectRepository->checkAndDeleteNonExistentNames($projects);
             $this->projectRepository->checkIfExistAndSave($projects);
 
