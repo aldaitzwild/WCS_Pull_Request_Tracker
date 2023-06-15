@@ -27,7 +27,6 @@ class PullRequest
     private ?Project $project = null;
 
     #[ORM\ManyToOne(inversedBy: 'pullRequests')]
-    #[ORM\JoinColumn(nullable: false)]
     private ?Contributor $contributor = null;
 
     #[ORM\Column]

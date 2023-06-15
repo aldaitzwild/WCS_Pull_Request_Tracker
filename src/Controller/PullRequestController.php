@@ -15,11 +15,15 @@ use App\Service\FetchGithubService;
 class PullRequestController extends AbstractController
 {
     #[Route('/', name: 'index')]
-    public function index(ProjectRepository $projectRepository, FetchGithubService $fetchGithubService): Response
-    {
+    public function index(
+        PullRequestRepository $pullRequestRepository,
+        FetchGithubService $fetchGithubService
+    ): Response {
         $fetchGithubService->fetchAllPullRequest();
+        $allPullRequests = $pullRequestRepository->findAll();
 
         return $this->render('pull_request/index.html.twig', [
+            'pullRequests' => $allPullRequests
         ]);
     }
 

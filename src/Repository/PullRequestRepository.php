@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\Contributor;
 use App\Entity\Project;
 use App\Entity\PullRequest;
+use DateTimeImmutable;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -51,24 +52,29 @@ class PullRequestRepository extends ServiceEntityRepository
         return array_column($result, 'name');
     }
 
-    public function checkIfExistAndSave(array $pullRequests, Project $project, Contributor $contributor): void
+    /**
+     * @throws \Exception
+     */
+    public function checkIfExistAndSave(array $singlePullRequest, Project $project, Contributor|null $contributor): void
     {
-        foreach ($pullRequests as $singlePullRequest) {
-            if (!$this->findOneBy(['name' => $singlePullRequest['name']])) {
-                $pullRequest = new PullRequest();
-                $pullRequest->setName($singlePullRequest['name']);
-                $pullRequest->setStatus($singlePullRequest['state']);
-                $pullRequest->setCreatedAt($singlePullRequest['created_at']);
-                if (!empty($singlePullRequest['merged_at'])) {
-                    $pullRequest->setIsMerged(true);
-                }
-                $pullRequest->setUrl($singlePullRequest['html_url']);
 
-                $pullRequest->setProject($project);
-                $pullRequest->setContributor($contributor);
+        if (!$this->findOneBy(['name' => $singlePullRequest['title']])) {
+            $pullRequest = new PullRequest();
+            $pullRequest->setName($singlePullRequest['title']);
+            $pullRequest->setStatus($singlePullRequest['state']);
+            $createAt = $singlePullRequest['created_at'];
+            $date = new DateTimeImmutable($createAt);
+            $pullRequest->setCreatedAt($date);
 
-                $this->save($pullRequest, true);
+            if (!empty($singlePullRequest['merged_at'])) {
+                $pullRequest->setIsMerged(true);
             }
+
+            $pullRequest->setUrl($singlePullRequest['html_url']);
+            $pullRequest->setProject($project);
+            $pullRequest->setContributor($contributor);
+
+            $this->save($pullRequest, true);
         }
     }
 
