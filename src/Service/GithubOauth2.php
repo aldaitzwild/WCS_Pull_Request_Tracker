@@ -2,9 +2,9 @@
 
 namespace App\Service;
 
+use mysql_xdevapi\Exception;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use League\OAuth2\Client\Provider\Github;
-use League\OAuth2\Client\Provider\Exception\IdentityProviderException;
 
 class GithubOauth2
 {
@@ -28,7 +28,7 @@ class GithubOauth2
         return $this->githubProvider->getAuthorizationUrl($options);
     }
 
-    public function handleGithubCallback(string $code, SessionInterface $session): array
+    public function handleGithubCallback(string $code, SessionInterface $session): array | \Exception
     {
         try {
             $token = $this->githubProvider->getAccessToken('authorization_code', [
@@ -43,8 +43,9 @@ class GithubOauth2
             $session->set('user', $userArray);
 
             return $userArray;
-        } catch (IdentityProviderException $e) {
-            throw $e;
+        } catch (\Exception $e) {
+
+            return $e;
         }
     }
 }
