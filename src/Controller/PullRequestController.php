@@ -15,8 +15,9 @@ use App\Service\FetchGithubService;
 class PullRequestController extends AbstractController
 {
     #[Route('/', name: 'index')]
-    public function index(ProjectRepository $projectRepository): Response
+    public function index(ProjectRepository $projectRepository, FetchGithubService $fetchGithubService): Response
     {
+        $fetchGithubService->fetchAllPullRequest();
 
         return $this->render('pull_request/index.html.twig', [
         ]);

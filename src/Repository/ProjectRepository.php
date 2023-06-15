@@ -46,7 +46,7 @@ class ProjectRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
 
-        return array_column($result, 'githubLinkx');
+        return array_column($result, 'githubLink');
     }
 
     public function checkIfExistAndSave(array $projects): void

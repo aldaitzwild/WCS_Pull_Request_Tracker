@@ -14,9 +14,10 @@ class FetchGithubService
 
     public function __construct(
         HttpClientInterface $httpClient,
-        ProjectRepository $projectRepository,
-        RequestStack $requestStack
-    ) {
+        ProjectRepository   $projectRepository,
+        RequestStack        $requestStack
+    )
+    {
         $this->httpClient = $httpClient;
         $this->projectRepository = $projectRepository;
         $this->requestStack = $requestStack;
@@ -52,7 +53,7 @@ class FetchGithubService
         return false;
     }
 
-    public function fetchPullRequest(int $projectId): bool
+    public function fetchAllPullRequest(): bool
     {
         $session = $this->requestStack->getSession();
         $token = $session->get('user')['access_token'];
@@ -63,9 +64,7 @@ class FetchGithubService
             'X-GitHub-Api-Version' => '2022-11-28'
         ];
 
-        $project = $this->projectRepository->findOneBy(['id' => $projectId]);
-
-        $githubUrl = $project->getGithubLink();
+        $githubUrl = $this->projectRepository->findAllGithubLink();
 
         $url = str_replace("github.com", "api.github.com/repos", $githubUrl);
         $url .= "/pulls?state=all";
