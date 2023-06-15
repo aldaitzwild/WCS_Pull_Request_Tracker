@@ -65,11 +65,9 @@ class PullRequestRepository extends ServiceEntityRepository
             $createAt = $singlePullRequest['created_at'];
             $date = new DateTimeImmutable($createAt);
             $pullRequest->setCreatedAt($date);
-
             if (!empty($singlePullRequest['merged_at'])) {
                 $pullRequest->setIsMerged(true);
             }
-
             $pullRequest->setUrl($singlePullRequest['html_url']);
             $pullRequest->setProject($project);
             $pullRequest->setContributor($contributor);
