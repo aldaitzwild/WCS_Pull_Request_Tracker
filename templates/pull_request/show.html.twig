@@ -15,7 +15,6 @@
                             <i class="bi bi-circle-fill text-danger"></i>
                         {% endif %}
                     </a>
-                    <p class="pr-contributor contributors-list align-self-center">Feat_view_one_project</p>
                 </div>
             </div>
 
@@ -25,7 +24,8 @@
                         <b>Project</b>
                     </h1>
                     <a class="project-link align-self-start"
-                       href="{{ path('project_show', {id: pullRequest.project.id}) }}">{{ pullRequest.project.name }}</a>
+                       href="{{ path('project_show', {id: pullRequest.project.id}) }}"
+                       target="_blank">{{ pullRequest.project.name }}</a>
                 </div>
 
                 <div class="col d-flex flex-column mb-4">
@@ -33,10 +33,10 @@
                         <b>Author</b>
                     </h1>
                     {% if pullRequest.contributor is not null %}
-                        <a class="contributor-link align-self-center"
+                        <a class="project-title contributor-link align-self-center"
                            href="{{ path('contributor_show', {id: pullRequest.contributor.id}) }}">{{ pullRequest.contributor.name }}</a>
                     {% endif %}
-                    <p class="align-self-center text-danger">contributor not found</p>
+                    <p class="project-title align-self-center text-danger">contributor not found</p>
                 </div>
 
                 <div class="col d-flex flex-column mb-4">
