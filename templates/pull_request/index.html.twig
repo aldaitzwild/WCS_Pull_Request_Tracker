@@ -4,36 +4,44 @@
 {% endblock %}
 
 {% block body %}
-		<div class="container-fluid">
-			<div class="row row-cols-1">
-				{% for pr in pullRequests %}
-					<div class=" col bg-white border border-dark d-flex flex-row align-items-center justify-content-between align-content-center p-1 p-md-2 p-lg-4 my-2">
-						<div class="container-fluid">
-							<div class="row row-cols-4">
-								<div class="d-flex flex-column">
-									<h1 class="project-title align-self-center m-0">PR :
-									</h1>
-									<a class="project-name align-self-start link-dark" href="{{ path('pull_request_show', {id:pr.id}) }}">{{ pr.name }}</a>
-								</div>
-								<div class="d-flex flex-column">
-									<h1 class="project-title align-self-center m-0">Project :
-									</h1>
-									<a class="align-self-center">{{pr.project.name}}</a>
-								</div>
-								<div class="d-flex flex-column">
-									<h1 class="project-title align-self-center m-0">contributor:
-									</h1>
-									<p class="align-self-center">{{pr.contributor.name}}</p>
-								</div>
-								<div class="d-flex flex-column">
-									<h1 class="project-title align-self-end m-0">status:
-									</h1>
-									<p class="align-self-end">{{pr.status}}</p>
-								</div>
+	<div class="container-fluid">
+		<div class="row row-cols-1">
+			{% for pr in pullRequests %}
+				<div class=" col bg-white border border-dark d-flex flex-row align-items-center justify-content-between align-content-center p-1 p-md-2 p-lg-4 my-2">
+					<div class="container-fluid">
+						<div class="row row-cols-4">
+							<div class="d-flex flex-column">
+								<h1 class="project-title align-self-start m-0">
+									<b>PR</b>
+								</h1>
+								<a class="project-name align-self-start link-dark" href="{{ path('pull_request_show', {id:pr.id}) }}">{{ pr.name }}</a>
+							</div>
+							<div class="d-flex flex-column">
+								<h1 class="project-title align-self-center m-0">
+									<b>Project</b>
+								</h1>
+								<a class="project-link align-self-center">{{pr.project.name}}</a>
+							</div>
+							<div class="d-flex flex-column">
+								<h1 class="project-title align-self-center m-0">
+									<b>contributor</b>
+								</h1>
+								<p class="pr-contributor align-self-center">{{pr.contributor.name}}</p>
+							</div>
+							<div class="d-flex flex-column">
+								<h1 class="project-title align-self-end m-0">
+									<b>status</b>
+								</h1>
+								{% if pr.status == 'open' %}
+									<i class="align-self-end pe-4 bi bi-circle-fill text-success fs-4"></i>
+								{% elseif pr.status == 'closed' %}
+									<i class="align-self-end pe-4 bi bi-circle-fill text-danger fs-4"></i>
+								{% endif %}
 							</div>
 						</div>
 					</div>
-				{% endfor %}
-			</div>
+				</div>
+			{% endfor %}
 		</div>
+	</div>
 {% endblock %}

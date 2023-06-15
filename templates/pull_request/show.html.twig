@@ -15,7 +15,7 @@
 							<i class="bi bi-circle-fill text-danger"></i>
 						{% endif %}
 					</a>
-					<p class="contributors-list align-self-center">Feat_view_one_project</p>
+					<p class="pr-contributor contributors-list align-self-center">Feat_view_one_project</p>
 				</div>
 			</div>
 
@@ -24,7 +24,7 @@
 					<h1 class="project-title align-self-start m-0">
 						<b>Project</b>
 					</h1>
-					<a href="{{ path('project_show', {id: pullRequest.project.id}) }}">{{ pullRequest.project.name }}</a>
+					<a class="project-link align-self-start" href="{{ path('project_show', {id: pullRequest.project.id}) }}">{{ pullRequest.project.name }}</a>
 				</div>
 
 				<div class="col d-flex flex-column mb-4">
@@ -38,7 +38,7 @@
 					<h1 class="project-title align-self-end m-0">
 						<b>Merged</b>
 					</h1>
-					<p class="contributors-list align-self-end">{{ pullRequest.isMerged ? 'Oui' : 'Non' }}</p>
+					<p class="pr-contributor contributors-list align-self-end">{{ pullRequest.isMerged ? 'Yes' : 'No' }}</p>
 				</div>
 			</div>
 
