@@ -5,25 +5,30 @@ namespace App\Controller;
 use App\Entity\Project;
 use App\Form\ProjectType;
 use App\Repository\ContributorRepository;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Repository\ProjectRepository;
-use App\Service\PullRequestService;
+use App\Service\FetchGithubService;
+use App\Service\PullRequestManager;
 
+#[IsGranted('ROLE_USER')]
 #[Route('/project', name: 'project_')]
 class ProjectController extends AbstractController
 {
     #[Route('/', name: 'index')]
-    public function index(ProjectRepository $projectRepository): Response
+    public function index(FetchGithubService $fetchGithubService, ProjectRepository $projectRepository): Response
     {
-        $projects = $projectRepository->findAll();
+        if ($fetchGithubService->fetchProject() === true) {
+            $projects = $projectRepository->findAll();
+            return $this->render('project/index.html.twig', [
+                'projects' => $projects,
+            ]);
+        }
 
-        return $this->render('project/index.html.twig', [
-            'projects' => $projects,
-        ]);
+        throw $this->createNotFoundException("Can't fetch some project on github");
     }
 
     #[Route('/addProject', name: 'add')]
@@ -49,9 +54,10 @@ class ProjectController extends AbstractController
     }
 
     #[Route('/{id}', name: 'show')]
-    public function showProject(Project $project, PullRequestService $pullRequestService): Response
+    public function showProject(Project $project, PullRequestManager $pullRequestService): Response
     {
-        $contributors = $project->getContributors();
+        $contributors = $pullRequestService->getContributorsWithPRInProject($project);
+
         $nbPullRequests = [];
         foreach ($contributors as $contributor) {
             $nbPullRequest = $pullRequestService->getNbOfPrForContributorInOneProject($contributor, $project);
@@ -59,6 +65,7 @@ class ProjectController extends AbstractController
         }
         return $this->render('project/show.html.twig', [
             'project' => $project,
+            'contributors' => $contributors,
             'nbPullRequests' => $nbPullRequests,
         ]);
     }
@@ -70,7 +77,6 @@ class ProjectController extends AbstractController
         ProjectRepository $projectRepository,
         ContributorRepository $contributorRepository
     ): Response {
-
         $project = $projectRepository->findOneBy(['id' => $projectId]);
         $contributor = $contributorRepository->findOneBy(['id' => $contributorId]);
 

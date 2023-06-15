@@ -4,39 +4,39 @@
 {% endblock %}
 
 {% block body %}
-	<div class="container-fluid">
-		<div class="row row-cols-1">
-			<div class="col my-3 text-end">
-				<a class="add-link link-dark text-end" href="{{ path('contributor_add') }}">+ADD</a>
-			</div>
-			{% include "component/_toast.html.twig" %}
-			{% for contributor in contributors %}
-				<div class=" col bg-white border border-dark d-flex flex-row align-items-center justify-content-between align-content-center p-1 p-md-2 p-lg-4 my-2">
-					<div class="d-flex flex-column">
-						<h1 class="project-title align-self-center m-0">name :
-						</h1>
-						<a href="{{ path('contributor_show', {id: contributor.id}) }}" class="project-name align-self-center text-dark">{{ contributor.name }}</a>
-					</div>
-					<div class="d-flex flex-column">
-						<h1 class="project-title align-self-center m-0">Contributor Github :
-						</h1>
-						<a class="align-self-center" href="{{ contributor.githubAccount }}">Github</a>
-					</div>
-					<div class="d-flex flex-column">
-						<h1 class="project-title align-self-center m-0">Last PR :
-						</h1>
-						<p class="align-self-center">TODO: PR</p>
-					</div>
-					{% if contributor.project.name is defined and contributor.project.name is not null %}
-						<div class="d-flex flex-column">
-							<h1 class="project-title align-self-center m-0">Project :
-							</h1>
-							<p class="align-self-center">{{ contributor.project.name }}</p>
-						</div>
-					{% endif %}
+		<div class="container-fluid">
+			<div class="row row-cols-1">
+				<div class="col my-3 text-end">
+					<a class="btn btn-outline-success add-link link-dark text-end" href="{{ path('contributor_add') }}">+ADD</a>
 				</div>
-			{% endfor %}
+				{% include "component/_toast.html.twig" %}
+				{% for contributor in contributors %}
+					<div class=" col bg-white border border-dark d-flex flex-row align-items-center justify-content-between align-content-center p-1 p-md-2 p-lg-4 my-2">
+						<div class="d-flex flex-column">
+							<h1 class="project-title align-self-center m-0">
+								<b>name</b>
+							</h1>
+							<a href="{{ path('contributor_show', {id: contributor.id}) }}" class="project-name align-self-center text-dark">{{ contributor.name }}</a>
+						</div>
+						<div class="d-flex flex-column">
+							<h1 class="project-title align-self-center m-0"></h1>
+							<a class="contributor-link align-self-center" href="{{ contributor.githubAccount }}">Github</a>
+						</div>
+						<div class="d-flex flex-column">
+							<h1 class="project-title align-self-center m-0">
+								<b>Last PR</b>
+							</h1>
+							<p class="pr-contributor align-self-center">TODO: PR</p>
+						</div>
+						{% if contributor.project.name is defined and contributor.project.name is not null %}
+							<div class="d-flex flex-column">
+								<h1 class="project-title align-self-center m-0">Project :
+								</h1>
+								<p class="align-self-center">{{ contributor.project.name }}</p>
+							</div>
+						{% endif %}
+					</div>
+				{% endfor %}
+			</div>
 		</div>
-
-	</div>
 {% endblock %}

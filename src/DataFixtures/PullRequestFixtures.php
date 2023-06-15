@@ -15,7 +15,7 @@ class PullRequestFixtures extends Fixture implements DependentFixtureInterface
     {
         $faker = Factory::create();
 
-        for ($i = 0; $i < 150; $i++) {
+        for ($i = 0; $i < 50; $i++) {
             $pullRequest = new PullRequest();
             $pullRequest->setName($faker->words(10, true));
             $pullRequest->setUrl('https://github.com');

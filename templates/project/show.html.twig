@@ -9,7 +9,7 @@
 			<div class="row row-cols-3 d-flex justify-content-between align-items-center mt-3">
 				{% include "component/_toast.html.twig" %}
 				<div class="col d-flex flex-column mb-4">
-					<a class="add-link link-dark " href="{{ path('project_edit', {id: project.id}) }}">Modify</a>
+					<a class="btn btn-outline-warning add-link link-dark align-self-start" href="{{ path('project_edit', {id: project.id}) }}">Modify</a>
 				</div>
 				<div class="col d-flex flex-column mb-4 ">
 					{% include 'project/_modalSearch.html.twig' %}
@@ -51,7 +51,7 @@
 											</tr>
 										</thead>
 										<tbody>
-											{% for contributor in project.contributors %}
+											{% for contributor in contributors %}
 												<tr>
 													<td>{{ contributor.name }}</td>
 													<td>{{ contributor.githubName }}</td>

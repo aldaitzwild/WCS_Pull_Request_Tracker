@@ -25,6 +25,7 @@
         "build": "encore production --progress"
     },
     "dependencies": {
+        "bootstrap-icons": "^1.10.5",
         "sass-loader": "^13.2.2"
     }
 }

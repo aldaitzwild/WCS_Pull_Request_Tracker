@@ -4,19 +4,21 @@ namespace App\Controller;
 
 use App\Repository\PullRequestRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
+#[IsGranted('ROLE_USER')]
 #[Route('/pullrequest', name: 'pull_request_')]
 class PullRequestController extends AbstractController
 {
     #[Route('/', name: 'index')]
     public function index(PullRequestRepository $pullRequestRepository): Response
     {
-        $pullRequests = $pullRequestRepository->findAll() ;
+        $pullRequests = $pullRequestRepository->findAll();
         return $this->render('pull_request/index.html.twig', [
             'pullRequests' => $pullRequests,
-
         ]);
     }
 
