@@ -5,6 +5,11 @@ namespace App\Service;
 use App\Repository\ContributorRepository;
 use App\Repository\ProjectRepository;
 use App\Repository\PullRequestRepository;
+use Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface;
+use Symfony\Contracts\HttpClient\Exception\DecodingExceptionInterface;
+use Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface;
+use Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface;
+use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 
@@ -60,6 +65,14 @@ class FetchGithubService
         return false;
     }
 
+    /**
+     * @throws RedirectionExceptionInterface
+     * @throws DecodingExceptionInterface
+     * @throws ClientExceptionInterface
+     * @throws TransportExceptionInterface
+     * @throws ServerExceptionInterface
+     * @throws \Exception
+     */
     public function fetchAllPullRequest(): bool
     {
         $session = $this->requestStack->getSession();
@@ -86,6 +99,7 @@ class FetchGithubService
             }
             if ($statusCode === 200) {
                 $pullRequests = $response->toArray();
+                $this->pullRequestRepository->checkAndDeleteNonExistentNames($pullRequests);
                 foreach ($pullRequests as $pullRequest) {
                     $project = $this->projectRepository->findOneBy(['githubLink' => $githubUrl]);
                     $contributor = $this->contributorRepository

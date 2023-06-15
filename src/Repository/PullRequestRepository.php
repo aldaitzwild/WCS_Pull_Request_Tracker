@@ -78,9 +78,9 @@ class PullRequestRepository extends ServiceEntityRepository
         }
     }
 
-    public function checkAndDeleteNonExistentNames(array $pullRequestsName): void
+    public function checkAndDeleteNonExistentNames(array $pullRequests): void
     {
-        $pullRequestsName = array_column($pullRequestsName, 'name');
+        $pullRequestsName = array_column($pullRequests, 'title');
         $existentPullRequests = $this->findAll();
 
         foreach ($existentPullRequests as $existentPullRequest) {
