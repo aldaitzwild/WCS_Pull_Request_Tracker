@@ -38,4 +38,15 @@ class PullRequestRepository extends ServiceEntityRepository
             $this->getEntityManager()->flush();
         }
     }
+
+    public function findLastPR($project)
+    {
+        return $this->createQueryBuilder('p')
+            ->where('p.project = :project')
+            ->setParameter('project', $project)
+            ->orderBy('p.createdAt', 'DESC')
+            ->setMaxResults(1)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
 }

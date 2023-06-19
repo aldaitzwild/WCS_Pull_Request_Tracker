@@ -11,6 +11,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Repository\ProjectRepository;
+use App\Repository\PullRequestRepository;
 use App\Service\FetchGithubService;
 use App\Service\PullRequestManager;
 
@@ -19,10 +20,19 @@ use App\Service\PullRequestManager;
 class ProjectController extends AbstractController
 {
     #[Route('/', name: 'index')]
-    public function index(FetchGithubService $fetchGithubService, ProjectRepository $projectRepository): Response
-    {
+    public function index(
+        FetchGithubService $fetchGithubService,
+        ProjectRepository $projectRepository,
+        PullRequestRepository $pullRequestRepository
+    ): Response {
+
         if ($fetchGithubService->fetchProject() === true) {
             $projects = $projectRepository->findAll();
+            $lastPRs = [];
+
+            foreach ($projects as $project) {
+                $lastPRs[$project->getId()] = $pullRequestRepository->findLastPR($project);
+            }
             return $this->render('project/index.html.twig', [
                 'projects' => $projects,
             ]);
