@@ -4,65 +4,102 @@
 {% endblock %}
 
 {% block body %}
-    <div class="container-fluid">
-        <div class="row row-cols-1">
-            <div class="col my-3 d-flex justify-content-between">
-                {% include "component/_toast.html.twig" %}
-                <a class="btn btn-outline-warning add-link link-dark"
-                   href="{{ path('project_edit', {id: project.id}) }}">Modify</a>
-                <form method="POST" action="{{ path('project_delete', {'id': project.id}) }}"
-                      onsubmit="return confirm('Are you sure ?');">
-                    <input type="hidden" name="_token" value="{{ csrf_token('_delete' ~ project.id) }}">
-                    <button class="delete-project-button btn btn-outline-danger text-dark">Delete</button>
-                </form>
-            </div>
-            <div class="col bg-white border border-dark d-flex flex-row align-items-center justify-content-between align-content-center p-1 p-md-2 p-lg-4 my-2">
-                <div class="container-fluid">
-                    <div class="row row-cols-3 d-flex justify-content-between">
-                        <div class="col d-flex flex-column text-start mb-4">
-                            <h1 class="project-title m-0">
-                                <b>Project</b>
-                            </h1>
-                            <p class="project-name">{{ project.name }}</p>
-                        </div>
-                        <div class="col d-flex flex-column mb-4 ">
-                            <a class="project-link align-self-center" href="{{ project.githubLink }}">Github</a>
-                        </div>
-                        <div class="col d-flex flex-column mb-4">
-                            <h1 class="project-title align-self-end m-0">
-                                <b>Last PR</b>
-                            </h1>
-                            <p class="pr-project align-self-end">TODO: PR</p>
-                        </div>
-                        <div class="col d-flex flex-column mb-4">
-                            <h1 class="project-title align-self-start m-0">
-                                <b>Contributors</b>
-                            </h1>
-                            <ul class="contributor-link contributors-list align-self-start">
-                                {% for contributor in project.contributors %}
-                                    <li>{{ contributor.getName() }}</li>
-                                {% endfor %}
-                            </ul>
-                        </div>
-                        <div class="col d-flex flex-column mb-4">
-                            {% include 'project/_modalSearch.html.twig' %}
-                        </div>
-                        <div class="col d-flex flex-column mb-4">
-                            <h1 class="project-title align-self-end m-0">
-                                <b>List of PR</b>
-                            </h1>
-                            <ul class="pr-contributor pr-list text-end">
-
-                                {% for pullRequest in project.pullRequests %}
-                                    <li>
-                                        <a href="{{ path('pull_request_show', {'id': pullRequest.id}) }}">{{ pullRequest.name }}</a>
-                                    </li>
-                                {% endfor %}
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+	<div class="container-fluid">
+		<div class="row row-cols-1">
+			<div class="row row-cols-3 d-flex justify-content-between align-items-center mt-3">
+				{% include "component/_toast.html.twig" %}
+				<div class="col d-flex flex-column mb-4">
+					<a class="btn btn-outline-warning add-link link-dark align-self-start" href="{{ path('project_edit', {id: project.id}) }}">Modify</a>
+				</div>
+				<div class="col d-flex flex-column mb-4 ">
+					{% include 'project/_modalSearch.html.twig' %}
+				</div>
+				<form class="col d-flex flex-column mb-4" method="POST" action="{{ path('project_delete', {'id': project.id}) }}" onsubmit="return confirm('Are you sure ?');">
+					<input type="hidden" name="_token" value="{{ csrf_token('_delete' ~ project.id) }}">
+					<button class="delete-project-button btn btn-outline-danger text-dark align-self-end">Delete</button>
+				</form>
+			</div>
+			<div class="col bg-white border border-dark d-flex flex-row align-items-center justify-content-between align-content-center p-1 p-md-2 p-lg-4 my-2">
+				<div class="container-fluid">
+					<div class="row row-cols-3 d-flex justify-content-between mt-2">
+						<div class="col d-flex flex-column text-start mb-4">
+							<h1 class="project-title m-0">Project</h1>
+							<p class="project-name">{{ project.name }}</p>
+						</div>
+						<div class="col d-flex flex-column mb-4 ">
+							<a class="project-link align-self-center" href="{{ project.githubLink }}">Github</a>
+						</div>
+						<div class="col d-flex flex-column mb-4">
+							<h1 class="project-title align-self-end m-0">Created At</h1>
+							<p class="align-self-end">{{ project.createdAt | date('d-m-Y') }}</p>
+						</div>
+					</div>
+					<div class="col d-flex flex-column mb-4 ">
+						<div class="col d-flex flex-column mb-4 ">
+							<button class="btn btn-secondary w-100" type="button" data-bs-toggle="collapse" data-bs-target="#contributorsCollapse" aria-expanded="false" aria-controls="contributorsCollapse">
+								Contributors
+							</button>
+							<div class="collapse" id="contributorsCollapse">
+								<div class="card card-body">
+									<table class="table">
+										<thead>
+											<tr>
+												<th>Name</th>
+												<th>Github Name</th>
+												<th>Nb of PR</th>
+											</tr>
+										</thead>
+										<tbody>
+											{% for contributor in contributors %}
+												<tr>
+													<td>{{ contributor.name }}</td>
+													<td>{{ contributor.githubName }}</td>
+													<td>{{ nbPullRequests[contributor.id]|default('0') }}</td>
+												</tr>
+											{% endfor %}
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+						<div class="col d-flex flex-column mb-4 ">
+							<button class="btn btn-secondary w-100" type="button" data-bs-toggle="collapse" data-bs-target="#listPrCollapse" aria-expanded="false" aria-controls="listPrCollapse">
+								List of PR
+							</button>
+							<div class="collapse" id="listPrCollapse">
+								<div class="card card-body">
+									<table class="table">
+										<thead>
+											<tr>
+												<th>Pull Request Name</th>
+												<th>URL</th>
+												<th>Status</th>
+											</tr>
+										</thead>
+										<tbody>
+											{% for pullRequest in project.pullRequests %}
+												<tr>
+													<td>{{ pullRequest.name }}</td>
+													<td>
+														<a href="{{ pullRequest.url }}">{{ pullRequest.url }}</a>
+													</td>
+													<td>
+														{% if pullRequest.status == 'open' %}
+															<i class="bi bi-circle-fill text-success"></i>
+														{% elseif pullRequest.status == 'closed' %}
+															<i class="bi bi-circle-fill text-danger"></i>
+														{% endif %}
+													</td>
+												</tr>
+											{% endfor %}
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 {% endblock %}

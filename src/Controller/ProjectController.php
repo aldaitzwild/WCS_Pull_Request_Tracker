@@ -11,19 +11,31 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Repository\ProjectRepository;
+use App\Repository\PullRequestRepository;
 use App\Service\FetchGithubService;
+use App\Service\PullRequestManager;
 
 #[IsGranted('ROLE_USER')]
 #[Route('/project', name: 'project_')]
 class ProjectController extends AbstractController
 {
     #[Route('/', name: 'index')]
-    public function index(FetchGithubService $fetchGithubService, ProjectRepository $projectRepository): Response
-    {
+    public function index(
+        FetchGithubService $fetchGithubService,
+        ProjectRepository $projectRepository,
+        PullRequestRepository $pullRequestRepository
+    ): Response {
+
         if ($fetchGithubService->fetchProject() === true) {
             $projects = $projectRepository->findAll();
+            $lastPRs = [];
+
+            foreach ($projects as $project) {
+                $lastPRs[$project->getId()] = $pullRequestRepository->findLastPR($project);
+            }
             return $this->render('project/index.html.twig', [
                 'projects' => $projects,
+                'last_prs' => $lastPRs,
             ]);
         }
 
@@ -53,13 +65,21 @@ class ProjectController extends AbstractController
     }
 
     #[Route('/{id}', name: 'show')]
-    public function showProject(Project $project): Response
+    public function showProject(Project $project, PullRequestManager $pullRequestService): Response
     {
+        $contributors = $pullRequestService->getContributorsWithPRInProject($project);
+
+        $nbPullRequests = [];
+        foreach ($contributors as $contributor) {
+            $nbPullRequest = $pullRequestService->getNbOfPrForContributorInOneProject($contributor, $project);
+            $nbPullRequests[$contributor->getId()] = $nbPullRequest;
+        }
         return $this->render('project/show.html.twig', [
-            'project' => $project
+            'project' => $project,
+            'contributors' => $contributors,
+            'nbPullRequests' => $nbPullRequests,
         ]);
     }
-
 
     #[Route('/{projectId}/addContributor/{contributorId}', name: 'addContributor')]
     public function addContributorToProject(
