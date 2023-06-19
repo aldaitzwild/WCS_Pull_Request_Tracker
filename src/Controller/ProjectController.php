@@ -35,6 +35,7 @@ class ProjectController extends AbstractController
             }
             return $this->render('project/index.html.twig', [
                 'projects' => $projects,
+                'last_prs' => $lastPRs,
             ]);
         }
 
