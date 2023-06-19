@@ -17,8 +17,8 @@ class PullRequestFixtures extends Fixture implements DependentFixtureInterface
 
         for ($i = 0; $i < 50; $i++) {
             $pullRequest = new PullRequest();
-            $pullRequest->setName($faker->words(3, true));
-            $pullRequest->setUrl('https://github.com/pr/' . $faker->randomNumber(5));
+            $pullRequest->setName($faker->words(10, true));
+            $pullRequest->setUrl('https://github.com');
             $pullRequest->setStatus($faker->randomElement(['open', 'closed']));
             $createdAt = $faker->dateTimeBetween('-1 years', 'now');
             $pullRequest->setCreatedAt(DateTimeImmutable::createFromMutable($createdAt));
