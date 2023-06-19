@@ -57,7 +57,6 @@ class PullRequestRepository extends ServiceEntityRepository
      */
     public function checkIfExistAndSave(array $singlePullRequest, Project $project, Contributor|null $contributor): void
     {
-
         if (!$this->findOneBy(['name' => $singlePullRequest['title']])) {
             $pullRequest = new PullRequest();
             $pullRequest->setName($singlePullRequest['title']);
@@ -87,8 +86,9 @@ class PullRequestRepository extends ServiceEntityRepository
             }
             $this->remove($existentPullRequest, true);
         }
+    }
 
-      public function findLastPR($project)
+    public function findLastPR($project)
     {
         return $this->createQueryBuilder('p')
             ->where('p.project = :project')

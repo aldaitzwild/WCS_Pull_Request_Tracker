@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Project;
+use DateTimeImmutable;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -56,6 +57,9 @@ class ProjectRepository extends ServiceEntityRepository
                 $project = new Project();
                 $project->setName($singleProject['name']);
                 $project->setGithubLink($singleProject['html_url']);
+                $createAt = $singleProject['created_at'];
+                $date = new DateTimeImmutable($createAt);
+                $project->setCreatedAt($date);
                 $this->save($project, true);
             }
         }
