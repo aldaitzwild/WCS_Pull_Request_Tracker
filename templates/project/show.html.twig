@@ -52,9 +52,13 @@
 										<tbody>
 											{% for contributor in contributors %}
 												<tr>
-													<td>{{ contributor.name }}</td>
-													<td>{{ contributor.githubName }}</td>
-													<td>{{ nbPullRequests[contributor.id]|default('0') }}</td>
+													<td>
+														<a href="{{ path('contributor_show', {id: contributor.id}) }}">{{ contributor.name }}</a>
+													</td>
+													<td>
+														<a href="{{ contributor.githubAccount }}">{{ contributor.githubName }}</a>
+													</td>
+													<td>{{ nbPullRequests[contributor.id] }}</td>
 												</tr>
 											{% endfor %}
 										</tbody>
@@ -77,9 +81,11 @@
 											</tr>
 										</thead>
 										<tbody>
-											{% for pullRequest in project.pullRequests %}
+											{% for pullRequest in pullRequestTrie %}
 												<tr>
-													<td>{{ pullRequest.name }}</td>
+													<td>
+														<a href="{{ path('pull_request_show', {id: pullRequest.id}) }}">{{ pullRequest.name }}</a>
+													</td>
 													<td>
 														<a href="{{ pullRequest.url }}">{{ pullRequest.url }}</a>
 													</td>

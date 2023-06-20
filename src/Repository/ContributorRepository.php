@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Contributor;
+use App\Entity\Project;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -37,5 +38,16 @@ class ContributorRepository extends ServiceEntityRepository
         if ($flush) {
             $this->getEntityManager()->flush();
         }
+    }
+
+    public function getContributorsInProject(Project $project): array
+    {
+        return $this->createQueryBuilder('c')
+            ->innerJoin('c.projects', 'p')
+            ->where('p.id = :projectId')
+            ->setParameter('projectId', $project->getId())
+            ->orderBy('c.name', 'ASC')
+            ->getQuery()
+            ->getResult();
     }
 }
