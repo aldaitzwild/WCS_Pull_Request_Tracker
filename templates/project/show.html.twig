@@ -29,10 +29,14 @@
 							<p class="font-text">{{ project.name }}</p>
 						</div>
 						<div class="col d-flex flex-column mb-4 ">
+<<<<<<< HEAD
 							<h1 class="project-title align-self-center m-0">
 								<b>Project Github</b>
 							</h1>
 							<a class="font-link align-self-center" href="{{ project.githubLink }}">Github</a>
+=======
+							<a class="project-link align-self-center" href="{{ project.githubLink }}">Github</a>
+>>>>>>> 67e025c81215898dec169800d2eb35ba64a52d30
 						</div>
 						<div class="col d-flex flex-column mb-4">
 							<h1 class="project-title align-self-end m-0">
@@ -73,6 +77,7 @@
 							<button class="btn btn-secondary w-100" type="button" data-bs-toggle="collapse" data-bs-target="#listPrCollapse" aria-expanded="false" aria-controls="listPrCollapse">
 								List of PR
 							</button>
+<<<<<<< HEAD
 							<div class="card card-body" id="listPrCollapse">
 								<table class="table">
 									<thead>
@@ -96,10 +101,37 @@
 														<i class="bi bi-circle-fill text-danger"></i>
 													{% endif %}
 												</td>
+=======
+							<div class="collapse" id="listPrCollapse">
+								<div class="card card-body">
+									<table class="table">
+										<thead>
+											<tr>
+												<th>Pull Request Name</th>
+												<th>URL</th>
+												<th>Status</th>
+>>>>>>> 67e025c81215898dec169800d2eb35ba64a52d30
 											</tr>
-										{% endfor %}
-									</tbody>
-								</table>
+										</thead>
+										<tbody>
+											{% for pullRequest in project.pullRequests %}
+												<tr>
+													<td>{{ pullRequest.name }}</td>
+													<td>
+														<a href="{{ pullRequest.url }}">{{ pullRequest.url }}</a>
+													</td>
+													<td>
+														{% if pullRequest.status == 'open' %}
+															<i class="bi bi-circle-fill text-success"></i>
+														{% elseif pullRequest.status == 'closed' %}
+															<i class="bi bi-circle-fill text-danger"></i>
+														{% endif %}
+													</td>
+												</tr>
+											{% endfor %}
+										</tbody>
+									</table>
+								</div>
 							</div>
 						</div>
 					</div>
