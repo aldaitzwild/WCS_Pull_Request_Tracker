@@ -16,16 +16,16 @@
 						<h1 class="project-title align-self-center m-0">
 							<b>Project</b>
 						</h1>
-						<a class="project-name align-self-center link-dark" href="{{ path('project_show', {id:project.id}) }}">{{ project.name }}</a>
+						<a class="font-text align-self-center link-dark" href="{{ path('project_show', {id:project.id}) }}">{{ project.name }}</a>
 					</div>
 					<div class="d-flex flex-column">
-						<a class="project-link align-self-center" href="{{ project.githubLink }}">Github</a>
+						<a class="font-link align-self-center" href="{{ project.githubLink }}">Github</a>
 					</div>
 					<div class="d-flex flex-column">
 						<h1 class="project-title align-self-center m-0">
 							<b>Last PR</b>
 						</h1>
-						<p class="pr-project align-self-center">TODO: PR</p>
+						<p class="font-text align-self-center">TODO: PR</p>
 					</div>
 				</div>
 			{% endfor %}

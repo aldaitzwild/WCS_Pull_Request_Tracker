@@ -107,15 +107,15 @@ label {
   font-size: calc(1em + 1vw);
 }
 
-/* ---------- PROJECT LINK ---------- */
+/* ---------- LINK ---------- */
 
-.project-link {
+.font-link {
   font-size: calc(1em + 1vw);
 }
 
-/* ---------- PROJECT PR ---------- */
+/* ---------- TEXT ---------- */
 
-.pr-project {
+.font-text {
   font-size: calc(0.3em + 1vw);
 }
 
@@ -123,12 +123,6 @@ label {
 
 .add-link, .btn-add, .delete-project-button {
   font-size: calc(1.4rem + 1vw);
-}
-
-/* ---------- SHOW PROJECT PAGE ---------- */
-
-.project-name {
-  font-size: calc(0.3rem + 1vw);
 }
 
 /* ---------- SEARCH MODAL ---------- */
@@ -154,16 +148,4 @@ label {
 
 .connect-input-form {
   width: calc(15em + 15vw);
-}
-
-/* ---------- CONTRIBUTOR LINK ---------- */
-
-.contributor-link {
-  font-size: calc(0.3em + 1vw);
-}
-
-/* ---------- CONTRIBUTOR PR ---------- */
-
-.pr-contributor {
-  font-size: calc(0.3em + 1vw);
 }
