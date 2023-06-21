@@ -29,7 +29,7 @@
 								</h1>
 								<p class="pr-project align-self-end m-0">
 									{% if last_prs[project.id] %}
-										{{ last_prs[project.id].name }}
+										{{ (last_prs[project.id].name|slice(0, 30)) ~ '...'  }}
 									{% else %}
 										Pas de PR pour ce projet.
 									{% endif %}

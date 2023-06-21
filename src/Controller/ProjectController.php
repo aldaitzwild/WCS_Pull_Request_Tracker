@@ -30,7 +30,7 @@ class ProjectController extends AbstractController
             $lastPRs = [];
 
             foreach ($projects as $project) {
-                $lastPRs[$project->getId()] = $pullRequestRepository->findLastPR($project);
+                $lastPRs[$project->getId()] = $pullRequestRepository->findLastPRForProject($project);
             }
             return $this->render('project/index.html.twig', [
                 'projects' => $projects,
@@ -69,7 +69,7 @@ class ProjectController extends AbstractController
         ContributorRepository $contributorRepository,
         PullRequestRepository $pullRequestRepository
     ): Response {
-        $contributors = $contributorRepository->getContributorsInProject($project);
+        $contributors = $contributorRepository->getContributorsInProjectByOrderAlph($project);
 
         $nbPullRequests = [];
         foreach ($contributors as $contributor) {
@@ -77,7 +77,7 @@ class ProjectController extends AbstractController
             $nbPullRequests[$contributor->getId()] = $nbPullRequest;
         }
 
-        $pullRequestSort = $pullRequestRepository->getSortedPullRequests($project);
+        $pullRequestSort = $pullRequestRepository->getSortedPullRequestsForProject($project);
 
         return $this->render('project/show.html.twig', [
             'project' => $project,

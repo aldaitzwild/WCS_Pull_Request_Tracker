@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\Contributor;
 use App\Entity\Project;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -63,5 +64,16 @@ class ProjectRepository extends ServiceEntityRepository
             }
             $this->remove($existentProject, true);
         }
+    }
+
+    public function getProjectsInContributorByOrderAlph(Contributor $contributor): array
+    {
+        return $this->createQueryBuilder('p')
+            ->innerJoin('p.contributors', 'c')
+            ->where('c.id = :contributorId')
+            ->setParameter('contributorId', $contributor->getId())
+            ->orderBy('p.name', 'ASC')
+            ->getQuery()
+            ->getResult();
     }
 }

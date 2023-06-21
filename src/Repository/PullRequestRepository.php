@@ -41,12 +41,12 @@ class PullRequestRepository extends ServiceEntityRepository
         }
     }
 
-    public function findLastPR($project)
+    public function findLastPRForProject($project)
     {
-        return $this->createQueryBuilder('p')
-            ->where('p.project = :project')
+        return $this->createQueryBuilder('pr')
+            ->where('pr.project = :project')
             ->setParameter('project', $project)
-            ->orderBy('p.createdAt', 'DESC')
+            ->orderBy('pr.createdAt', 'DESC')
             ->setMaxResults(1)
             ->getQuery()
             ->getOneOrNullResult();
@@ -66,7 +66,7 @@ class PullRequestRepository extends ServiceEntityRepository
             ->getSingleScalarResult();
     }
 
-    public function getSortedPullRequests(Project $project): array
+    public function getSortedPullRequestsForProject(Project $project): array
     {
         return $this->createQueryBuilder('pr')
             ->where('pr.project = :project')
@@ -74,5 +74,26 @@ class PullRequestRepository extends ServiceEntityRepository
             ->orderBy('pr.status', 'DESC')
             ->getQuery()
             ->getResult();
+    }
+
+    public function getSortedPullRequestsForContributor(Contributor $contributor): array
+    {
+        return $this->createQueryBuilder('pr')
+            ->where('pr.contributor = :contributor')
+            ->setParameter('contributor', $contributor)
+            ->orderBy('pr.status', 'DESC')
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function findLastPRForContributor($contributor)
+    {
+        return $this->createQueryBuilder('pr')
+            ->where('pr.contributor = :contributor')
+            ->setParameter('contributor', $contributor)
+            ->orderBy('pr.createdAt', 'DESC')
+            ->setMaxResults(1)
+            ->getQuery()
+            ->getOneOrNullResult();
     }
 }

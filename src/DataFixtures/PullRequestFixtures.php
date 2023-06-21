@@ -19,10 +19,16 @@ class PullRequestFixtures extends Fixture implements DependentFixtureInterface
             $pullRequest = new PullRequest();
             $pullRequest->setName($faker->words(10, true));
             $pullRequest->setUrl('https://github.com');
-            $pullRequest->setStatus($faker->randomElement(['open', 'closed']));
+            $status = $faker->randomElement(['open', 'closed']);
+            $pullRequest->setStatus($status);
             $createdAt = $faker->dateTimeBetween('-1 years', 'now');
             $pullRequest->setCreatedAt(DateTimeImmutable::createFromMutable($createdAt));
-            $pullRequest->setIsMerged($faker->boolean);
+            // ensure that the pr cannot be merged if it is open
+            if ($status === 'open') {
+                $pullRequest->setIsMerged(false);
+            } else {
+                $pullRequest->setIsMerged($faker->boolean);
+            }
             // Randomly select a contributor
             $contributor = $this->getReference('contributor_' . rand(0, 10));
             // Choose a project associated with this contributor
