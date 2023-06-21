@@ -13,7 +13,6 @@ use Symfony\Component\Routing\Annotation\Route;
 use App\Repository\ProjectRepository;
 use App\Repository\PullRequestRepository;
 use App\Service\FetchGithubService;
-use App\Service\PullRequestManager;
 
 #[IsGranted('ROLE_USER')]
 #[Route('/project', name: 'project_')]
@@ -65,19 +64,26 @@ class ProjectController extends AbstractController
     }
 
     #[Route('/{id}', name: 'show')]
-    public function showProject(Project $project, PullRequestManager $pullRequestService): Response
-    {
-        $contributors = $pullRequestService->getContributorsWithPRInProject($project);
+    public function showProject(
+        Project $project,
+        ContributorRepository $contributorRepository,
+        PullRequestRepository $pullRequestRepository
+    ): Response {
+        $contributors = $contributorRepository->getContributorsInProject($project);
 
         $nbPullRequests = [];
         foreach ($contributors as $contributor) {
-            $nbPullRequest = $pullRequestService->getNbOfPrForContributorInOneProject($contributor, $project);
+            $nbPullRequest = $pullRequestRepository->getNbOfPrForContributorInOneProject($contributor, $project);
             $nbPullRequests[$contributor->getId()] = $nbPullRequest;
         }
+
+        $pullRequestSort = $pullRequestRepository->getSortedPullRequests($project);
+
         return $this->render('project/show.html.twig', [
             'project' => $project,
             'contributors' => $contributors,
             'nbPullRequests' => $nbPullRequests,
+            'pullRequestSort' => $pullRequestSort,
         ]);
     }
 
