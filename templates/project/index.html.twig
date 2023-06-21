@@ -12,27 +12,31 @@
 			{% include "component/_toast.html.twig" %}
 			{% for project in projects %}
 				<div class=" col bg-white border border-dark d-flex flex-row align-items-center justify-content-between align-content-center p-1 p-md-2 p-lg-4 my-2">
-				<div class="container-fluid">
-					<div class="row row-cols-3 d-flex justify-content-between mt-2">
-						<div class="col d-flex flex-column  mb-4">
-							<h1 class="project-title align-self-start m-0">
-								<b>Project</b>
-							</h1>
-							<a class="project-name align-self-start link-dark" href="{{ path('project_show', {id:project.id}) }}">{{ project.name }}</a>
-						</div>
-						<div class="col d-flex flex-column  mb-4">
-							<a class="project-link align-self-center" href="{{ project.githubLink }}">Github</a>
-						</div>
-						<div class="col d-flex flex-column  mb-4">
-							<h1 class="project-title align-self-center m-0">
-								<b>Last PR</b>
-							</h1>
-							<p class="pr-project align-self-end m-0">
-									{{ last_prs[project.id].name }}
-							</p>
+					<div class="container-fluid">
+						<div class="row row-cols-3 d-flex justify-content-between mt-2">
+							<div class="col d-flex flex-column  mb-4">
+								<h1 class="project-title align-self-start m-0">
+									<b>Project</b>
+								</h1>
+								<a class="project-name align-self-start link-dark" href="{{ path('project_show', {id:project.id}) }}">{{ project.name }}</a>
+							</div>
+							<div class="col d-flex flex-column  mb-4">
+								<a class="project-link align-self-center" href="{{ project.githubLink }}">Github</a>
+							</div>
+							<div class="col d-flex flex-column  mb-4">
+								<h1 class="project-title align-self-center m-0">
+									<b>Last PR</b>
+								</h1>
+								<p class="pr-project align-self-end m-0">
+									{% if last_prs[project.id] %}
+										{{ last_prs[project.id].name }}
+									{% else %}
+										Pas de PR pour ce projet.
+									{% endif %}
+								</p>
+							</div>
 						</div>
 					</div>
-				</div>
 				</div>
 			{% endfor %}
 		</div>
