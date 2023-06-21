@@ -77,13 +77,13 @@ class ProjectController extends AbstractController
             $nbPullRequests[$contributor->getId()] = $nbPullRequest;
         }
 
-        $pullRequestTrie = $pullRequestRepository->getSortedPullRequests($project);
+        $pullRequestSort = $pullRequestRepository->getSortedPullRequests($project);
 
         return $this->render('project/show.html.twig', [
             'project' => $project,
             'contributors' => $contributors,
             'nbPullRequests' => $nbPullRequests,
-            'pullRequestTrie' => $pullRequestTrie,
+            'pullRequestSort' => $pullRequestSort,
         ]);
     }
 

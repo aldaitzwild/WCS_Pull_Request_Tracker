@@ -81,7 +81,7 @@
 											</tr>
 										</thead>
 										<tbody>
-											{% for pullRequest in pullRequestTrie %}
+											{% for pullRequest in pullRequestSort %}
 												<tr>
 													<td>
 														<a href="{{ path('pull_request_show', {id: pullRequest.id}) }}">{{ pullRequest.name }}</a>
