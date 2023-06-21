@@ -75,4 +75,12 @@ class PullRequestRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
+
+    public function getPullRequestsByOrderStatus(): array
+    {
+        return $this->createQueryBuilder('pr')
+            ->orderBy('pr.status', 'DESC')
+            ->getQuery()
+            ->getResult();
+    }
 }

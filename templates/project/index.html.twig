@@ -18,16 +18,16 @@
 								<h1 class="project-title align-self-start m-0">
 									<b>Project</b>
 								</h1>
-								<a class="project-name align-self-start link-dark" href="{{ path('project_show', {id:project.id}) }}">{{ project.name }}</a>
+								<a class="font-text align-self-start link-dark" href="{{ path('project_show', {id:project.id}) }}">{{ project.name }}</a>
 							</div>
 							<div class="col d-flex flex-column  mb-4">
-								<a class="project-link align-self-center" href="{{ project.githubLink }}">Github</a>
+								<a class="font-link align-self-center" href="{{ project.githubLink }}">Github</a>
 							</div>
 							<div class="col d-flex flex-column  mb-4">
 								<h1 class="project-title align-self-center m-0">
 									<b>Last PR</b>
 								</h1>
-								<p class="pr-project align-self-end m-0">
+								<p class="font-text align-self-end m-0">
 									{% if last_prs[project.id] %}
 										{{ last_prs[project.id].name }}
 									{% else %}
