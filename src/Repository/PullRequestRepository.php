@@ -2,6 +2,8 @@
 
 namespace App\Repository;
 
+use App\Entity\Contributor;
+use App\Entity\Project;
 use App\Entity\PullRequest;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -48,5 +50,37 @@ class PullRequestRepository extends ServiceEntityRepository
             ->setMaxResults(1)
             ->getQuery()
             ->getOneOrNullResult();
+    }
+
+    public function getNbOfPrForContributorInOneProject(Contributor $contributor, Project $project): int
+    {
+        return $this->createQueryBuilder('pr')
+            ->select('count(pr.id)')
+            ->where('pr.contributor = :contributor')
+            ->andWhere('pr.project = :project')
+            ->setParameters([
+                'contributor' => $contributor,
+                'project' => $project,
+            ])
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
+
+    public function getSortedPullRequests(Project $project): array
+    {
+        return $this->createQueryBuilder('pr')
+            ->where('pr.project = :project')
+            ->setParameter('project', $project)
+            ->orderBy('pr.status', 'DESC')
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function getPullRequestsByOrderStatus(): array
+    {
+        return $this->createQueryBuilder('pr')
+            ->orderBy('pr.status', 'DESC')
+            ->getQuery()
+            ->getResult();
     }
 }

@@ -9,7 +9,7 @@
 			<div class="row row-cols-1 d-flex justify-content-between">
 				<div class="col d-flex flex-column mb-4">
 					<a class="font-text align-self-center" href="{{ pullRequest.url }}">{{ pullRequest.name }}
-						{% if pullRequest.isMerged %}
+						{% if pullRequest.status == "closed" %}
 							<i class="align-self-end pe-4 bi bi-circle-fill text-danger fs-4"></i>
 						{% else %}
 							<i class="align-self-end pe-4 bi bi-circle-fill text-success fs-4"></i>

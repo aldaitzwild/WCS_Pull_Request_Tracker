@@ -22,19 +22,19 @@ class PullRequestFixtures extends Fixture implements DependentFixtureInterface
             $pullRequest->setStatus($faker->randomElement(['open', 'closed']));
             $createdAt = $faker->dateTimeBetween('-1 years', 'now');
             $pullRequest->setCreatedAt(DateTimeImmutable::createFromMutable($createdAt));
-
             $pullRequest->setIsMerged($faker->boolean);
-
-            // Assumes at least one project and one contributor
-            $project = $this->getReference('project_' . $faker->randomElement(ProjectFixtures::$projects));
-            $pullRequest->setProject($project);
-
-            $contributor = $this->getReference('contributor_' . rand(0, 22));
-            $pullRequest->setContributor($contributor);
-
-            $manager->persist($pullRequest);
+            // Randomly select a contributor
+            $contributor = $this->getReference('contributor_' . rand(0, 10));
+            // Choose a project associated with this contributor
+            $projects = $contributor->getProjects();
+            // Check if the contributor has associated projects
+            if (!$projects->isEmpty()) {
+                $project = $faker->randomElement($projects->toArray());
+                $pullRequest->setProject($project);
+                $pullRequest->setContributor($contributor);
+                $manager->persist($pullRequest);
+            }
         }
-
         $manager->flush();
     }
 

@@ -30,7 +30,7 @@
 									<h1 class="project-title align-self-end m-0">
 										<b>status</b>
 									</h1>
-									{% if pr.isMerged %}
+									{% if pr.status == "closed" %}
 										<i class="align-self-end pe-4 bi bi-circle-fill text-danger fs-4"></i>
 									{% else %}
 										<i class="align-self-end pe-4 bi bi-circle-fill text-success fs-4"></i>
