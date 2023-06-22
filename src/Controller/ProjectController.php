@@ -69,7 +69,7 @@ class ProjectController extends AbstractController
         ContributorRepository $contributorRepository,
         PullRequestRepository $pullRequestRepository
     ): Response {
-        $contributors = $contributorRepository->getContributorsInProjectByOrderAlph($project);
+        $contributors = $contributorRepository->getContributorsInProjectByOrderAlphabetic($project);
 
         $nbPullRequests = [];
         foreach ($contributors as $contributor) {

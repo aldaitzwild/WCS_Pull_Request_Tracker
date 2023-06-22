@@ -40,7 +40,7 @@ class ContributorRepository extends ServiceEntityRepository
         }
     }
 
-    public function getContributorsInProjectByOrderAlph(Project $project): array
+    public function getContributorsInProjectByOrderAlphabetic(Project $project): array
     {
         return $this->createQueryBuilder('c')
             ->innerJoin('c.projects', 'p')

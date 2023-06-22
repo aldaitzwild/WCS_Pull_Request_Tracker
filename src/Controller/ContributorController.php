@@ -64,7 +64,7 @@ class ContributorController extends AbstractController
         PullRequestRepository $pullRequestRepository,
         ProjectRepository $projectRepository
     ): Response {
-        $projects = $projectRepository->getProjectsInContributorByOrderAlph($contributor) ;
+        $projects = $projectRepository->getProjectsInContributorByOrderAlphabetic($contributor) ;
         $pullRequestsSort = $pullRequestRepository->getSortedPullRequestsForContributor($contributor);
 
 
