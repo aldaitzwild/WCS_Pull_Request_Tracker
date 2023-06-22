@@ -26,7 +26,7 @@
 							<h1 class="project-title m-0">
 								<b>Project</b>
 							</h1>
-							<p class="font-text">{{ project.name }}</p>
+							<p class="font-link">{{ project.name }}</p>
 						</div>
 						<div class="col d-flex flex-column mb-4 ">
 							<a class="font-link align-self-center" href="{{ project.githubLink }}">Github</a>
@@ -35,7 +35,7 @@
 							<h1 class="project-title align-self-end m-0">
 								<b>Created At</b>
 							</h1>
-							<p class="font-text align-self-end">{{ project.createdAt | date('d-m-Y') }}</p>
+							<p class="font-link align-self-end">{{ project.createdAt | date('d-m-Y') }}</p>
 						</div>
 					</div>
 					<div class="col d-flex flex-column mb-4 ">
