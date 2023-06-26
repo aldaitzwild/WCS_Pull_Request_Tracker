@@ -29,11 +29,14 @@ class Contributor
 
     #[ORM\OneToMany(mappedBy: 'contributor', targetEntity: PullRequest::class)]
     private Collection $pullRequests;
+    #[ORM\OneToMany(mappedBy: 'contributor', targetEntity: Note::class, orphanRemoval: true)]
+    private Collection $notes;
 
     public function __construct()
     {
         $this->projects = new ArrayCollection();
         $this->pullRequests = new ArrayCollection();
+        $this->notes = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -128,6 +131,36 @@ class Contributor
             // set the owning side to null (unless already changed)
             if ($pullRequest->getContributor() === $this) {
                 $pullRequest->setContributor(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Note>
+     */
+    public function getNotes(): Collection
+    {
+        return $this->notes;
+    }
+
+    public function addNote(Note $note): self
+    {
+        if (!$this->notes->contains($note)) {
+            $this->notes->add($note);
+            $note->setContributor($this);
+        }
+
+        return $this;
+    }
+
+    public function removeNote(Note $note): self
+    {
+        if ($this->notes->removeElement($note)) {
+// set the owning side to null (unless already changed)
+            if ($note->getContributor() === $this) {
+                $note->setContributor(null);
             }
         }
 
