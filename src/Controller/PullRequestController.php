@@ -16,14 +16,14 @@ class PullRequestController extends AbstractController
     #[Route('/', name: 'index')]
 
     public function index(
-      PullRequestRepository $pullRequestRepository,
-      PullRequestRepository $pullRequestRepository
+        PullRequestRepository $pullRequestRepository,
+        FetchGithubService $fetchGithubService
     ): Response {
         $fetchGithubService->fetchAllPullRequest();
         $pullRequests = $pullRequestRepository->getPullRequestsByOrderStatus();
 
         return $this->render('pull_request/index.html.twig', [
-            'pullRequests' => $allPullRequests
+            'pullRequests' => $pullRequests
         ]);
     }
 
