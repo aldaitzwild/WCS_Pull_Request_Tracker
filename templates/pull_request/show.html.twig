@@ -8,14 +8,13 @@
 		<div class="container-fluid">
 			<div class="row row-cols-1 d-flex justify-content-between">
 				<div class="col d-flex flex-column mb-4">
-					<a class="font-text align-self-center" href="{{ pullRequest.url }}">{{ pullRequest.name }}
+					<a class="font-text align-self-center" href="{{ pullRequest.url }}" target="_blank">{{ pullRequest.name }}
 						{% if pullRequest.status == "closed" %}
 							<i class="align-self-end pe-4 bi bi-circle-fill text-danger fs-4"></i>
 						{% else %}
 							<i class="align-self-end pe-4 bi bi-circle-fill text-success fs-4"></i>
 						{% endif %}
 					</a>
-					<p class="font-text contributors-list align-self-center">Feat_view_one_project</p>
 				</div>
 			</div>
 
