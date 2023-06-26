@@ -14,12 +14,13 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 class PullRequestController extends AbstractController
 {
     #[Route('/', name: 'index')]
+
     public function index(
-        PullRequestRepository $pullRequestRepository,
-        FetchGithubService $fetchGithubService
+      PullRequestRepository $pullRequestRepository,
+      PullRequestRepository $pullRequestRepository
     ): Response {
         $fetchGithubService->fetchAllPullRequest();
-        $allPullRequests = $pullRequestRepository->findAll();
+        $pullRequests = $pullRequestRepository->getPullRequestsByOrderStatus();
 
         return $this->render('pull_request/index.html.twig', [
             'pullRequests' => $allPullRequests

@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Contributor;
+use App\Entity\Project;
 use App\Repository\ContributorRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -10,18 +11,28 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Form\ContributorType;
+use App\Repository\ProjectRepository;
+use App\Repository\PullRequestRepository;
 
 #[IsGranted('ROLE_USER')]
 #[Route('/contributor', name: 'contributor_')]
 class ContributorController extends AbstractController
 {
     #[Route('/', name: 'index')]
-    public function index(ContributorRepository $contributorRepository): Response
-    {
+    public function index(
+        ContributorRepository $contributorRepository,
+        PullRequestRepository $pullRequestRepository
+    ): Response {
         $contributors = $contributorRepository->findAll();
+        $lastPRs = [];
+
+        foreach ($contributors as $contributor) {
+            $lastPRs[$contributor->getId()] = $pullRequestRepository->findLastPRForContributor($contributor);
+        }
 
         return $this->render('contributor/index.html.twig', [
             'contributors' => $contributors,
+            'last_prs' => $lastPRs,
         ]);
     }
 
@@ -48,11 +59,19 @@ class ContributorController extends AbstractController
     }
 
     #[Route('/{id}', name: 'show')]
-    public function showContributor(Contributor $contributor): Response
-    {
+    public function showContributor(
+        Contributor $contributor,
+        PullRequestRepository $pullRequestRepository,
+        ProjectRepository $projectRepository
+    ): Response {
+        $projects = $projectRepository->getProjectsInContributorByOrderAlphabetic($contributor) ;
+        $pullRequestsSort = $pullRequestRepository->getSortedPullRequestsForContributor($contributor);
+
 
         return $this->render('contributor/show.html.twig', [
             'contributor' => $contributor,
+            'pullRequests' => $pullRequestsSort,
+            'projects' => $projects,
         ]);
     }
 

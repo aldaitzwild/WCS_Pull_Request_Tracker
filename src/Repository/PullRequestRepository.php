@@ -88,14 +88,67 @@ class PullRequestRepository extends ServiceEntityRepository
         }
     }
 
-    public function findLastPR($project)
+    public function findLastPRForProject($project)
     {
-        return $this->createQueryBuilder('p')
-            ->where('p.project = :project')
+        return $this->createQueryBuilder('pr')
+            ->where('pr.project = :project')
             ->setParameter('project', $project)
-            ->orderBy('p.createdAt', 'DESC')
+            ->orderBy('pr.createdAt', 'DESC')
             ->setMaxResults(1)
             ->getQuery()
             ->getOneOrNullResult();
+    }
+
+    public function getNbOfPrForContributorInOneProject(Contributor $contributor, Project $project): int
+    {
+        return $this->createQueryBuilder('pr')
+            ->select('count(pr.id)')
+            ->where('pr.contributor = :contributor')
+            ->andWhere('pr.project = :project')
+            ->setParameters([
+                'contributor' => $contributor,
+                'project' => $project,
+            ])
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
+
+    public function getSortedPullRequestsForProject(Project $project): array
+    {
+        return $this->createQueryBuilder('pr')
+            ->where('pr.project = :project')
+            ->setParameter('project', $project)
+            ->orderBy('pr.status', 'DESC')
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function getSortedPullRequestsForContributor(Contributor $contributor): array
+    {
+        return $this->createQueryBuilder('pr')
+            ->where('pr.contributor = :contributor')
+            ->setParameter('contributor', $contributor)
+            ->orderBy('pr.status', 'DESC')
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function findLastPRForContributor($contributor)
+    {
+        return $this->createQueryBuilder('pr')
+            ->where('pr.contributor = :contributor')
+            ->setParameter('contributor', $contributor)
+            ->orderBy('pr.createdAt', 'DESC')
+            ->setMaxResults(1)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
+
+    public function getPullRequestsByOrderStatus(): array
+    {
+        return $this->createQueryBuilder('pr')
+            ->orderBy('pr.status', 'DESC')
+            ->getQuery()
+            ->getResult();
     }
 }

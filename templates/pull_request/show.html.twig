@@ -58,3 +58,56 @@
         </div>
     </div>
 {% endblock %}
+=======
+	<div class="col bg-white border border-dark d-flex flex-row align-items-center justify-content-between align-content-center p-1 p-md-2 p-lg-4 m-3 my-2">
+		<div class="container-fluid">
+			<div class="row row-cols-1 d-flex justify-content-between">
+				<div class="col d-flex flex-column mb-4">
+					<a class="font-text align-self-center" href="{{ pullRequest.url }}">{{ pullRequest.name }}
+						{% if pullRequest.status == "closed" %}
+							<i class="align-self-end pe-4 bi bi-circle-fill text-danger fs-4"></i>
+						{% else %}
+							<i class="align-self-end pe-4 bi bi-circle-fill text-success fs-4"></i>
+						{% endif %}
+					</a>
+					<p class="font-text contributors-list align-self-center">Feat_view_one_project</p>
+				</div>
+			</div>
+
+			<div class="row row-cols-3 d-flex justify-content-between">
+				<div class="col d-flex flex-column mb-4 ">
+					<h1 class="project-title align-self-start m-0">
+						<b>Project</b>
+					</h1>
+					<a class="font-link align-self-start" href="{{ path('project_show', {id: pullRequest.project.id}) }}">{{ pullRequest.project.name }}</a>
+				</div>
+            <div class="col d-flex flex-column mb-4">
+                <h1 class="project-title align-self-center m-0">
+                    <b>Author</b>
+                </h1>
+                {% if pullRequest.contributor is not null %}
+                    <a class="project-title contributor-link align-self-center"
+                       href="{{ path('contributor_show', {id: pullRequest.contributor.id}) }}">{{ pullRequest.contributor.name }}</a>
+                {% endif %}
+                <p class="project-title align-self-center text-danger">contributor not found</p>
+            </div>
+
+				<div class="col d-flex flex-column mb-4">
+					<h1 class="project-title align-self-end m-0">
+						<b>Merged</b>
+					</h1>
+					<p class="font-text contributors-list align-self-end">{{ pullRequest.isMerged ? 'Yes' : 'No' }}</p>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-md-6 offset-md-3 d-flex flex-column mb-4">
+					<h1 class="project-title align-self-center m-0">
+						<b>Created At</b>
+					</h1>
+					<p class="font-text align-self-center">{{ pullRequest.createdAt|date('d-m-Y') }}</p>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}

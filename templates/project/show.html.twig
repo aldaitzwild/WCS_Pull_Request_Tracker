@@ -23,15 +23,19 @@
 				<div class="container-fluid">
 					<div class="row row-cols-3 d-flex justify-content-between mt-2">
 						<div class="col d-flex flex-column text-start mb-4">
-							<h1 class="project-title m-0">Project</h1>
-							<p class="project-name">{{ project.name }}</p>
+							<h1 class="project-title m-0">
+								<b>Project</b>
+							</h1>
+							<p class="font-link">{{ project.name }}</p>
 						</div>
 						<div class="col d-flex flex-column mb-4 ">
-							<a class="project-link align-self-center" href="{{ project.githubLink }}">Github</a>
+							<a class="font-link align-self-center" href="{{ project.githubLink }}">Github</a>
 						</div>
 						<div class="col d-flex flex-column mb-4">
-							<h1 class="project-title align-self-end m-0">Created At</h1>
-							<p class="align-self-end">{{ project.createdAt | date('d-m-Y') }}</p>
+							<h1 class="project-title align-self-end m-0">
+								<b>Created At</b>
+							</h1>
+							<p class="font-link align-self-end">{{ project.createdAt | date('d-m-Y') }}</p>
 						</div>
 					</div>
 					<div class="col d-flex flex-column mb-4 ">
@@ -43,7 +47,7 @@
 								<div class="card card-body">
 									<table class="table">
 										<thead>
-											<tr>
+											<tr class="font-text">
 												<th>Name</th>
 												<th>Github Name</th>
 												<th>Nb of PR</th>
@@ -51,10 +55,14 @@
 										</thead>
 										<tbody>
 											{% for contributor in contributors %}
-												<tr>
-													<td>{{ contributor.name }}</td>
-													<td>{{ contributor.githubName }}</td>
-													<td>{{ nbPullRequests[contributor.id]|default('0') }}</td>
+												<tr class="font-link">
+													<td>
+														<a href="{{ path('contributor_show', {id: contributor.id}) }}">{{ contributor.name }}</a>
+													</td>
+													<td>
+														<a href="{{ contributor.githubAccount }}">{{ contributor.githubName }}</a>
+													</td>
+													<td>{{ nbPullRequests[contributor.id] }}</td>
 												</tr>
 											{% endfor %}
 										</tbody>
@@ -70,16 +78,18 @@
 								<div class="card card-body">
 									<table class="table">
 										<thead>
-											<tr>
+											<tr class="font-text">
 												<th>Pull Request Name</th>
 												<th>URL</th>
 												<th>Status</th>
 											</tr>
 										</thead>
 										<tbody>
-											{% for pullRequest in project.pullRequests %}
-												<tr>
-													<td>{{ pullRequest.name }}</td>
+											{% for pullRequest in pullRequestSort %}
+												<tr class="font-link">
+													<td>
+														<a href="{{ path('pull_request_show', {id: pullRequest.id}) }}">{{ pullRequest.name }}</a>
+													</td>
 													<td>
 														<a href="{{ pullRequest.url }}">{{ pullRequest.url }}</a>
 													</td>
