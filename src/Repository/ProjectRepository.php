@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Contributor;
 use App\Entity\Project;
+use DateTimeImmutable;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -40,6 +41,16 @@ class ProjectRepository extends ServiceEntityRepository
         }
     }
 
+    public function findAllGithubLink(): array
+    {
+        $result = $this->createQueryBuilder('p')
+            ->select('p.githubLink')
+            ->getQuery()
+            ->getResult();
+
+        return array_column($result, 'githubLink');
+    }
+
     public function checkIfExistAndSave(array $projects): void
     {
         foreach ($projects as $singleProject) {
@@ -47,6 +58,9 @@ class ProjectRepository extends ServiceEntityRepository
                 $project = new Project();
                 $project->setName($singleProject['name']);
                 $project->setGithubLink($singleProject['html_url']);
+                $createAt = $singleProject['created_at'];
+                $date = new DateTimeImmutable($createAt);
+                $project->setCreatedAt($date);
                 $this->save($project, true);
             }
         }
