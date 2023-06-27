@@ -31,7 +31,9 @@ body {
   text-align: justify;
 }
 
-ul, li, a {
+ul,
+li,
+a {
   list-style: none;
   text-decoration: none;
   padding-left: 0;
@@ -55,6 +57,7 @@ label {
   0% {
     opacity: 1;
   }
+
   100% {
     opacity: 0;
   }
@@ -71,7 +74,8 @@ label {
   box-shadow: var(--box-shadow-nav);
 }
 
-.navbar-title, .navbar-quote {
+.navbar-title,
+.navbar-quote {
   color: var(--text-color-white);
 }
 
@@ -121,7 +125,9 @@ label {
 
 /* ---------- PROJECT ADD PAGE + DELETE BUTTON---------- */
 
-.add-link, .btn-add, .delete-project-button {
+.add-link,
+.btn-add,
+.delete-project-button {
   font-size: calc(1.4rem + 1vw);
 }
 
@@ -148,4 +154,8 @@ label {
 
 .connect-input-form {
   width: calc(15em + 15vw);
+}
+
+.text-truncate {
+  max-width: 300px;
 }
