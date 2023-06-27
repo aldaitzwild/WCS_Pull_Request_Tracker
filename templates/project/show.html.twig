@@ -29,7 +29,7 @@
 							<p class="font-link">{{ project.name }}</p>
 						</div>
 						<div class="col d-flex flex-column mb-4 ">
-							<a class="font-link align-self-center" href="{{ project.githubLink }}">Github</a>
+							<a class="font-link align-self-center" href="{{ project.githubLink }}" target="_blank">View on github</a>
 						</div>
 						<div class="col d-flex flex-column mb-4">
 							<h1 class="project-title align-self-end m-0">
@@ -70,6 +70,9 @@
 								</div>
 							</div>
 						</div>
+						<div class="col d-flex flex-column mb-4">
+							<a class="btn btn-outline-primary w-25 align-self-center " href="#">Get All PR</a>
+						</div>
 						<div class="col d-flex flex-column mb-4 ">
 							<button class="btn btn-secondary w-100" type="button" data-bs-toggle="collapse" data-bs-target="#listPrCollapse" aria-expanded="false" aria-controls="listPrCollapse">
 								List of PR
@@ -91,7 +94,7 @@
 														<a href="{{ path('pull_request_show', {id: pullRequest.id}) }}">{{ pullRequest.name }}</a>
 													</td>
 													<td>
-														<a href="{{ pullRequest.url }}">{{ pullRequest.url }}</a>
+														<a href="{{ pullRequest.url }}">View github</a>
 													</td>
 													<td>
 														{% if pullRequest.status == 'open' %}

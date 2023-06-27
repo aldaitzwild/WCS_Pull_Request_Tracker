@@ -76,6 +76,7 @@
 									<thead>
 										<tr class="font-text">
 											<th>Pull Request Name</th>
+											<th>Project</th>
 											<th>URL</th>
 											<th>Status</th>
 										</tr>
@@ -87,7 +88,10 @@
 													<a href="{{ path('pull_request_show', {id: pullRequest.id}) }}">{{ pullRequest.name }}</a>
 												</td>
 												<td>
-													<a href="{{ pullRequest.url }}">{{ pullRequest.url }}</a>
+													<a href="{{ path('project_show', {id: pullRequest.project.id}) }}">{{ pullRequest.project.name }}</a>
+												</td>
+												<td>
+													<a href="{{ pullRequest.url }}">View github</a>
 												</td>
 												<td>
 													{% if pullRequest.status == 'open' %}
