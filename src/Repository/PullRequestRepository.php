@@ -148,6 +148,7 @@ class PullRequestRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder('pr')
             ->orderBy('pr.status', 'DESC')
+            ->addOrderBy('pr.createdAt', 'DESC')
             ->getQuery()
             ->getResult();
     }
