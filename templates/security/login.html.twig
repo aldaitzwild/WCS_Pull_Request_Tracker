@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Log in!{% endblock %}
+
+{% block body %}
+    <div class="container-fluid p-0">
+        <div class="row row-cols-lg-2 row-cols-1">
+            <div class="col login-left-container align-items-center justify-content-center vh-100 d-none d-lg-flex flex-column">
+                <img src="{{ asset('build/images/logo/logo.svg') }}" alt="This is a logo of github with eye patch."
+                     class="logo-connection">
+                <p class="text-white logo-text">Please sign in</p>
+            </div>
+            <div class="col d-flex justify-content-center align-items-center vh-100">
+                <form action="{{ path('login') }}" method="post" class="d-flex flex-column align-items-center">
+                    {% if error %}
+                        <div class="alert alert-danger w-75">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+                    {% endif %}
+                    <div class="w-100">
+                        <label class="mb-2" for="inputEmail">Email</label>
+                        <input type="email" value="{{ last_username }}" name="email" id="inputEmail"
+                               class="form-control connect-input-form"
+                               autocomplete="email" required autofocus>
+                    </div>
+                    <div class="w-100">
+                        <label class="my-2" for="inputPassword">Password</label>
+                        <input type="password" name="password" id="inputPassword"
+                               class="form-control connect-input-form"
+                               autocomplete="current-password" required>
+                    </div>
+                    <input type="hidden" name="_csrf_token"
+                           value="{{ csrf_token('authenticate') }}"
+                    >
+                    <button class="btn btn-lg btn-outline-primary mt-2 w-100" type="submit">
+                        Sign in
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,7 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit {{ contributor.name }}{% endblock %}
+
+{% block body %}
+    {% include 'contributor/_form.html.twig' with {'title' : 'Edit' } %}
+{% endblock %}

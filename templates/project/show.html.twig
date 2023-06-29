@@ -1,0 +1,118 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello ProjectController!
+{% endblock %}
+
+{% block body %}
+	<div class="container-fluid">
+		<div class="row row-cols-1">
+			<div class="row row-cols-3 d-flex justify-content-between align-items-center mt-3">
+				{% include "component/_toast.html.twig" %}
+				<div class="col d-flex flex-column mb-4">
+					<a class="btn btn-outline-warning add-link link-dark align-self-start" href="{{ path('project_edit', {id: project.id}) }}">Modify</a>
+				</div>
+				<div class="col d-flex flex-column mb-4 ">
+					{% include 'project/_modalSearch.html.twig' %}
+				</div>
+				<form class="col d-flex flex-column mb-4" method="POST" action="{{ path('project_delete', {'id': project.id}) }}" onsubmit="return confirm('Are you sure ?');">
+					<input type="hidden" name="_token" value="{{ csrf_token('_delete' ~ project.id) }}">
+					<button class="delete-project-button btn btn-outline-danger text-dark align-self-end">Delete</button>
+				</form>
+			</div>
+			<div class="col bg-white border border-dark d-flex flex-row align-items-center justify-content-between align-content-center p-1 p-md-2 p-lg-4 my-2">
+				<div class="container-fluid">
+					<div class="row row-cols-3 d-flex justify-content-between mt-2">
+						<div class="col d-flex flex-column text-start mb-4">
+							<h1 class="project-title m-0">
+								<b>Project</b>
+							</h1>
+							<p class="font-link">{{ project.name }}</p>
+						</div>
+						<div class="col d-flex flex-column mb-4 ">
+							<a class="font-link align-self-center" href="{{ project.githubLink }}" target="_blank">View on github</a>
+						</div>
+						<div class="col d-flex flex-column mb-4">
+							<h1 class="project-title align-self-end m-0">
+								<b>Created At</b>
+							</h1>
+							<p class="font-link align-self-end">{{ project.createdAt | date('d-m-Y') }}</p>
+						</div>
+					</div>
+					<div class="col d-flex flex-column mb-4 ">
+						<div class="col d-flex flex-column mb-4 ">
+							<button class="btn btn-secondary w-100" type="button" data-bs-toggle="collapse" data-bs-target="#contributorsCollapse" aria-expanded="false" aria-controls="contributorsCollapse">
+								Contributors
+							</button>
+							<div class="collapse" id="contributorsCollapse">
+								<div class="card card-body">
+									<table class="table">
+										<thead>
+											<tr class="font-text">
+												<th>Name</th>
+												<th>Github Name</th>
+												<th>Nb of PR</th>
+											</tr>
+										</thead>
+										<tbody>
+											{% for contributor in contributors %}
+												<tr class="font-link">
+													<td>
+														<a href="{{ path('contributor_show', {id: contributor.id}) }}">{{ contributor.name }}</a>
+													</td>
+													<td>
+														<a href="{{ contributor.githubAccount }}">{{ contributor.githubName }}</a>
+													</td>
+													<td>{{ nbPullRequests[contributor.id] }}</td>
+												</tr>
+											{% endfor %}
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+						<div class="col d-flex flex-column mb-4">
+							<a class="btn btn-outline-primary w-25 align-self-center " href="#">Get All PR</a>
+						</div>
+						<div class="col d-flex flex-column mb-4 ">
+							<button class="btn btn-secondary w-100" type="button" data-bs-toggle="collapse" data-bs-target="#listPrCollapse" aria-expanded="false" aria-controls="listPrCollapse">
+								List of PR
+							</button>
+							<div class="collapse" id="listPrCollapse">
+								<div class="card card-body">
+									<table class="table">
+										<thead>
+											<tr class="font-text">
+												<th>Pull Request Name</th>
+												<th>URL</th>
+												<th>Status</th>
+											</tr>
+										</thead>
+										<tbody>
+											{% for pullRequest in pullRequestSort %}
+												<tr class="font-link">
+													<td>
+														<a href="{{ path('pull_request_show', {id: pullRequest.id}) }}">{{ pullRequest.name }}</a>
+													</td>
+													<td>
+														<a href="{{ pullRequest.url }}">View github</a>
+													</td>
+													<td>
+														{% if pullRequest.status == 'open' %}
+															<i class="bi bi-circle-fill text-success"></i>
+														{% elseif pullRequest.status == 'closed' %}
+															<i class="bi bi-circle-fill text-danger"></i>
+														{% endif %}
+													</td>
+												</tr>
+											{% endfor %}
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}

@@ -1,0 +1,66 @@
+<?xml version="1.0"?>
+<ruleset name="PRTracker rule set"
+         xmlns="http://pmd.sf.net/ruleset/1.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://pmd.sf.net/ruleset/1.0.0
+                       http://pmd.sf.net/ruleset_xml_schema.xsd"
+         xsi:noNamespaceSchemaLocation="
+                       http://pmd.sf.net/ruleset_xml_schema.xsd">
+    <description>
+        TooManyFields: This rule limits the maximum number of fields (instance variables) in a class. Here, the maximum
+        value is set to 40.
+        ExcessivePublicCount: This rule is excluded, so it will not apply. It concerns an excessive number of public
+        methods and variables in a class.
+        ExcessiveClassComplexity: This rule is also excluded. It checks if a class's complexity (number of methods and
+        instance variables) is too high.
+        Superglobals: This rule is excluded. It concerns the use of PHP superglobals, such as $_GET, $_POST, etc.
+        CouplingBetweenObjects: This rule limits coupling between objects (the number of classes a class is linked to).
+        Here, the maximum value is set to 20.
+        ShortVariable: This rule concerns variable names that are too short. Here, it is modified to allow the variable
+        names "id" and "qb" as exceptions.
+        UnusedFormalParameter: This rule is excluded. It checks if a method has formal parameters not used in its body.
+        Lastly, there are exclusion patterns that prevent these rules from being applied to certain specific files or
+        folders:
+        src/Migrations
+        src/Kernel.php
+        src/Security
+    </description>
+    <rule ref="rulesets/codesize.xml">
+        <exclude name="TooManyFields"/>
+        <exclude name="ExcessivePublicCount"/>
+        <exclude name="ExcessiveClassComplexity"/>
+    </rule>
+    <rule ref="rulesets/codesize.xml/TooManyFields">
+        <properties>
+            <property name="maxfields" value="40"/>
+        </properties>
+    </rule>
+    <rule ref="rulesets/controversial.xml">
+        <exclude name="Superglobals"/>
+    </rule>
+    <rule ref="rulesets/design.xml/CouplingBetweenObjects">
+        <properties>
+            <property name="maximum" value="20"/>
+        </properties>
+    </rule>
+    <rule ref="rulesets/naming.xml">
+        <exclude name="ShortVariable"/>
+        <exclude name="LongVariable"/>
+    </rule>
+    <rule ref="rulesets/naming.xml/ShortVariable">
+        <properties>
+            <property name="exceptions" value="id,qb"/>
+        </properties>
+    </rule>
+    <rule ref="rulesets/naming.xml/LongVariable">
+        <properties>
+            <property name="maximum" value="30"/>
+        </properties>
+    </rule>
+    <rule ref="rulesets/unusedcode.xml">
+        <exclude name="UnusedFormalParameter"/>
+    </rule>
+    <exclude-pattern>src/Migrations</exclude-pattern>
+    <exclude-pattern>src/Kernel.php</exclude-pattern>
+    <exclude-pattern>src/Security</exclude-pattern>
+</ruleset>

@@ -1,0 +1,7 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Add new project{% endblock %}
+
+{% block body %}
+    {% include 'project/_form.html.twig' with { 'title' : 'Add'} %}
+{% endblock %}
