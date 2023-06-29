@@ -1,0 +1,53 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Smartphone index{% endblock %}
+
+{% block body %}
+    <h1>Smartphone index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Marque</th>
+                <th>Etat</th>
+                <th>Systeme</th>
+                <th>Stockage</th>
+                <th>Ram</th>
+                <th>Taille_ecran</th>
+                <th>Reseau</th>
+                <th>Photo</th>
+                <th>Prix</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for smartphone in smartphones %}
+            <tr>
+                <td>{{ smartphone.id }}</td>
+                <td>{{ smartphone.name }}</td>
+                <td>{{ smartphone.marque }}</td>
+                <td>{{ smartphone.etat }}</td>
+                <td>{{ smartphone.systeme }}</td>
+                <td>{{ smartphone.stockage }}</td>
+                <td>{{ smartphone.ram }}</td>
+                <td>{{ smartphone.tailleEcran }}</td>
+                <td>{{ smartphone.reseau }}</td>
+                <td>{{ smartphone.photo }}</td>
+                <td>{{ smartphone.prix }}</td>
+                <td>
+                    <a href="{{ path('app_smartphone_show', {'id': smartphone.id}) }}">show</a>
+                    <a href="{{ path('app_smartphone_edit', {'id': smartphone.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="12">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_smartphone_new') }}">Create new</a>
+{% endblock %}
