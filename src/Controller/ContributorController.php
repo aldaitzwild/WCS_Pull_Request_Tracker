@@ -70,6 +70,7 @@ class ContributorController extends AbstractController
     ): Response {
         $projects = $projectRepository->getProjectsInContributorByOrderAlphabetic($contributor);
         $pullRequestsSort = $pullRequestRepository->getSortedPullRequestsForContributor($contributor);
+        $notes = $noteRepository->findAll();
 
         $note = new Note();
         $note->setContributor($contributor);
@@ -86,6 +87,7 @@ class ContributorController extends AbstractController
             'contributor' => $contributor,
             'pullRequests' => $pullRequestsSort,
             'projects' => $projects,
+            'notes' => $notes,
             'noteForm' => $noteForm,
         ]);
     }
