@@ -26,7 +26,6 @@ class GithubAuthController extends AbstractController
         $user = $this->getUser();
         $userGithubId = $user->getGithubId();
         $userGithubSecret = $user->getGithubSecret();
-
         $githubSession = new GithubOauth2($userGithubId, $userGithubSecret);
 
         return $this->redirect($githubSession->getGithubLoginUrl());
@@ -49,7 +48,6 @@ class GithubAuthController extends AbstractController
         $userGithubSecret = $user->getGithubSecret();
 
         $githubSession = new GithubOauth2($userGithubId, $userGithubSecret);
-
         $githubSession->handleGithubCallback($code, $request->getSession());
 
         return $this->redirectToRoute('project_index');
