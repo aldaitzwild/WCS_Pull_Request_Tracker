@@ -23,7 +23,6 @@ class GithubOauth2
         $options = [
             'scope' => ['user', 'repo'],
         ];
-
         return $this->githubProvider->getAuthorizationUrl($options);
     }
 
@@ -33,12 +32,9 @@ class GithubOauth2
             $token = $this->githubProvider->getAccessToken('authorization_code', [
                 'code' => $code
             ]);
-
             $user = $this->githubProvider->getResourceOwner($token);
-
             $userArray = $user->toArray();
             $userArray['access_token'] = $token->getToken();
-
             $session->set('user', $userArray);
 
             return $userArray;

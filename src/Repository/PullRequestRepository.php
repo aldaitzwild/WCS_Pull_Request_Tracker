@@ -96,7 +96,7 @@ class PullRequestRepository extends ServiceEntityRepository
             ->orderBy('pr.createdAt', 'DESC')
             ->setMaxResults(1)
             ->getQuery()
-            ->getSingleResult();
+            ->getOneOrNullResult();
     }
 
     public function getNbOfPrForContributorInOneProject(Contributor $contributor, Project $project): int
@@ -141,7 +141,7 @@ class PullRequestRepository extends ServiceEntityRepository
             ->orderBy('pr.createdAt', 'DESC')
             ->setMaxResults(1)
             ->getQuery()
-            ->getSingleResult();
+            ->getOneOrNullResult();
     }
 
     public function getPullRequestsByOrderStatus(): array
