@@ -11,7 +11,11 @@
 					<div class="container-fluid">
 						<div class="row row-cols-1">
 							<div class="d-flex flex-column">
-								<a class="font-link align-self-center pb-4 " href="{{ path('pull_request_show', {id:pr.id}) }}" data-toggle="tooltip" data-placement="top" title="{{ pr.name }}">{{ pr.name }}</a>
+								<div class="d-flex flex-column">
+									<div class="d-flex flex-column">
+										<a class="font-link d-inline-block text-truncate align-self-center pb-4" href="{{ path('pull_request_show', {id:pr.id}) }}" data-bs-toggle="tooltip" title="{{ pr.name }}">{{ pr.name }}</a>
+									</div>
+								</div>
 							</div>
 							<div class="row row-cols-3">
 								<div class="d-flex flex-column">
