@@ -3,7 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Contributor;
-use App\Entity\Project;
+use App\Entity\Note;
 use App\Repository\ContributorRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -11,6 +11,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Form\ContributorType;
+use App\Form\NoteType;
+use App\Repository\NoteRepository;
 use App\Repository\ProjectRepository;
 use App\Repository\PullRequestRepository;
 
@@ -62,16 +64,31 @@ class ContributorController extends AbstractController
     public function showContributor(
         Contributor $contributor,
         PullRequestRepository $pullRequestRepository,
-        ProjectRepository $projectRepository
+        ProjectRepository $projectRepository,
+        NoteRepository $noteRepository,
+        Request $request
     ): Response {
-        $projects = $projectRepository->getProjectsInContributorByOrderAlphabetic($contributor) ;
+        $projects = $projectRepository->getProjectsInContributorByOrderAlphabetic($contributor);
         $pullRequestsSort = $pullRequestRepository->getSortedPullRequestsForContributor($contributor);
+        $notes = $noteRepository->findAll();
 
+        $note = new Note();
+        $note->setContributor($contributor);
+        $noteForm = $this->createForm(NoteType::class, $note);
+        $noteForm->handleRequest($request);
+
+        if ($noteForm->isSubmitted() && $noteForm->isValid()) {
+            $noteRepository->save($note, true);
+            $this->addFlash('success', 'The note has been added');
+            return $this->redirectToRoute('contributor_show', ['id' => $contributor->getId()]);
+        }
 
         return $this->render('contributor/show.html.twig', [
             'contributor' => $contributor,
             'pullRequests' => $pullRequestsSort,
             'projects' => $projects,
+            'notes' => $notes,
+            'noteForm' => $noteForm,
         ]);
     }
 
@@ -91,7 +108,8 @@ class ContributorController extends AbstractController
             $this->addFlash('success', 'Modification successful.');
 
             return $this->redirectToRoute('contributor_show', [
-                'id' => $contributor->getId()], Response::HTTP_SEE_OTHER);
+                'id' => $contributor->getId()
+            ], Response::HTTP_SEE_OTHER);
         }
 
         return $this->render('contributor/edit.html.twig', [

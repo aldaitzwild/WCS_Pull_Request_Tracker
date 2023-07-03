@@ -32,8 +32,9 @@
                 {% if pullRequest.contributor is not null %}
                     <a class="project-title contributor-link align-self-center"
                        href="{{ path('contributor_show', {id: pullRequest.contributor.id}) }}">{{ pullRequest.contributor.name }}</a>
-                {% endif %}
+                {% else %}
                 <p class="project-title align-self-center text-danger">contributor not found</p>
+				{% endif %}
             </div>
 
 				<div class="col d-flex flex-column mb-4">
