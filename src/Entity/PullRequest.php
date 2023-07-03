@@ -33,7 +33,7 @@ class PullRequest
     #[ORM\Column]
     private ?\DateTimeImmutable $createdAt = null;
 
-    #[ORM\Column]
+    #[ORM\Column(nullable: true)]
     private ?bool $isMerged = null;
 
     public function getId(): ?int
@@ -118,7 +118,7 @@ class PullRequest
         return $this->isMerged;
     }
 
-    public function setIsMerged(bool $isMerged): self
+    public function setIsMerged(?bool $isMerged): self
     {
         $this->isMerged = $isMerged;
 
