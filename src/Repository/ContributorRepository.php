@@ -17,10 +17,9 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class ContributorRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry, private ProjectRepository $projectRepository)
+    public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Contributor::class);
-        $this->projectRepository = $projectRepository;
     }
 
     public function save(Contributor $entity, bool $flush = false): void
@@ -52,9 +51,9 @@ class ContributorRepository extends ServiceEntityRepository
                 $contributor->setGithubName($contributorData['login']);
                 $this->save($contributor, true);
             }
-            if (!$project->getContributors()->contains($contributor)) {
-                $project->addContributor($contributor);
-                $this->projectRepository->save($project, true);
+            if (!$contributor->getProjects()->contains($project)) {
+                $contributor->addProject($project);
+                $this->save($contributor, true);
             }
         }
     }
