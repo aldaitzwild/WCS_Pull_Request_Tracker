@@ -49,7 +49,6 @@ class ContributorRepository extends ServiceEntityRepository
                 $contributor->setName($contributorData['login']);
                 $contributor->setGithubAccount($contributorData['html_url']);
                 $contributor->setGithubName($contributorData['login']);
-                $this->save($contributor, true);
             }
             if (!$contributor->getProjects()->contains($project)) {
                 $contributor->addProject($project);
