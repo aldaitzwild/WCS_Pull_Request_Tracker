@@ -54,8 +54,6 @@ class ProjectController extends AbstractController
         $session->set('fetched', false);
         return $this->redirectToRoute('project_index');
     }
-
-
     #[Route('/addProject', name: 'add')]
     public function addProject(ProjectRepository $projectRepository, Request $request): Response
     {
