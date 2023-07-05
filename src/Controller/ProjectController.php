@@ -13,6 +13,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use App\Repository\ProjectRepository;
 use App\Repository\PullRequestRepository;
 use App\Service\FetchGithubService;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 #[IsGranted('ROLE_USER')]
 #[Route('/project', name: 'project_')]
@@ -22,24 +23,38 @@ class ProjectController extends AbstractController
     public function index(
         FetchGithubService $fetchGithubService,
         ProjectRepository $projectRepository,
-        PullRequestRepository $pullRequestRepository
+        PullRequestRepository $pullRequestRepository,
+        SessionInterface $session
     ): Response {
+        if (!$session->get('fetched')) {
+            if ($fetchGithubService->fetchProject() === true) {
+                $projects = $projectRepository->findAll();
+                $lastPRs = [];
 
-        if ($fetchGithubService->fetchProject() === true) {
+                foreach ($projects as $project) {
+                    $lastPRs[$project->getId()] = $pullRequestRepository->findLastPRForProject($project);
+                }
+                $session->set('fetched', true);
+            }
+        } else {
             $projects = $projectRepository->findAll();
-            $lastPRs = [];
-
             foreach ($projects as $project) {
                 $lastPRs[$project->getId()] = $pullRequestRepository->findLastPRForProject($project);
             }
-            return $this->render('project/index.html.twig', [
-                'projects' => $projects,
-                'last_prs' => $lastPRs,
-            ]);
         }
-
-        throw $this->createNotFoundException("Can't fetch some project on github");
+        return $this->render('project/index.html.twig', [
+            'projects' => $projects,
+            'last_prs' => $lastPRs,
+        ]);
     }
+
+    #[Route('/refresh', name: 'refresh')]
+    public function refreshProject(SessionInterface $session): Response
+    {
+        $session->set('fetched', false);
+        return $this->redirectToRoute('project_index');
+    }
+
 
     #[Route('/addProject', name: 'add')]
     public function addProject(ProjectRepository $projectRepository, Request $request): Response
