@@ -28,7 +28,7 @@ class ProjectController extends AbstractController
     ): Response {
         if (!$session->get('fetched')) {
             if ($fetchGithubService->fetchProject() === true) {
-                $projects = $projectRepository->findAll();
+                $projects = $projectRepository->findBy([], ['createdAt' => 'DESC']);
                 $lastPRs = [];
 
                 foreach ($projects as $project) {
@@ -37,7 +37,7 @@ class ProjectController extends AbstractController
                 $session->set('fetched', true);
             }
         } else {
-            $projects = $projectRepository->findAll();
+            $projects = $projectRepository->findBy([], ['createdAt' => 'DESC']);
             foreach ($projects as $project) {
                 $lastPRs[$project->getId()] = $pullRequestRepository->findLastPRForProject($project);
             }
@@ -164,5 +164,13 @@ class ProjectController extends AbstractController
         $this->addFlash('success', 'Project deleted with success.');
 
         return $this->redirectToRoute('project_index', [], Response::HTTP_SEE_OTHER);
+    }
+
+    #[Route('/pull_request/{id}', name: 'update_pullRequests')]
+    public function updatePullRequest(FetchGithubService $fetchGithubService, Project $project): Response
+    {
+        $projectId = $project->getId();
+        $fetchGithubService->fetchPullRequestsByProject($projectId);
+        return $this->redirectToRoute('project_show', ['id' => $projectId]);
     }
 }
