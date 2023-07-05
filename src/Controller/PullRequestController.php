@@ -6,7 +6,6 @@ use App\Repository\PullRequestRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use App\Service\FetchGithubService;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
 #[IsGranted('ROLE_USER')]
@@ -16,11 +15,8 @@ class PullRequestController extends AbstractController
     #[Route('/', name: 'index')]
     public function index(
         PullRequestRepository $pullRequestRepository,
-        FetchGithubService $fetchGithubService
     ): Response {
-        $fetchGithubService->fetchAllPullRequest();
         $pullRequests = $pullRequestRepository->getPullRequestsOrderByStatus();
-      
         return $this->render('pull_request/index.html.twig', [
             'pullRequests' => $pullRequests
         ]);
