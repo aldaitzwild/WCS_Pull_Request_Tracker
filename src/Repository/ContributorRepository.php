@@ -40,6 +40,23 @@ class ContributorRepository extends ServiceEntityRepository
         }
     }
 
+    public function checkIfExistAndSave(array $contributors, Project $project): void
+    {
+        foreach ($contributors as $contributorData) {
+            $contributor = $this->findOneBy(['githubName' => $contributorData['login']]);
+            if (!$contributor) {
+                $contributor = new Contributor();
+                $contributor->setName($contributorData['login']);
+                $contributor->setGithubAccount($contributorData['html_url']);
+                $contributor->setGithubName($contributorData['login']);
+            }
+            if (!$contributor->getProjects()->contains($project)) {
+                $contributor->addProject($project);
+                $this->save($contributor, true);
+            }
+        }
+    }
+
     public function getContributorsInProjectByOrderAlphabetic(Project $project): array
     {
         return $this->createQueryBuilder('c')

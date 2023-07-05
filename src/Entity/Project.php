@@ -32,6 +32,8 @@ class Project
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $createdAt = null;
+    #[ORM\Column(length: 255)]
+    private ?string $fullName = null;
 
     public function __construct()
     {
@@ -131,6 +133,17 @@ class Project
     {
         $this->createdAt = $createdAt;
 
+        return $this;
+    }
+
+    public function getFullName(): ?string
+    {
+        return $this->fullName;
+    }
+
+    public function setFullName(string $fullName): self
+    {
+        $this->fullName = $fullName;
         return $this;
     }
 }

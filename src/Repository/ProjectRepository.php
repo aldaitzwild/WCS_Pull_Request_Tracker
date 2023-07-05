@@ -57,6 +57,7 @@ class ProjectRepository extends ServiceEntityRepository
             if (!$this->findOneBy(['name' => $singleProject['name']])) {
                 $project = new Project();
                 $project->setName($singleProject['name']);
+                $project->setFullName($singleProject['full_name']);
                 $project->setGithubLink($singleProject['html_url']);
                 $createAt = $singleProject['created_at'];
                 $date = new DateTimeImmutable($createAt);

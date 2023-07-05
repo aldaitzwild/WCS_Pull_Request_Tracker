@@ -2,6 +2,7 @@
 
 namespace App\Service;
 
+use App\Entity\Project;
 use App\Repository\ContributorRepository;
 use App\Repository\ProjectRepository;
 use App\Repository\PullRequestRepository;
@@ -37,6 +38,7 @@ class FetchGithubService
 
     public function fetchProject(): bool
     {
+
         $session = $this->requestStack->getSession();
         $token = $session->get('user')['access_token'];
 
@@ -59,6 +61,9 @@ class FetchGithubService
             $this->projectRepository->checkAndDeleteNonExistentNames($projects);
             $this->projectRepository->checkIfExistAndSave($projects);
 
+            foreach ($this->projectRepository->findAll() as $project) {
+                $this->fetchContributorsForProject($project);
+            }
             return true;
         }
 
@@ -107,6 +112,33 @@ class FetchGithubService
                 }
                 $this->pullRequestRepository->checkIfExistAndSave($pullRequest, $project, $contributor);
             }
+        }
+    }
+
+    public function fetchContributorsForProject(Project $project): void
+    {
+
+        $session = $this->requestStack->getSession();
+        $token = $session->get('user')['access_token'];
+
+        $headers = [
+            'Authorization' => 'Bearer ' . $token,
+            'Accept' => 'application/vnd.github.v3+json',
+            'X-GitHub-Api-Version' => '2022-11-28'
+        ];
+
+        $url = 'https://api.github.com/repos/' . $project->getFullName() . '/contributors';
+
+        $response = $this->httpClient->request('GET', $url, [
+            'headers' => $headers
+
+        ]);
+
+        $statusCode = $response->getStatusCode();
+
+        if ($statusCode === 200) {
+            $contributors = $response->toArray();
+            $this->contributorRepository->checkIfExistAndSave($contributors, $project);
         }
     }
 }
