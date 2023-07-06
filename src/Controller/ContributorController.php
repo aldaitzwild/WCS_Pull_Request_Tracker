@@ -135,4 +135,22 @@ class ContributorController extends AbstractController
 
         return $this->redirectToRoute('contributor_index', [], Response::HTTP_SEE_OTHER);
     }
+
+    #[Route('/note/delete/{id}', name: 'note_delete', methods: ['POST'])]
+    public function deleteNote(
+        Request $request,
+        Note $note,
+        NoteRepository $noteRepository
+    ): Response {
+
+        if (is_string($request->request->get('_token')) || is_null($request->request->get('_token'))) {
+            if ($this->isCsrfTokenValid('delete' . $note->getId(), $request->request->get('_token'))) {
+                $noteRepository->remove($note, true);
+            }
+        }
+
+        $this->addFlash('success', 'Note was deleted with success.');
+
+        return $this->redirectToRoute('contributor_show', ['id' => $note->getContributor()->getId()]);
+    }
 }

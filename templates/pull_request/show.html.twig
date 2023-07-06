@@ -8,7 +8,7 @@
 		<div class="container-fluid">
 			<div class="row row-cols-1 d-flex justify-content-between">
 				<div class="col d-flex flex-column mb-4">
-					<a class="font-text align-self-center" href="{{ pullRequest.url }}" target="_blank">{{ pullRequest.name }}
+					<a class="font-link align-self-center" href="{{ pullRequest.url }}" target="_blank">{{ pullRequest.name }}
 						{% if pullRequest.status == "closed" %}
 							<i class="align-self-end pe-4 bi bi-circle-fill text-danger fs-4"></i>
 						{% else %}
@@ -41,7 +41,7 @@
 					<h1 class="project-title align-self-end m-0">
 						<b>Merged</b>
 					</h1>
-					<p class="font-text contributors-list align-self-end">{{ pullRequest.isMerged ? 'Yes' : 'No' }}</p>
+					<p class="font-link contributors-list align-self-end">{{ pullRequest.isMerged ? 'Yes' : 'No' }}</p>
 				</div>
 			</div>
 
@@ -50,7 +50,7 @@
 					<h1 class="project-title align-self-center m-0">
 						<b>Created At</b>
 					</h1>
-					<p class="font-text align-self-center">{{ pullRequest.createdAt|date('d-m-Y') }}</p>
+					<p class="font-link align-self-center">{{ pullRequest.createdAt|date('d-m-Y') }}</p>
 				</div>
 			</div>
 		</div>
