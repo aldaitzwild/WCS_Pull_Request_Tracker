@@ -93,7 +93,7 @@ class FetchGithubService
         $githubUrl = $project->getGithubLink();
 
         $url = str_replace("github.com", "api.github.com/repos", $githubUrl);
-        $url .= "/pulls?state=all";
+        $url .= "/pulls?state=all&per_page=100";
 
         $response = $this->httpClient->request('GET', $url, [
             'headers' => $headers
