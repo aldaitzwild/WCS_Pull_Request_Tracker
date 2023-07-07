@@ -8,15 +8,15 @@
 		<div class="row row-cols-1">
 			<div class="row row-cols-3 d-flex justify-content-between mt-4">
 				<div class="col d-flex flex-column mb-4">
-					<a class="btn btn-outline-primary add-link link-dark align-self-start" href="{{ path('project_refresh') }}">UPDATE</a>
+					<a class="btn btn-outline-primary add-link link-dark align-self-start shadow" href="{{ path('project_refresh') }}">UPDATE</a>
 				</div>
 				<div class="col d-flex flex-column mb-4">
-					<a class="btn btn-outline-success add-link link-dark align-self-end" href="{{ path('project_add') }}">+ADD</a>
+					<a class="btn btn-outline-success add-link link-dark align-self-end shadow" href="{{ path('project_add') }}">+ADD</a>
 				</div>
 			</div>
 			{% include "component/_toast.html.twig" %}
 			{% for project in projects %}
-				<div class=" col bg-white border border-dark d-flex flex-row align-items-center justify-content-between align-content-center p-1 p-md-2 p-lg-4 my-2">
+				<div class=" col bg-white border border-dark d-flex flex-row align-items-center justify-content-between align-content-center p-1 p-md-2 p-lg-4 my-2 shadow">
 					<div class="container-fluid">
 						<div class="row row-cols-3 d-flex justify-content-between mt-2">
 							<div class="col d-flex flex-column  mb-4">

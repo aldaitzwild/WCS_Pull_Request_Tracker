@@ -134,6 +134,7 @@ class PullRequestRepository extends ServiceEntityRepository
             ->where('pr.project = :project')
             ->setParameter('project', $project)
             ->orderBy('pr.status', 'DESC')
+            ->addOrderBy('pr.createdAt', 'DESC')
             ->getQuery()
             ->getResult();
     }
@@ -144,6 +145,7 @@ class PullRequestRepository extends ServiceEntityRepository
             ->where('pr.contributor = :contributor')
             ->setParameter('contributor', $contributor)
             ->orderBy('pr.status', 'DESC')
+            ->addOrderBy('pr.createdAt', 'DESC')
             ->getQuery()
             ->getResult();
     }
