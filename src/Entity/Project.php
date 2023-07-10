@@ -37,6 +37,7 @@ class Project
 
     public function __construct()
     {
+        $this->createdAt = new \DateTimeImmutable();
         $this->contributors = new ArrayCollection();
         $this->pullRequests = new ArrayCollection();
     }
@@ -67,6 +68,7 @@ class Project
     {
         $this->githubLink = $githubLink;
 
+        $this->fullName = substr($githubLink, strrpos($githubLink, '.com/') + 5);
         return $this;
     }
 
