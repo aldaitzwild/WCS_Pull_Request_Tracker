@@ -35,6 +35,9 @@ class Project
     #[ORM\Column(length: 255)]
     private ?string $fullName = null;
 
+    #[ORM\Column]
+    private bool $isFollowed = true;
+
     public function __construct()
     {
         $this->createdAt = new \DateTimeImmutable();
@@ -68,7 +71,6 @@ class Project
     {
         $this->githubLink = $githubLink;
 
-        $this->fullName = substr($githubLink, strrpos($githubLink, '.com/') + 5);
         return $this;
     }
 
@@ -146,6 +148,18 @@ class Project
     public function setFullName(string $fullName): self
     {
         $this->fullName = $fullName;
+        return $this;
+    }
+
+    public function isIsFollowed(): ?bool
+    {
+        return $this->isFollowed;
+    }
+
+    public function setIsFollowed(bool $isFollowed): self
+    {
+        $this->isFollowed = $isFollowed;
+
         return $this;
     }
 }
