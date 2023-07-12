@@ -35,8 +35,12 @@ class Project
     #[ORM\Column(length: 255)]
     private ?string $fullName = null;
 
+    #[ORM\Column]
+    private bool $isFollowed = true;
+
     public function __construct()
     {
+        $this->createdAt = new \DateTimeImmutable();
         $this->contributors = new ArrayCollection();
         $this->pullRequests = new ArrayCollection();
     }
@@ -144,6 +148,18 @@ class Project
     public function setFullName(string $fullName): self
     {
         $this->fullName = $fullName;
+        return $this;
+    }
+
+    public function isIsFollowed(): ?bool
+    {
+        return $this->isFollowed;
+    }
+
+    public function setIsFollowed(bool $isFollowed): self
+    {
+        $this->isFollowed = $isFollowed;
+
         return $this;
     }
 }

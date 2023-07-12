@@ -90,4 +90,14 @@ class ProjectRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
+
+    public function findFollowedProjects()
+    {
+        return $this->createQueryBuilder('p')
+            ->Where('p.isFollowed = :follow')
+            ->setParameter('follow', true)
+            ->orderBy('p.createdAt', 'DESC')
+            ->getQuery()
+            ->getResult();
+    }
 }
