@@ -38,6 +38,9 @@
 							<p class="font-link align-self-end">{{ project.createdAt | date('d-m-Y') }}</p>
 						</div>
 					</div>
+					<div class="col d-flex flex-column mb-4">
+							<a class="btn btn-outline-primary link-dark align-self-center shadow" href="{{ path('project_update_contributors', {id:project.id}) }}">Get All Contributors</a>
+						</div>
 					<div class="col d-flex flex-column mb-4 ">
 						<div class="col d-flex flex-column mb-4 ">
 							<button class="btn btn-secondary w-100" type="button" data-bs-toggle="collapse" data-bs-target="#contributorsCollapse" aria-expanded="false" aria-controls="contributorsCollapse">
@@ -71,7 +74,7 @@
 							</div>
 						</div>
 						<div class="col d-flex flex-column mb-4">
-							<a class="btn btn-outline-primary w-25 align-self-center " href="{{ path('project_update_pullRequests', {id:project.id}) }}">Get All PR</a>
+							<a class="btn btn-outline-primary link-dark align-self-center shadow" href="{{ path('project_update_pullRequests', {id:project.id}) }}">Get All PR</a>
 						</div>
 						<div class="col d-flex flex-column mb-4 ">
 							<button class="btn btn-secondary w-100" type="button" data-bs-toggle="collapse" data-bs-target="#listPrCollapse" aria-expanded="false" aria-controls="listPrCollapse">

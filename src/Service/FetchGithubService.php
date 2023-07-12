@@ -61,9 +61,6 @@ class FetchGithubService
             $this->projectRepository->checkAndDeleteNonExistentNames($projects);
             $this->projectRepository->checkIfExistAndSave($projects);
 
-            foreach ($this->projectRepository->findAll() as $project) {
-                $this->fetchContributorsForProject($project);
-            }
             return true;
         }
 

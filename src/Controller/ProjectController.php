@@ -182,6 +182,13 @@ class ProjectController extends AbstractController
         return $this->redirectToRoute('project_show', ['id' => $projectId]);
     }
 
+    #[Route('/contributors/{id}', name: 'update_contributors')]
+    public function updateContributors(FetchGithubService $fetchGithubService, Project $project): Response
+    {
+        $fetchGithubService->fetchContributorsForProject($project);
+        return $this->redirectToRoute('project_show', ['id' => $project->getId()]);
+    }
+
     #[Route('/{id}/follow', name: 'follow', methods: ['GET'])]
     public function followProject(Project $project, ProjectRepository $projectRepository): JsonResponse
     {
