@@ -76,6 +76,9 @@ class ProjectRepository extends ServiceEntityRepository
             if (in_array($existentProject->getName(), $projectNames, true)) {
                 continue;
             }
+            if ($existentProject->isIsFollowed()) {
+                continue;
+            }
             $this->remove($existentProject, true);
         }
     }
