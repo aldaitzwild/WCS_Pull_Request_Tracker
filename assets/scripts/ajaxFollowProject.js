@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const starElements = document.querySelectorAll('[data-toggle-follow-target="star"]');
+    const starElements = document.querySelectorAll('[data-follow-target="star"]');
     starElements.forEach(starElement => {
         starElement.addEventListener('click', toggle);
     });
@@ -30,7 +30,7 @@ function toggle(event) {
     fetch(url, { method: 'GET' })
         .then(response => response.json())
         .then(data => {
-            starElement.outerHTML = data.isFollowed ? '<i class="bi bi-star" data-toggle-follow-target="star"></i>' : '<i class="bi bi-star-fill" data-toggle-follow-target="star"></i>';
+            starElement.outerHTML = data.isFollowed ? '<i class="bi bi-star" data-follow-target="star"></i>' : '<i class="bi bi-star-fill" data-toggle-follow-target="star"></i>';
             if (projectContainer) {
                 projectContainer.style.display = data.isFollowed ? 'block' : 'none';
             }
@@ -41,16 +41,12 @@ function toggle(event) {
                 const newHiddenProject = document.createElement('div');
                 newHiddenProject.setAttribute('data-project-id', data.id);
 
-                var starClass = 'bi bi-star';
-                if (data.isFollowed) {
-                    starClass = 'bi bi-star-fill';
-                }
-                const projectHTML = `<p class="font-link">${projectName}<a><i class="${starClass} text-warning font-link" data-toggle-follow-target="star" data-url="${url}"></i></a></p>`;
+                const projectHTML = `<p class="font-link">${projectName}<a><i class="bi bi-star text-warning font-link" data-follow-target="star" data-url="${url}"></i></a></p>`;
 
                 newHiddenProject.innerHTML = projectHTML;
                 hiddenProjectsContainer.appendChild(newHiddenProject);
 
-                newHiddenProject.querySelector('[data-toggle-follow-target="star"]').addEventListener('click', toggle);
+                newHiddenProject.querySelector('[data-follow-target="star"]').addEventListener('click', toggle);
             }
         })
         .catch(error => console.error('Error:', error));

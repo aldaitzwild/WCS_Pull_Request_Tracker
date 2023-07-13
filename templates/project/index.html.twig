@@ -23,13 +23,11 @@
 								</div>
 								<div class="modal-body" id="hidden-projects-container">
 									{% for project in hiddenProjects %}
-										<div data-controller="toggle-follow" data-toggle-follow-url="{{ path('project_follow', {'id': project.id}) }}" data-project-id="{{ project.id }}">
 											<p class="font-link">{{ project.name }}
 												<a>
-													<i class="bi bi-star text-warning font-link" data-toggle-follow-target="star" data-url="{{ path('project_follow', {'id': project.id}) }}"></i>
+													<i class="bi bi-star text-warning font-link" data-follow-target="star" data-url="{{ path('project_follow', {'id': project.id}) }}"></i>
 												</a>
 											</p>
-										</div>
 									{% endfor %}
 								</div>
 								<div class="modal-footer">
@@ -45,12 +43,11 @@
 			</div>
 			{% include "component/_toast.html.twig" %}
 			{% for project in projects %}
-				<div data-controller="toggle-follow" data-toggle-follow-url="{{ path('project_follow', {'id': project.id}) }}">
-					<div class="project-container" data-toggle-follow-target="projectContainer">
+					<div class="project-container">
 						<div class="col bg-white border border-dark d-flex flex-row align-items-center justify-content-between align-content-center p-1 p-md-2 p-lg-4 my-2 shadow">
 							<div class="container-fluid">
-								<a data-action="toggle-follow#toggle" data-toggle-follow-url="{{ path('project_follow', {'id': project.id}) }}">
-									<i class="bi bi-star-fill text-warning font-link" data-toggle-follow-target="star" data-url="{{ path('project_follow', {'id': project.id}) }}"></i>
+								<a>
+									<i class="bi bi-star-fill text-warning font-link" data-follow-target="star" data-url="{{ path('project_follow', {'id': project.id}) }}"></i>
 								</a>
 								<div class="row row-cols-3 d-flex justify-content-between mt-2">
 									<div class="col d-flex flex-column  mb-4">
@@ -78,7 +75,6 @@
 							</div>
 						</div>
 					</div>
-				</div>
 			{% endfor %}
 		</div>
 	</div>
