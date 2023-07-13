@@ -76,6 +76,9 @@ class ProjectRepository extends ServiceEntityRepository
             if (in_array($existentProject->getName(), $projectNames, true)) {
                 continue;
             }
+            if ($existentProject->isIsFollowed()) {
+                continue;
+            }
             $this->remove($existentProject, true);
         }
     }
@@ -87,6 +90,16 @@ class ProjectRepository extends ServiceEntityRepository
             ->where('c.id = :contributorId')
             ->setParameter('contributorId', $contributor->getId())
             ->orderBy('p.name', 'ASC')
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function findFollowedProjects()
+    {
+        return $this->createQueryBuilder('p')
+            ->Where('p.isFollowed = :follow')
+            ->setParameter('follow', true)
+            ->orderBy('p.createdAt', 'DESC')
             ->getQuery()
             ->getResult();
     }

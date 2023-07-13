@@ -13,6 +13,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use App\Repository\ProjectRepository;
 use App\Repository\PullRequestRepository;
 use App\Service\FetchGithubService;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 #[IsGranted('ROLE_USER')]
@@ -28,7 +29,8 @@ class ProjectController extends AbstractController
     ): Response {
         if (!$session->get('fetched')) {
             if ($fetchGithubService->fetchProject() === true) {
-                $projects = $projectRepository->findBy([], ['createdAt' => 'DESC']);
+                $projects = $projectRepository->findFollowedProjects();
+                $hiddenProjects = $projectRepository->findBy(['isFollowed' => false]);
                 $lastPRs = [];
 
                 foreach ($projects as $project) {
@@ -37,7 +39,8 @@ class ProjectController extends AbstractController
                 $session->set('fetched', true);
             }
         } else {
-            $projects = $projectRepository->findBy([], ['createdAt' => 'DESC']);
+            $projects = $projectRepository->findFollowedProjects();
+            $hiddenProjects = $projectRepository->findBy(['isFollowed' => false]);
             foreach ($projects as $project) {
                 $lastPRs[$project->getId()] = $pullRequestRepository->findLastPRForProject($project);
             }
@@ -45,6 +48,7 @@ class ProjectController extends AbstractController
         return $this->render('project/index.html.twig', [
             'projects' => $projects,
             'last_prs' => $lastPRs,
+            'hiddenProjects' => $hiddenProjects,
         ]);
     }
 
@@ -64,8 +68,11 @@ class ProjectController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $projectRepository->save($project, true);
+            $githubLink = $project->getGithubLink();
+            $fullName = substr($githubLink, strrpos($githubLink, '.com/') + 5);
+            $project->setFullName($fullName);
 
+            $projectRepository->save($project, true);
             $this->addFlash('success', 'Project was created you rock !');
 
             return $this->redirectToRoute('project_index');
@@ -173,5 +180,22 @@ class ProjectController extends AbstractController
         $projectId = $project->getId();
         $fetchGithubService->fetchPullRequestsByProject($projectId);
         return $this->redirectToRoute('project_show', ['id' => $projectId]);
+    }
+
+    #[Route('/contributors/{id}', name: 'update_contributors')]
+    public function updateContributors(FetchGithubService $fetchGithubService, Project $project): Response
+    {
+        $fetchGithubService->fetchContributorsForProject($project);
+        return $this->redirectToRoute('project_show', ['id' => $project->getId()]);
+    }
+
+    #[Route('/{id}/follow', name: 'follow', methods: ['GET'])]
+    public function followProject(Project $project, ProjectRepository $projectRepository): JsonResponse
+    {
+        $currentStatus = $project->isIsFollowed();
+        $project->setIsFollowed(!$currentStatus);
+        $projectRepository->save($project, true);
+
+        return new JsonResponse(['isFollowed' => $project->isIsFollowed()]);
     }
 }

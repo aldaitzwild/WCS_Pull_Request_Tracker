@@ -11,38 +11,70 @@
 					<a class="btn btn-outline-primary add-link link-dark align-self-start shadow" href="{{ path('project_refresh') }}">UPDATE</a>
 				</div>
 				<div class="col d-flex flex-column mb-4">
+					<button type="button" class="btn btn-outline-primary add-link link-dark align-self-center shadow" data-bs-toggle="modal" data-bs-target="#hiddenProjectsModal">
+						<i class="bi bi-trash"></i>
+					</button>
+					<div class="modal fade" id="hiddenProjectsModal" tabindex="-1" aria-labelledby="hiddenProjectsModalLabel" aria-hidden="true">
+						<div class="modal-dialog">
+							<div class="modal-content">
+								<div class="modal-header">
+									<h5 class="modal-title" id="hiddenProjectsModalLabel">hidden projects</h5>
+									<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+								</div>
+								<div class="modal-body" id="hidden-projects-container">
+									{% for project in hiddenProjects %}
+											<p class="font-link">{{ project.name }}
+												<a>
+													<i class="bi bi-star text-warning font-link" data-follow-target="star" data-url="{{ path('project_follow', {'id': project.id}) }}"></i>
+												</a>
+											</p>
+									{% endfor %}
+								</div>
+								<div class="modal-footer">
+									<button type="button" class="btn btn-primary" id="saveButton">Save</button>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col d-flex flex-column mb-4">
 					<a class="btn btn-outline-success add-link link-dark align-self-end shadow" href="{{ path('project_add') }}">+ADD</a>
 				</div>
 			</div>
 			{% include "component/_toast.html.twig" %}
 			{% for project in projects %}
-				<div class=" col bg-white border border-dark d-flex flex-row align-items-center justify-content-between align-content-center p-1 p-md-2 p-lg-4 my-2 shadow">
-					<div class="container-fluid">
-						<div class="row row-cols-3 d-flex justify-content-between mt-2">
-							<div class="col d-flex flex-column  mb-4">
-								<h1 class="project-title align-self-start m-0">
-									<b>Project</b>
-								</h1>
-								<a class="font-link align-self-start link-dark" href="{{ path('project_show', {id:project.id}) }}">{{ project.name }}</a>
-							</div>
-							<div class="col d-flex flex-column  mb-4">
-								<a class="font-link align-self-center" href="{{ project.githubLink }}">Github</a>
-							</div>
-							<div class="col d-flex flex-column  mb-4">
-								<h1 class="project-title align-self-center m-0">
-									<b>Last PR</b>
-								</h1>
-								<p class="font-text align-self-center m-0">
-									{% if last_prs[project.id] %}
-										{{ (last_prs[project.id].name|slice(0, 30)) ~ '...'  }}
-									{% else %}
-										Pas de PR pour ce projet.
-									{% endif %}
-								</p>
+					<div class="project-container">
+						<div class="col bg-white border border-dark d-flex flex-row align-items-center justify-content-between align-content-center p-1 p-md-2 p-lg-4 my-2 shadow">
+							<div class="container-fluid">
+								<a>
+									<i class="bi bi-star-fill text-warning font-link" data-follow-target="star" data-url="{{ path('project_follow', {'id': project.id}) }}"></i>
+								</a>
+								<div class="row row-cols-3 d-flex justify-content-between mt-2">
+									<div class="col d-flex flex-column  mb-4">
+										<h1 class="project-title align-self-start m-0">
+											<b>Project</b>
+										</h1>
+										<a class="font-link align-self-start link-dark project-name" href="{{ path('project_show', {id:project.id}) }}">{{ project.name }}</a>
+									</div>
+									<div class="col d-flex flex-column  mb-4">
+										<a class="font-link align-self-center" href="{{ project.githubLink }}">Github</a>
+									</div>
+									<div class="col d-flex flex-column  mb-4">
+										<h1 class="project-title align-self-center m-0">
+											<b>Last PR</b>
+										</h1>
+										<p class="font-text align-self-center m-0">
+											{% if last_prs[project.id] %}
+												{{ (last_prs[project.id].name|slice(0, 30)) ~ '...'  }}
+											{% else %}
+												Pas de PR pour ce projet.
+											{% endif %}
+										</p>
+									</div>
+								</div>
 							</div>
 						</div>
 					</div>
-				</div>
 			{% endfor %}
 		</div>
 	</div>
