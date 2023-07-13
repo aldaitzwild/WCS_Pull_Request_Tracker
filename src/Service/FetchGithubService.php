@@ -102,7 +102,7 @@ class FetchGithubService
 
         if ($statusCode === 200) {
             $pullRequests = $response->toArray();
-            $this->pullRequestRepository->checkAndDeleteNonExistentNames($pullRequests, $project);
+            $this->pullRequestRepository->checkAndDeleteNonExistentNamesForProject($pullRequests, $project);
             foreach ($pullRequests as $pullRequest) {
                 $project = $this->projectRepository->findOneBy(['githubLink' => $githubUrl]);
                 $contributor = $this->contributorRepository
@@ -140,5 +140,47 @@ class FetchGithubService
             $contributors = $response->toArray();
             $this->contributorRepository->checkIfExistAndSave($contributors, $project);
         }
+    }
+
+    public function fetchPullRequestsOpen(): bool
+    {
+        $session = $this->requestStack->getSession();
+        $token = $session->get('user')['access_token'];
+
+        $headers = [
+            'Authorization' => 'Bearer ' . $token,
+            'Accept' => 'application/vnd.github.v3+json',
+            'X-GitHub-Api-Version' => '2022-11-28'
+        ];
+
+        $githubUrls = $this->projectRepository->findAllGithubLink();
+        foreach ($githubUrls as $githubUrl) {
+            $url = str_replace("github.com", "api.github.com/repos", $githubUrl);
+            $url .= "/pulls?state=open&per_page=100";
+
+            $response = $this->httpClient->request('GET', $url, [
+                'headers' => $headers
+            ]);
+            $statusCode = $response->getStatusCode();
+
+            if (empty($response->toArray())) {
+                continue;
+            }
+            if ($statusCode === 200) {
+                $pullRequests = $response->toArray();
+                $this->pullRequestRepository->checkAndDeleteNonExistentNames($pullRequests);
+                foreach ($pullRequests as $pullRequest) {
+                    $project = $this->projectRepository->findOneBy(['githubLink' => $githubUrl]);
+                    $contributor = $this->contributorRepository
+                        ->findOneBy(['githubName' => $pullRequest['user']['login']]);
+                    if (!$contributor) {
+                        $contributor = null;
+                    }
+                    $this->pullRequestRepository->checkIfExistAndSave($pullRequest, $project, $contributor);
+                }
+            }
+            return true;
+        }
+        return false;
     }
 }
