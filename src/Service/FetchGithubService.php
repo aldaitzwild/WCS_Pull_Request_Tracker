@@ -3,6 +3,7 @@
 namespace App\Service;
 
 use App\Entity\Project;
+use App\Entity\PullRequest;
 use App\Repository\ContributorRepository;
 use App\Repository\ProjectRepository;
 use App\Repository\PullRequestRepository;
@@ -63,7 +64,6 @@ class FetchGithubService
 
             return true;
         }
-
         return false;
     }
 
@@ -139,7 +139,7 @@ class FetchGithubService
         }
     }
 
-    public function fetchPullRequestsOpen(): bool
+    public function fetchPullRequestsOpen(): void
     {
         $session = $this->requestStack->getSession();
         $token = $session->get('user')['access_token'];
@@ -153,7 +153,7 @@ class FetchGithubService
         $githubUrls = $this->projectRepository->findAllGithubLink();
         foreach ($githubUrls as $githubUrl) {
             $url = str_replace("github.com", "api.github.com/repos", $githubUrl);
-            $url .= "/pulls?state=open&per_page=100";
+            $url .= "/pulls?state=all";
 
             $response = $this->httpClient->request('GET', $url, [
                 'headers' => $headers
@@ -165,7 +165,7 @@ class FetchGithubService
             }
             if ($statusCode === 200) {
                 $pullRequests = $response->toArray();
-                $this->pullRequestRepository->checkAndDeleteNonExistentNames($pullRequests);
+                $this->pullRequestRepository->checkAndDeleteNonExistentNames($pullRequests, $githubUrl);
                 foreach ($pullRequests as $pullRequest) {
                     $project = $this->projectRepository->findOneBy(['githubLink' => $githubUrl]);
                     $contributor = $this->contributorRepository
@@ -176,8 +176,6 @@ class FetchGithubService
                     $this->pullRequestRepository->checkIfExistAndSave($pullRequest, $project, $contributor);
                 }
             }
-            return true;
         }
-        return false;
     }
 }

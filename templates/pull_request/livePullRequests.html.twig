@@ -1,8 +1,7 @@
-{% for pr in this.pullRequests %}
+{% for pr in pullRequests %}
         <div class="nav-item">
           <a class="nav-link font-link d-inline-block text-truncate" href="{{ path('pull_request_show', {id: pr.id}) }}">{{ pr.name }}
            <i class="align-self-end pe-4 bi bi-circle-fill text-success fs-6"></i>
           </a>
         </div>
       {% endfor %}
-      

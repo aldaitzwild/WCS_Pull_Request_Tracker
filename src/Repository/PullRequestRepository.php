@@ -173,23 +173,38 @@ class PullRequestRepository extends ServiceEntityRepository
     public function getAllPullRequestsOpen(): array
     {
         return $this->createQueryBuilder('pr')
-        ->where('pr.status = :status')
-        ->setParameter('status', 'open')
-        ->orderBy('pr.createdAt', 'DESC')
-        ->getQuery()
-        ->getResult();
+            ->where('pr.status = :status')
+            ->setParameter('status', 'open')
+            ->orderBy('pr.createdAt', 'DESC')
+            ->getQuery()
+            ->getResult();
     }
 
-    public function checkAndDeleteNonExistentNames(array $pullRequests): void
+    public function checkAndDeleteNonExistentNames(array $pullRequests, string $projectUrl): void
     {
-        $pullRequestsName = array_column($pullRequests, 'title');
-        $existentPullRequests = $this->findAll();
+        $existentPullRequests = $this->findBy(['project' => $projectUrl]);
+        $pullRequestsByName = [];
 
+        //  Group pull requests by name
+        foreach ($pullRequests as $pullRequest) {
+            $pullRequestsByName[$pullRequest['title']][] = $pullRequest['state'];
+        }
+
+        // Check each existing pull request
         foreach ($existentPullRequests as $existentPullRequest) {
-            if (in_array($existentPullRequest->getName(), $pullRequestsName, true)) {
-                continue;
+            $existentPullRequestName = $existentPullRequest->getName();
+            $existentPullRequestStatus = $existentPullRequest->getStatus();
+
+            // Check if a pull request with the same name but a different status exists
+            if (isset($pullRequestsByName[$existentPullRequestName])) {
+                $statuses = $pullRequestsByName[$existentPullRequestName];
+                $hasDifferentStatus = !in_array($existentPullRequestStatus, $statuses, true);
+
+                if ($hasDifferentStatus) {
+                    // Remove the first existing pull request with the same name
+                    $this->remove($existentPullRequest, true);
+                }
             }
-            $this->remove($existentPullRequest, true);
         }
     }
 }
