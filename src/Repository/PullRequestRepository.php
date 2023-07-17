@@ -173,11 +173,11 @@ class PullRequestRepository extends ServiceEntityRepository
     public function getAllPullRequestsOpen(): array
     {
         return $this->createQueryBuilder('pr')
-        ->where('pr.status = :status')
-        ->setParameter('status', 'open')
-        ->orderBy('pr.createdAt', 'DESC')
-        ->getQuery()
-        ->getResult();
+            ->where('pr.status = :status')
+            ->setParameter('status', 'open')
+            ->orderBy('pr.createdAt', 'DESC')
+            ->getQuery()
+            ->getResult();
     }
 
     public function checkAndDeleteNonExistentNames(array $pullRequests): void

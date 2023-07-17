@@ -44,7 +44,7 @@
 					<div class="col d-flex flex-column mb-4 ">
 						<div class="col d-flex flex-column mb-4 ">
 							<button class="btn btn-secondary w-100" type="button" data-bs-toggle="collapse" data-bs-target="#contributorsCollapse" aria-expanded="false" aria-controls="contributorsCollapse">
-								Contributors
+								Contributors <span class="badge text-bg-info">{{ nbContributors }}</span>
 							</button>
 							<div class="collapse" id="contributorsCollapse">
 								<div class="card card-body">
@@ -78,7 +78,7 @@
 						</div>
 						<div class="col d-flex flex-column mb-4 ">
 							<button class="btn btn-secondary w-100" type="button" data-bs-toggle="collapse" data-bs-target="#listPrCollapse" aria-expanded="false" aria-controls="listPrCollapse">
-								List of PR
+								List of PR <span class="badge text-bg-info">{{ totalPullRequests }}</span>
 							</button>
 							<div class="collapse" id="listPrCollapse">
 								<div class="card card-body">
