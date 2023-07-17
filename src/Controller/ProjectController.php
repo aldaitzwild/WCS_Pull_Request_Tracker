@@ -177,8 +177,8 @@ class ProjectController extends AbstractController
     #[Route('/pull_request/{id}', name: 'update_pullRequests')]
     public function updatePullRequest(FetchGithubService $fetchGithubService, Project $project): Response
     {
+        $fetchGithubService->fetchPullRequestsByProject($project);
         $projectId = $project->getId();
-        $fetchGithubService->fetchPullRequestsByProject($projectId);
         return $this->redirectToRoute('project_show', ['id' => $projectId]);
     }
 

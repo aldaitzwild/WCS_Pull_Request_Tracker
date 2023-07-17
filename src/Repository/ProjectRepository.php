@@ -45,6 +45,8 @@ class ProjectRepository extends ServiceEntityRepository
     {
         $result = $this->createQueryBuilder('p')
             ->select('p.githubLink')
+            ->where('p.isFollowed = :isFollowed')
+            ->setParameter('isFollowed', true)
             ->getQuery()
             ->getResult();
 

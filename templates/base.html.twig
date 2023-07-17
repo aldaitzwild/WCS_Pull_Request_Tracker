@@ -18,7 +18,7 @@
 <body>
 {% if is_granted('IS_AUTHENTICATED_FULLY') %}
     {% include 'component/_sideNav.html.twig' %}
-    {% include 'components/sideBar.html.twig' %}
+    {% include 'component/sideBar.html.twig' %}
 {% endif %}
 {% block body %}{% endblock %}
 </body>

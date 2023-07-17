@@ -75,9 +75,9 @@ class PullRequestRepository extends ServiceEntityRepository
         }
     }
 
-    public function checkAndDeleteNonExistentNamesForProject(array $pullRequests, Project $project): void
+    public function checkAndDeleteNonExistentNamesForProject(array $pullRequests, string $projectUrl): void
     {
-        $existentPullRequests = $this->getSortedPullRequestsForProject($project);
+        $existentPullRequests = $this->findBy(['project' => $projectUrl]);
         $pullRequestsByName = [];
 
         //  Group pull requests by name
@@ -180,31 +180,12 @@ class PullRequestRepository extends ServiceEntityRepository
             ->getResult();
     }
 
-    public function checkAndDeleteNonExistentNames(array $pullRequests, string $projectUrl): void
+    public function deleteAllOpenPullRequests(): void
     {
-        $existentPullRequests = $this->findBy(['project' => $projectUrl]);
-        $pullRequestsByName = [];
+        $openPullRequests = $this->findBy(['status' => 'open']);
 
-        //  Group pull requests by name
-        foreach ($pullRequests as $pullRequest) {
-            $pullRequestsByName[$pullRequest['title']][] = $pullRequest['state'];
-        }
-
-        // Check each existing pull request
-        foreach ($existentPullRequests as $existentPullRequest) {
-            $existentPullRequestName = $existentPullRequest->getName();
-            $existentPullRequestStatus = $existentPullRequest->getStatus();
-
-            // Check if a pull request with the same name but a different status exists
-            if (isset($pullRequestsByName[$existentPullRequestName])) {
-                $statuses = $pullRequestsByName[$existentPullRequestName];
-                $hasDifferentStatus = !in_array($existentPullRequestStatus, $statuses, true);
-
-                if ($hasDifferentStatus) {
-                    // Remove the first existing pull request with the same name
-                    $this->remove($existentPullRequest, true);
-                }
-            }
+        foreach ($openPullRequests as $openPullRequest) {
+            $this->remove($openPullRequest, true);
         }
     }
 }
