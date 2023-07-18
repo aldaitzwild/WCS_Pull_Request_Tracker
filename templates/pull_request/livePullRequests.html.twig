@@ -1,7 +1,21 @@
-{% for pr in pullRequests %}
-	<div class="nav-item">
-		<a class="nav-link font-link d-inline-block text-truncate" href="{{ path('pull_request_show', {id: pr.id}) }}">{{ pr.name }}
-			<i class="align-self-end pe-4 bi bi-circle-fill text-success fs-6"></i>
-		</a>
+{% if pullRequests %}
+	<div class="col bg-white border border-dark shadow rounded m-2">
+		<div class="container-fluid">
+			<div class="row row-cols-1">
+				<div class="col d-flex flex-column mt-1">
+					<h5 class="align-self-center"><span class="badge text-bg-info">PR LIVE</span>
+					</h5>
+				</div>
+				{% for pr in pullRequests %}
+					<div class="col d-flex flex-column mt-1">
+						<div class="nav-item">
+							<a class="nav-link font-link d-inline-block text-truncate" href="{{ path('pull_request_show', {id: pr.id}) }}">{{ (pr.name|slice(0,20)) ~ '...'  }}
+								<i class="align-self-end pe-4 bi bi-circle-fill text-success fs-6"></i>
+							</a>
+						</div>
+					</div>
+				{% endfor %}
+			</div>
+		</div>
 	</div>
-{% endfor %}
+{% endif %}
