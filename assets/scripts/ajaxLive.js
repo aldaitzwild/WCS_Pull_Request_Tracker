@@ -1,10 +1,10 @@
-function checkAuth() {
+function checkIsConnected() {
   return fetch('/check_auth')
     .then(response => response.json())
     .then(data => data.isConnected);
 }
 function refreshPullRequests() {
-  checkAuth().then(isConnected => {
+  checkIsConnected().then(isConnected => {
     if (isConnected) {
       fetch('/pullrequest/api')
         .then(response => response.text())
