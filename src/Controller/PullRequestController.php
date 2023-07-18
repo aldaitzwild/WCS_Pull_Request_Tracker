@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Repository\PullRequestRepository;
+use App\Service\FetchGithubService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -33,6 +34,18 @@ class PullRequestController extends AbstractController
         }
         return $this->render('pull_request/show.html.twig', [
             'pullRequest' => $pullRequest,
+        ]);
+    }
+
+    #[Route('/api', name: 'api')]
+    public function pullRequestsLive(
+        PullRequestRepository $pullRequestRepository,
+        FetchGithubService $fetchGithubService
+    ) {
+        $fetchGithubService->fetchPullRequestsOpen();
+        $pullRequestsLive = $pullRequestRepository->getAllPullRequestsOpen();
+        return $this->render('pull_request/livePullRequests.html.twig', [
+            'pullRequests' => $pullRequestsLive,
         ]);
     }
 }

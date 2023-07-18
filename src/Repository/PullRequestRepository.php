@@ -75,9 +75,9 @@ class PullRequestRepository extends ServiceEntityRepository
         }
     }
 
-    public function checkAndDeleteNonExistentNamesForProject(array $pullRequests, Project $project): void
+    public function checkAndDeleteNonExistentNamesForProject(array $pullRequests, string $projectUrl): void
     {
-        $existentPullRequests = $this->getSortedPullRequestsForProject($project);
+        $existentPullRequests = $this->findBy(['project' => $projectUrl]);
         $pullRequestsByName = [];
 
         //  Group pull requests by name
@@ -180,16 +180,12 @@ class PullRequestRepository extends ServiceEntityRepository
             ->getResult();
     }
 
-    public function checkAndDeleteNonExistentNames(array $pullRequests): void
+    public function deleteAllOpenPullRequests(): void
     {
-        $pullRequestsName = array_column($pullRequests, 'title');
-        $existentPullRequests = $this->findAll();
+        $openPullRequests = $this->findBy(['status' => 'open']);
 
-        foreach ($existentPullRequests as $existentPullRequest) {
-            if (in_array($existentPullRequest->getName(), $pullRequestsName, true)) {
-                continue;
-            }
-            $this->remove($existentPullRequest, true);
+        foreach ($openPullRequests as $openPullRequest) {
+            $this->remove($openPullRequest, true);
         }
     }
 }

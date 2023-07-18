@@ -8,6 +8,7 @@
 import "./scripts/toast";
 import "./scripts/ajaxModalSearch";
 import "./scripts/ajaxFollowProject";
+import "./scripts/ajaxLive";
 
 // any CSS you import will output into a single css file (app.css in this case)
 import './styles/app.scss';

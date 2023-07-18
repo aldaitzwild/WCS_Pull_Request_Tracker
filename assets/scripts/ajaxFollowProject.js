@@ -27,6 +27,12 @@ function toggle(event) {
         }
     }
 
+    //confirmation
+    const confirmation = confirm("Are you sure you want to hide this project?");
+    if (!confirmation) {
+        return;
+    }
+
     fetch(url, { method: 'GET' })
         .then(response => response.json())
         .then(data => {
