@@ -67,4 +67,15 @@ class ContributorRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
+
+    public function getNbOfContributorsInProject(Project $project): int
+    {
+        return $this->createQueryBuilder('c')
+            ->select('count(c.id)')
+            ->leftJoin('c.projects', 'p')
+            ->where('p = :project')
+            ->setParameter('project', $project)
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
 }

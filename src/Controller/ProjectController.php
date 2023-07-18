@@ -97,6 +97,8 @@ class ProjectController extends AbstractController
             $nbPullRequest = $pullRequestRepository->getNbOfPrForContributorInOneProject($contributor, $project);
             $nbPullRequests[$contributor->getId()] = $nbPullRequest;
         }
+        $nbContributors = $contributorRepository->getNbOfContributorsInProject($project);
+        $totalPullRequests = array_sum($nbPullRequests);
 
         $pullRequestSort = $pullRequestRepository->getSortedPullRequestsForProject($project);
 
@@ -105,6 +107,8 @@ class ProjectController extends AbstractController
             'contributors' => $contributors,
             'nbPullRequests' => $nbPullRequests,
             'pullRequestSort' => $pullRequestSort,
+            'totalPullRequests' => $totalPullRequests,
+            'nbContributors' => $nbContributors,
         ]);
     }
 
