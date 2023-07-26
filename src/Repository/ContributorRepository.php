@@ -6,6 +6,7 @@ use App\Entity\Contributor;
 use App\Entity\Project;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Faker\Factory;
 
 /**
  * @extends ServiceEntityRepository<Contributor>
@@ -42,11 +43,12 @@ class ContributorRepository extends ServiceEntityRepository
 
     public function checkIfExistAndSave(array $contributors, Project $project): void
     {
+        $faker = Factory::create();
         foreach ($contributors as $contributorData) {
             $contributor = $this->findOneBy(['githubName' => $contributorData['login']]);
             if (!$contributor) {
                 $contributor = new Contributor();
-                $contributor->setName($contributorData['login']);
+                $contributor->setName($faker->name());
                 $contributor->setGithubAccount($contributorData['html_url']);
                 $contributor->setGithubName($contributorData['login']);
             }
